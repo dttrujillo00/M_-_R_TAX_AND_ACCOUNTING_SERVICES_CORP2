@@ -46,7 +46,7 @@
     * User Manual
 
 ### To do
-* [X] Build proyect
+* [X] Build project
 * [X] Build database
 * [ ] Create designs
 * [ ] Create queries to database
