@@ -9,7 +9,7 @@
 
 ---
 ### Project Organization
-> To build this sofware is use Angular with Electron, and a local database with SQLite
+> To build this sofware is use Electron, and a local database with SQLite
 #### File organization 
 * ./data/: 
     * Local database: data.db
@@ -19,7 +19,7 @@
 ## Planning
 > Planning of development to do  
 * Create a desing
-* Build a empty project in Angular-Electron
+* Build a empty project in Electron
     * Frontend Development
         * Page Home
         * Page Of Finantial Balance Of An Company
