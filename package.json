@@ -1,0 +1,27 @@
+{
+  "name": "tax_and_acounting_services_corp2",
+  "version": "1.0.0",
+  "description": "Desktop app para manejar la contabilidad de pequenas empresas",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron ./"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dttrujillo00/M_-_R_TAX_AND_ACCOUNTING_SERVICES_CORP2.git"
+  },
+  "keywords": [
+    "Electron",
+    "Contabilidad"
+  ],
+  "author": "Team Web",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dttrujillo00/M_-_R_TAX_AND_ACCOUNTING_SERVICES_CORP2/issues"
+  },
+  "homepage": "https://github.com/dttrujillo00/M_-_R_TAX_AND_ACCOUNTING_SERVICES_CORP2#readme",
+  "devDependencies": {
+    "electron": "^16.0.4"
+  }
+}
