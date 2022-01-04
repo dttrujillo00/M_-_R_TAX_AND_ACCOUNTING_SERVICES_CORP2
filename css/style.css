@@ -1,0 +1,207 @@
+*, *:before, *:after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+@font-face {
+    font-family: 'Poppins';
+    src: url(../fonts/Poppins/Poppins-Regular.ttf);
+}
+
+@font-face {
+    font-family: 'Raleway';
+    src: url(../fonts/Raleway/Raleway-Regular.ttf);
+}
+
+@font-face {
+    font-family: 'elephant';
+    src: url(../fonts/ElephantRegular/Elephant-Regular.ttf);
+}
+
+:root {
+    --bgColor: rgb(236, 226, 214);
+    --verdeColor: rgb(92, 104, 92);
+}
+
+body{
+    font-family: 'Raleway', sans-serif;
+    background-color: var(--bgColor);
+    min-height: 100vh;
+    background-image: url(../icons/logo.png);
+    background-repeat: no-repeat;
+    background-position: 50% 30%;
+    position: relative;
+    /* overflow: hidden; */
+}
+
+body.opacity::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background-color: rgba(255, 255, 255, 0.250);
+    z-index: 98;
+}
+
+body:after {
+    content: "M&R TAX AND ACCOUNTING SERVICES, CORP.";
+    position: absolute;
+    font-family: 'elephant', sans-serif;
+    color: rgb(157, 155, 143);
+    -webkit-text-stroke: 1px rgb(80, 79, 76);
+    right: 50%;
+    top: 60%;
+    transform: translate(50%,50%);
+    display: block;
+    width: 100%;
+    text-align: center;
+    font-size: 40px;
+}
+
+ul {
+    list-style: none;
+}
+
+button {
+    background-color: transparent;
+    border: none;
+}
+
+.site-header {
+    width: 100vw;
+    padding: 0 1.5rem;
+    position: relative;
+    display: flex;
+    align-content: center;
+    justify-content: space-between;
+}
+
+.site-header .icon-menu {
+    margin-right: 25px;
+    margin-top: 20px;
+    z-index: 100;
+}
+
+.site-header .icon-menu:hover {
+    cursor: pointer;
+}
+
+.site-header .year {
+    font-size: 2.2rem;
+    color: var(--verdeColor);
+}
+
+.site-header .check {
+    display: none;
+}
+
+/*********************** 
+*         MENU        *
+***********************/
+.menu.active {
+transform: translateX(0);
+
+}
+
+.menu {
+    transform: translateX(-100%);
+    transition: all .3s;
+    padding: 90px 10px;
+    width: 250px;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, .150);
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    z-index: 99;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    color: var(--verdeColor);
+}
+
+.menu > img {
+    position: absolute;
+    top: 20px;
+    left: 1.5rem;
+    display: none;
+}
+
+.menu > img.active {
+    display: inline-block;
+}
+
+.menu > img:hover {
+    cursor: pointer;
+}
+
+.menu-content ul li {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    border-bottom: 2px solid rgb(128, 138, 128);
+    padding: 15px 0;
+}
+
+.menu-content ul li:hover {
+    cursor: pointer;
+}
+
+.menu-content ul li p {
+    font-size: 22px;
+    font-weight: 500;
+}
+
+.menu-content ul li img {
+    margin-left: 15px;
+}
+
+.menu-footer {
+    text-align: center;
+    border-top: 2px solid rgb(128, 138, 128);
+    padding-top: 15px;
+}
+
+/*********************** 
+*       FOOTER        *
+***********************/
+
+footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    overflow: hidden;
+}
+
+footer ul {
+    display: flex;
+    width: 150;
+    transform: translateX(20px);
+}
+
+footer ul li {
+    display: inline-block;
+    text-align: center;
+    background-image: linear-gradient(to bottom right, rgb(113, 132, 113), rgb(151, 160, 140));
+    color: rgb(207, 193, 173);
+    font-size: 16px;
+    border-radius: 20px 20px 0 0;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    padding-top: .5rem;
+    border-top: .5px solid var(--verdeColor);
+    border-right: .5px solid var(--verdeColor);
+    text-transform: uppercase;
+    height: 35px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    /* flex: 0 0 8.3%; */
+}
+
+footer ul li:hover {
+    cursor: pointer;
+} 

@@ -2,15 +2,65 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Hello World!</title>
+    <title>M&R</title>
     <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <h1>Hello World!</h1>
-    <p>
-        We are using Node.js <span id="node-version"></span>,
-        Chromium <span id="chrome-version"></span>,
-        and Electron <span id="electron-version"></span>.
-    </p>
+    <header class="site-header">
+        <div class="menu-and-year">
+            <button class="icon-menu"><img src="./icons/menu.png" alt="menu"></button>
+            <span class="year">2021</span>
+        </div>
+        <button class="check"><img src="./icons/cruz.png" alt=""></button>
+    </header>
+    <div class="menu">
+        <img src="./icons/menu.png" alt="">
+        <div class="menu-content">
+            <ul>
+                <li>
+                    <p>Modificar</p>
+                    <img src="./icons/lapiz.png" alt="">
+                </li>
+                <li>
+                    <p>Añadir empresa</p>
+                    <img src="./icons/agregarElemento.png" alt="">
+                </li>
+                <li>
+                    <p>Archivo</p>
+                    <img src="./icons/retroceder.png" alt="">
+                </li>
+                <li class="hide-menu">
+                    <p>Exit</p>
+                    <img src="./icons/cruz.png" alt="">
+                </li>
+            </ul>
+        </div>
+        <div class="menu-footer">
+            <p>Info General de la Empresa</p>
+            <p>Detalles</p>
+            <p>Teléfono</p>
+            <p>Correo</p>
+            <p>Dirección</p>
+        </div>
+    </div>
+    <main></main>
+    <footer>
+        <ul>
+            <li title="Fulanito de tal" class="empresa">Fulanito de tal</li>
+            <li title="Fulanito de tal" class="empresa">Fulanito de tal</li>
+            <li title="Fulanito de tal" class="empresa">Fulanito de tal</li>
+            <li title="Fulanito de tal" class="empresa">Fulanito de tal</li>
+            <li title="Fulanito de tal" class="empresa">Fulanito de tal</li>
+            <li title="Fulanito de tal" class="empresa">Fulanito de tal</li>
+            <li title="Fulanito de tal" class="empresa">Fulanito de tal</li>
+            <li title="Fulanito de tal" class="empresa">Fulanito de tal</li>
+            <li title="Fulanito de tal" class="empresa">Fulanito de tal</li>
+            <li title="Fulanito de tal" class="empresa">Fulanito de tal</li>
+           
+        </ul>
+    </footer>
+
+    <script src="./js/script.js"></script>
 </body>
 </html>

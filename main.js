@@ -2,11 +2,13 @@ const { app, BrowserWindow } = require('electron')
 
 function createWindow () {
   const win = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 1366,
+    height: 768,
   })
 
   win.loadFile('index.html')
+
+  // win.webContents.openDevTools();
 }
 
 app.whenReady().then(() => {
