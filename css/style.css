@@ -95,7 +95,11 @@ button {
 }
 
 .site-header .check {
-    display: none;
+    visibility: hidden;
+}
+
+.site-header .check:hover {
+    cursor: pointer;
 }
 
 /*********************** 
@@ -204,19 +208,17 @@ footer {
     position: absolute;
     bottom: 0;
     width: 100%;
-    overflow: hidden;
+    /* overflow: hidden; */
 }
 
 footer ul {
     display: flex;
-    width: 150;
     transform: translateX(20px);
 }
 
 footer ul li {
-    display: inline-block;
     text-align: center;
-    background-image: linear-gradient(to bottom right, rgb(113, 132, 113), rgb(151, 160, 140));
+    background-image: linear-gradient(to bottom right, rgb(113, 132, 113) 40%, rgb(131, 145, 127) 100%);
     color: rgb(207, 193, 173);
     font-size: 16px;
     border-radius: 20px 20px 0 0;
@@ -227,10 +229,22 @@ footer ul li {
     border-right: .5px solid var(--verdeColor);
     text-transform: uppercase;
     height: 35px;
+    width: 170px;
+    position: relative;
+}
+
+footer ul li .empresa-name {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    /* flex: 0 0 8.3%; */
+}
+
+footer ul li img {
+    position: absolute;
+    top: -10px;
+    left: 20px;
+    z-index: 100;
+    visibility: hidden;
 }
 
 footer ul li:hover {

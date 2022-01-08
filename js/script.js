@@ -51,3 +51,28 @@ empresas.forEach((empresa, index) => {
     empresa.style.transform = `translate(${-20*(index + 1)}px)`;
     // console.log(empresa, index);
 });
+
+/*****************************************
+ * MANEJADOR PARA MODIFICAR LAS EMPRESAS *
+ *  **************************************/
+const liModificar = document.querySelector('.modificar-empresas');
+const checkIcon = document.querySelector('.check');
+const iconDeleteList = document.querySelectorAll('.empresa img');
+
+const changeIntoModify = () => {
+    hideMenu();
+    checkIcon.style.visibility = 'visible';
+    iconDeleteList.forEach(icon => {
+        icon.style.visibility = 'visible';
+    })
+}
+
+const changeOutModify = () => {
+    checkIcon.style.visibility = 'hidden';
+    iconDeleteList.forEach(icon => {
+        icon.style.visibility = 'hidden';
+    })
+}
+
+liModificar.addEventListener('click', changeIntoModify);
+checkIcon.addEventListener('click', changeOutModify);
