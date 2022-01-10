@@ -37,9 +37,15 @@ liArchivo.addEventListener('click', showArchivo);
 /************************************************************
  * MANEJADOR DEL POSICIONAMIENTO DE LAS TARJETAS DE EMPRESA *
  *  *********************************************************/
+const filasEmpresas = document.querySelectorAll('.fila-empresas');
 const empresas = document.querySelectorAll('.empresa');
 
 let index = 80;
+count = 1;
+
+filasEmpresas.forEach( (fila, index) => {
+    fila.style.bottom = `${-35*(index + 1)}px`;
+});
 
 // POSICIONAR TARJETAS
 empresas.forEach((empresa) => {
@@ -48,8 +54,14 @@ empresas.forEach((empresa) => {
 });
 
 empresas.forEach((empresa, index) => {
-    empresa.style.transform = `translate(${-20*(index + 1)}px)`;
+
+    if(index%11 !== 0){
+    empresa.style.transform = `translate(${-10*count}%)`;
+    count++;
     // console.log(empresa, index);
+    } else {
+        count = 1;
+    }
 });
 
 /*****************************************

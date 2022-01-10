@@ -208,12 +208,15 @@ footer {
     position: absolute;
     bottom: 0;
     width: 100%;
+    display: flex;
+    flex-direction: column-reverse;
     /* overflow: hidden; */
 }
 
 footer ul {
+    width: 100%;
     display: flex;
-    transform: translateX(20px);
+    position: relative;
 }
 
 footer ul li {
@@ -225,11 +228,12 @@ footer ul li {
     padding-left: 2rem;
     padding-right: 2rem;
     padding-top: .5rem;
-    border-top: .5px solid var(--verdeColor);
-    border-right: .5px solid var(--verdeColor);
+    border-top: 1px solid var(--verdeColor);
+    border-right: 1px solid var(--verdeColor);
+    border-bottom: 1px solid var(--verdeColor);
     text-transform: uppercase;
-    height: 35px;
-    width: 170px;
+    height: 70px;
+    width: 10%;
     position: relative;
 }
 
