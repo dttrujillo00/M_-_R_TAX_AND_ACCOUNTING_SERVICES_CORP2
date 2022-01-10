@@ -115,7 +115,7 @@ const footer = document.querySelector('footer');
 
 
         filaEmpresa.innerHTML += `
-        <li title="Fulanito de tal" class="empresa">
+        <li title="${empresa}" class="empresa">
             <img src="./icons/delete.png" class="icon-delete">
             <div class="empresa-name">
                 ${empresa}
