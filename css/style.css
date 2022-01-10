@@ -233,7 +233,7 @@ footer ul li {
     border-bottom: 1px solid var(--verdeColor);
     text-transform: uppercase;
     height: 70px;
-    width: 10%;
+    min-width: 10%;
     position: relative;
 }
 
