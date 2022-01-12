@@ -127,7 +127,7 @@ const footer = document.querySelector('footer');
     console.log(footer);
 }
 
-fetch('../empresas.json')
+fetch('./empresas.json')
 .then(res => res.json())
 .then(data => {
     console.log(data.empresas);
@@ -135,4 +135,3 @@ fetch('../empresas.json')
     posicionarTarjetasEmpresas();
     manejadorModificarEmpresas();
 });
-
