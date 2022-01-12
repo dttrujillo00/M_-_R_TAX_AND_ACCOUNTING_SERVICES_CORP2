@@ -48,6 +48,6 @@
 ### To do
 * [X] Build project
 * [X] Build database
-* [ ] Create designs
+* [X] Create designs
 * [ ] Create queries to database
 * [ ] Create model of database
