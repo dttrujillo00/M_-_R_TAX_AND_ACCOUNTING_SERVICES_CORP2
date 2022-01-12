@@ -26,13 +26,14 @@ const hideMenu = () => {
 
 const showArchivo = () => {
     archivoContent.classList.toggle('active');
-    // console.log(liArchivo);
 }
 
 iconMenu.addEventListener('click',showMenu);
 secondIconMenu.addEventListener('click', hideMenu);
 closeMenuElement.addEventListener('click', hideMenu);
 liArchivo.addEventListener('click', showArchivo);
+
+
 
 /************************************************************
  * MANEJADOR DEL POSICIONAMIENTO DE LAS TARJETAS DE EMPRESA *
@@ -44,7 +45,6 @@ liArchivo.addEventListener('click', showArchivo);
     let index = 80;
     let count = 1;
     
-    console.log(filasEmpresas);
     filasEmpresas.forEach( (fila, index) => {
         fila.style.bottom = `${-35*(index + 1)}px`;
     });
@@ -60,7 +60,6 @@ liArchivo.addEventListener('click', showArchivo);
         if(index%11 !== 0){
         empresa.style.transform = `translate(${-10*count}%)`;
         count++;
-        // console.log(empresa, index);
         } else {
             count = 1;
         }
@@ -70,6 +69,29 @@ liArchivo.addEventListener('click', showArchivo);
 /*****************************************
  * MANEJADOR PARA MODIFICAR LAS EMPRESAS *
  *  **************************************/
+const modal = document.querySelector('.modal');
+const btnAceptar = document.querySelector('.btn-aceptar');
+const btnCancelar = document.querySelector('.btn-cancelar');
+
+const showModal = nombre => {
+    modal.children[1].innerText = nombre;
+    modal.classList.add('active');
+}
+
+const hideModal = () => {
+    modal.classList.remove('active');
+}
+
+btnAceptar.addEventListener('click', hideModal);
+btnCancelar.addEventListener('click', hideModal);
+
+// FUNCION ELIMINAR EMPRESA
+const eliminarEmpresa = (e) => {
+    const nombre = e.target.parentElement.title;
+    const id = e.target.parentElement.id;
+    // console.log(e.target.parentElement.title);
+    showModal(nombre);
+}
  const manejadorModificarEmpresas = () => {
     const liModificar = document.querySelector('.modificar-empresas');
     const checkIcon = document.querySelector('.check');
@@ -80,13 +102,16 @@ liArchivo.addEventListener('click', showArchivo);
         checkIcon.style.visibility = 'visible';
         iconDeleteList.forEach(icon => {
             icon.style.visibility = 'visible';
+            icon.addEventListener('click', eliminarEmpresa);
         })
     }
     
     const changeOutModify = () => {
+        hideModal();
         checkIcon.style.visibility = 'hidden';
         iconDeleteList.forEach(icon => {
             icon.style.visibility = 'hidden';
+            icon.removeEventListener('click', eliminarEmpresa);
         })
     }
     
@@ -109,29 +134,31 @@ const footer = document.querySelector('footer');
             filaEmpresa = document.createElement("ul");
             filaEmpresa.classList.add('fila-empresas');
             footer.appendChild(filaEmpresa);
-            console.log(index);
-            console.log(filaEmpresa);
         }
 
 
         filaEmpresa.innerHTML += `
-        <li title="${empresa}" class="empresa">
+        <li title="${empresa.name}" class="empresa" id="${empresa.id}">
             <img src="./icons/delete.png" class="icon-delete">
             <div class="empresa-name">
-                ${empresa}
+                ${empresa.name}
             </div> 
         </li>
         `;
         
     });
-    console.log(footer);
 }
 
-fetch('./empresas.json')
-.then(res => res.json())
-.then(data => {
-    console.log(data.empresas);
-    renderEmpresas(data.empresas);
-    posicionarTarjetasEmpresas();
-    manejadorModificarEmpresas();
-});
+const getEmpresas = () => {
+
+    fetch('./empresas.json')
+    .then(res => res.json())
+    .then(data => {
+        renderEmpresas(data.empresas);
+        posicionarTarjetasEmpresas();
+        manejadorModificarEmpresas();
+    });
+
+}
+
+getEmpresas();

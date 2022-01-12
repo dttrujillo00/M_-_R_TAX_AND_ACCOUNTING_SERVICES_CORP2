@@ -254,3 +254,74 @@ footer ul li img {
 footer ul li:hover {
     cursor: pointer;
 } 
+
+/********************** 
+*       MODAL         *
+***********************/
+
+.modal {
+    width: 500px;
+    position: absolute;
+    z-index: 100;
+    top: -100%;
+    right: 50%;
+    transform: translate(50%);
+    transition: all .2s;
+    padding: 1rem;
+    padding-bottom: 0;
+    background-color: rgba(0, 0, 0, .250);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal.active{
+    top: 0;
+}
+
+.modal h3 {
+    color: var(--verdeColor);
+    font-size: 1.3rem;
+    letter-spacing: 1px;
+    position: relative;
+}
+
+.modal h3:before {
+    content: url(../icons/alert.png);
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: -4rem;
+}
+
+.modal h2 {
+    color: rgba(255, 255, 255, .7);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin: .7rem auto;
+}
+
+.modal .botones {
+    display: flex;
+    justify-content: space-between;
+    width: 85%;
+}
+
+.modal .botones button {
+    background-color: rgba(80, 27, 27, 0.1);
+    padding: .5rem 1rem;
+    font-size: 22px;
+}
+
+.modal .botones button:hover {
+    cursor: pointer;
+}
+
+.btn-aceptar {
+    color: var(--verdeColor);
+}
+
+.btn-cancelar {
+    color: rgba(255, 0, 0, .4);
+}
