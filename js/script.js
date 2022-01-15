@@ -12,7 +12,6 @@ const archivoContent = document.querySelector('.archivo-content');
 const auxiliarHideMenu = (e) => {
     if(e.target === body){
         hideMenu();
-        console.log('OK');
     }
 }
 
@@ -48,9 +47,14 @@ liArchivo.addEventListener('click', showArchivo);
 /************************************************************
  * MANEJADOR DEL POSICIONAMIENTO DE LAS TARJETAS DE EMPRESA *
  *  *********************************************************/
- const posicionarTarjetasEmpresas = () => {
-    const filasEmpresas = document.querySelectorAll('.fila-empresas');
+
+const navegacionEmpresa = () => {
+    window.location.pathname = '/pages/empresa.html';
+}
+
+const posicionarTarjetasEmpresas = () => {
     const empresas = document.querySelectorAll('.empresa');
+    const filasEmpresas = document.querySelectorAll('.fila-empresas');
     
     let index = 80;
     let count = 1;
@@ -63,6 +67,7 @@ liArchivo.addEventListener('click', showArchivo);
     empresas.forEach((empresa) => {
         empresa.style.zIndex = index;
         index--;
+        empresa.addEventListener('click', navegacionEmpresa);
     });
     
     empresas.forEach((empresa, index) => {
@@ -104,6 +109,7 @@ const eliminarEmpresa = (e) => {
 }
 
 const manejadorModificarEmpresas = () => {
+    const empresas = document.querySelectorAll('.empresa');
     const liModificar = document.querySelector('.modificar-empresas');
     const checkIcon = document.querySelector('.check');
     const iconDeleteList = document.querySelectorAll('.empresa img');
@@ -111,6 +117,9 @@ const manejadorModificarEmpresas = () => {
     let value;
     
     const changeIntoModify = () => {
+        empresas.forEach(empresa => {
+            empresa.removeEventListener('click', navegacionEmpresa);
+        });
         hideMenu();
         checkIcon.style.visibility = 'visible';
         iconDeleteList.forEach(icon => {
@@ -133,6 +142,9 @@ const manejadorModificarEmpresas = () => {
     }
     
     const changeOutModify = () => {
+        empresas.forEach(empresa => {
+            empresa.addEventListener('click', navegacionEmpresa);
+        });
         hideModal();
         checkIcon.style.visibility = 'hidden';
         iconDeleteList.forEach(icon => {
@@ -158,7 +170,7 @@ let filaEmpresa;
 const crearElementoHTMLEmpresa = (nombre, id, index) => {
     element = `
     <li title="${nombre}" class="empresa" id="${id}">
-        <img src="./icons/delete.png" class="icon-delete">
+        <img src="../icons/delete.png" class="icon-delete">
         <div class="empresa-name">
             <input type="text" value="${nombre}" disabled>
         </div> 
@@ -185,7 +197,7 @@ const crearElementoHTMLEmpresa = (nombre, id, index) => {
 
 const getEmpresas = () => {
 
-    fetch('./empresas.json')
+    fetch('../empresas.json')
     .then(res => res.json())
     .then(data => {
         renderEmpresas(data.empresas);

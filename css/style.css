@@ -240,11 +240,10 @@ footer ul li {
 
 footer ul li input {
     max-width: 100%;
-    font-size: 16px;
+    font-size: 18px;
     background-color: transparent;
     border: none;
     color: rgb(207, 193, 173);
-    text-transform: uppercase;
     text-overflow: ellipsis;
 }
 
