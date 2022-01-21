@@ -46,7 +46,7 @@ body.opacity::before {
     z-index: 98;
 }
 
-body:after {
+body::after {
     content: "M&R TAX AND ACCOUNTING SERVICES, CORP.";
     position: absolute;
     font-family: 'elephant', sans-serif;
@@ -223,7 +223,6 @@ footer ul li {
     text-align: center;
     background-image: linear-gradient(to bottom right, rgb(113, 132, 113) 40%, rgb(131, 145, 127) 100%);
     color: rgb(207, 193, 173);
-    font-size: 16px;
     border-radius: 20px 20px 0 0;
     padding-left: 2rem;
     padding-right: 1rem;
@@ -233,14 +232,25 @@ footer ul li {
     border-bottom: 1px solid var(--verdeColor);
     text-transform: uppercase;
     height: 70px;
+    /* min-width: 10%;
+    max-width: 10%; */
+    position: relative;
+}
+
+footer ul li.empresa {
     min-width: 10%;
     max-width: 10%;
-    position: relative;
+}
+
+footer ul li.mes {
+    min-width: 15.6%;
+    max-width: 15.6%;
 }
 
 footer ul li input {
     max-width: 100%;
     font-size: 18px;
+    font-family: 'Raleway';
     background-color: transparent;
     border: none;
     color: rgb(207, 193, 173);
@@ -336,4 +346,29 @@ footer ul li:hover {
 
 .btn-cancelar {
     color: rgba(255, 0, 0, .4);
+}
+
+/************************************* 
+*       PAGINA DE LA EMPRESA         *
+**************************************/
+
+.empresa-name-container {
+    background-color: rgba(0, 0, 0, .275);
+    padding: 1.3rem .8rem;
+    transform: translateX(-10%);
+}
+
+.empresa-name-container h1 {
+    color: rgba(255, 255, 255, .5);
+    font-weight: 400;
+    font-size: 2.3rem;
+}
+
+main {
+    min-width: 100vw;
+}
+
+main table {
+    width: 95%;
+    margin: 0 auto;
 }
