@@ -28,11 +28,24 @@ body{
     font-family: 'Raleway', sans-serif;
     background-color: var(--bgColor);
     min-height: 100vh;
-    background-image: url(../icons/logo.png);
-    background-repeat: no-repeat;
-    background-position: 50% 30%;
     position: relative;
     overflow: hidden;
+}
+
+body .logo {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    z-index: -1;
+}
+
+body.background-opacity .logo {
+    opacity: .3;
+}
+
+body.opacity .logo {
+    filter: blur(1px);
 }
 
 body.opacity::before {
@@ -43,7 +56,7 @@ body.opacity::before {
     right: 0;
     left: 0;
     /* background-color: rgba(190, 184, 184, 0.25); */
-    background-color: rgba(255, 255, 255, .5);
+    background-color: rgba(255, 255, 255, .3);
     z-index: 98;
 }
 
@@ -61,6 +74,14 @@ body::after {
     text-align: center;
     font-size: 40px;
     z-index: -1;
+}
+
+body.background-opacity::after {
+    opacity: .3;
+}
+
+body.opacity::after {
+    filter: blur(1px);
 }
 
 ul {
@@ -203,9 +224,17 @@ transform: translateX(0);
     padding-top: 15px;
 }
 
+.menu-footer p {
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+
 /*********************** 
 *       FOOTER        *
 ***********************/
+body.opacity footer {
+    filter: blur(1px);
+}
 
 footer {
     position: absolute;
@@ -355,6 +384,9 @@ footer ul li:hover {
 /************************************* 
 *       PAGINA DE LA EMPRESA         *
 **************************************/
+body.opacity .empresa-name-container {
+    filter: blur(1px);
+}
 
 .empresa-name-container {
     /* background-color: rgba(0, 0, 0, .275); */
@@ -380,6 +412,12 @@ table,th, td {
     font-size: 13px;
 }
 
+body.opacity table,
+body.opacity th,
+body.opacity td {
+    filter: blur(1px);
+}
+
 td:not(:first-child) {
     text-align: center;
     letter-spacing: 1px;
@@ -388,7 +426,7 @@ td:not(:first-child) {
 main table {
     width: 95%;
     margin: 0 auto;
-    background-color: rgba(255, 255, 255, 1);
+    /* background-color: rgba(255, 255, 255, 1); */
 }
 
 main table tr {
@@ -401,7 +439,11 @@ main table td, th {
     border-left: 2px solid rgb(157, 155, 143);
 }
 
-main table .revenue, .deposits, .operating-expenses {
+.white-line {
+    visibility: hidden;
+}
+
+main table .revenue, .deposits, .operating-expenses, .gross-profit {
     background-color: rgba(155, 153, 151, 0.5);
 }
 
