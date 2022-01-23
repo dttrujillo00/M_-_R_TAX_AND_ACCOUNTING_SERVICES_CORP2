@@ -28,7 +28,6 @@ const hideMenu = () => {
     body.classList.remove('opacity');
     menu.classList.remove('active');
     secondIconMenu.classList.remove('active');
-    archivoContent.classList.remove('active');
     document.removeEventListener('click', auxiliarHideMenu)
 }
 

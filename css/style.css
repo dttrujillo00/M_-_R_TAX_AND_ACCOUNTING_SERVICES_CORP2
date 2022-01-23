@@ -42,7 +42,8 @@ body.opacity::before {
     bottom: 0;
     right: 0;
     left: 0;
-    background-color: rgba(190, 184, 184, 0.25);
+    /* background-color: rgba(190, 184, 184, 0.25); */
+    background-color: rgba(255, 255, 255, .5);
     z-index: 98;
 }
 
@@ -59,6 +60,7 @@ body::after {
     width: 100%;
     text-align: center;
     font-size: 40px;
+    z-index: -1;
 }
 
 ul {
@@ -116,7 +118,8 @@ transform: translateX(0);
     padding: 90px 10px;
     width: 250px;
     height: 100vh;
-    background-color: rgba(0, 0, 0, .150);
+    /* background-color: rgba(0, 0, 0, .2); */
+    background-color: rgba(90, 84, 74, .3);
     position: absolute;
     top: 0;
     bottom: 0;
@@ -232,6 +235,7 @@ footer ul li {
     border-bottom: 1px solid var(--verdeColor);
     text-transform: uppercase;
     height: 70px;
+    box-shadow: 1px -1px 5px rgba(0, 0, 0, .3);
     /* min-width: 10%;
     max-width: 10%; */
     position: relative;
@@ -353,7 +357,8 @@ footer ul li:hover {
 **************************************/
 
 .empresa-name-container {
-    background-color: rgba(0, 0, 0, .275);
+    /* background-color: rgba(0, 0, 0, .275); */
+    background-color: rgb(180, 176, 164);
     padding: 1.3rem .8rem;
     transform: translateX(-10%);
 }
@@ -366,9 +371,41 @@ footer ul li:hover {
 
 main {
     min-width: 100vw;
+    position: relative;
+}
+
+table,th, td {
+    border-collapse: collapse;
+    padding: .5rem 1rem;
+    font-size: 13px;
+}
+
+td:not(:first-child) {
+    text-align: center;
+    letter-spacing: 1px;
 }
 
 main table {
     width: 95%;
     margin: 0 auto;
+    background-color: rgba(255, 255, 255, 1);
+}
+
+main table tr {
+    border-top: 2px solid rgb(157, 155, 143);
+    border-bottom: 2px solid rgb(157, 155, 143);
+}
+
+main table td, th {
+    border-right: 2px solid rgb(157, 155, 143);
+    border-left: 2px solid rgb(157, 155, 143);
+}
+
+main table .revenue, .deposits, .operating-expenses {
+    background-color: rgba(155, 153, 151, 0.5);
+}
+
+.revenue, .operating-expenses {
+    text-align: center;
+    font-weight: bold;
 }
