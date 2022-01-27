@@ -237,11 +237,14 @@ body.opacity footer {
 }
 
 footer {
+    z-index: 200;
+    height: 15%;
     position: absolute;
     bottom: 0;
     width: 100%;
     display: flex;
     flex-direction: column-reverse;
+    background-color: var(--bgColor);
     /* overflow: hidden; */
 }
 
@@ -253,7 +256,7 @@ footer ul {
 
 footer ul li {
     text-align: center;
-    background-image: linear-gradient(to bottom right, rgb(113, 132, 113) 40%, rgb(131, 145, 127) 100%);
+    background-image: linear-gradient(to bottom, rgb(113, 138, 113) , rgb(158, 166, 150) 60%);
     color: rgb(207, 193, 173);
     border-radius: 20px 20px 0 0;
     padding-left: 2rem;
@@ -268,6 +271,11 @@ footer ul li {
     /* min-width: 10%;
     max-width: 10%; */
     position: relative;
+}
+
+#nomina {
+    /* background-image: rgb(116, 127, 116) !important; */
+    background-image: linear-gradient(to bottom, rgb(116, 127, 116), rgb(116, 127, 116));
 }
 
 footer ul li.empresa {
@@ -389,7 +397,6 @@ body.opacity .empresa-name-container {
 }
 
 .empresa-name-container {
-    /* background-color: rgba(0, 0, 0, .275); */
     background-color: rgb(180, 176, 164);
     padding: 1.3rem .8rem;
     transform: translateX(-10%);
@@ -403,7 +410,10 @@ body.opacity .empresa-name-container {
 
 main {
     min-width: 100vw;
-    position: relative;
+    /* position: relative; */
+    overflow-y: scroll;
+    max-height: 70vh;
+    z-index: 200;
 }
 
 table,th, td {
@@ -415,7 +425,7 @@ table,th, td {
 body.opacity table,
 body.opacity th,
 body.opacity td {
-    filter: blur(1px);
+    filter: blur(2px);
 }
 
 td:not(:first-child) {
@@ -426,7 +436,9 @@ td:not(:first-child) {
 main table {
     width: 95%;
     margin: 0 auto;
-    /* background-color: rgba(255, 255, 255, 1); */
+    max-height: 100%;
+    z-index: 200;
+    position: relative;
 }
 
 main table tr {
