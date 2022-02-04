@@ -57,7 +57,7 @@ body.opacity::before {
     left: 0;
     /* background-color: rgba(190, 184, 184, 0.25); */
     background-color: rgba(255, 255, 255, .3);
-    z-index: 98;
+    z-index: 190;
 }
 
 body::after {
@@ -93,6 +93,10 @@ button {
     border: none;
 }
 
+input:focus {
+    outline: 0;
+}
+
 .site-header {
     width: 100vw;
     padding: 0 1.5rem;
@@ -105,7 +109,7 @@ button {
 .site-header .icon-menu {
     margin-right: 25px;
     margin-top: 20px;
-    z-index: 100;
+    z-index: 200;
 }
 
 .site-header .icon-menu:hover {
@@ -144,7 +148,7 @@ transform: translateX(0);
     position: absolute;
     top: 0;
     bottom: 0;
-    z-index: 99;
+    z-index: 190;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -233,11 +237,11 @@ transform: translateX(0);
 *       FOOTER        *
 ***********************/
 body.opacity footer {
-    filter: blur(1px);
+    filter: blur(2px);
 }
 
 footer {
-    z-index: 200;
+    z-index: 100;
     height: 15%;
     position: absolute;
     bottom: 0;
@@ -256,7 +260,7 @@ footer ul {
 
 footer ul li {
     text-align: center;
-    background-image: linear-gradient(to bottom, rgb(113, 138, 113) , rgb(158, 166, 150) 60%);
+    background-image: linear-gradient( 170deg, rgb(113, 138, 113) 30%, rgb(158, 166, 150) 70%);
     color: rgb(207, 193, 173);
     border-radius: 20px 20px 0 0;
     padding-left: 2rem;
@@ -310,7 +314,7 @@ footer ul li img {
     position: absolute;
     top: -10px;
     left: 20px;
-    z-index: 100;
+    z-index: 110;
     visibility: hidden;
 }
 
@@ -325,7 +329,7 @@ footer ul li:hover {
 .modal {
     width: 500px;
     position: absolute;
-    z-index: 100;
+    z-index: 200;
     top: -100%;
     right: 50%;
     transform: translate(50%);
@@ -400,20 +404,22 @@ body.opacity .empresa-name-container {
     background-color: rgb(180, 176, 164);
     padding: 1.3rem .8rem;
     transform: translateX(-10%);
+    width: 512px;
 }
 
 .empresa-name-container h1 {
     color: rgba(255, 255, 255, .5);
     font-weight: 400;
     font-size: 2.3rem;
+    text-align: center;
 }
 
 main {
     min-width: 100vw;
-    /* position: relative; */
+    position: relative;
     overflow-y: scroll;
     max-height: 70vh;
-    z-index: 200;
+    z-index: 100;
 }
 
 table,th, td {
@@ -437,8 +443,10 @@ main table {
     width: 95%;
     margin: 0 auto;
     max-height: 100%;
-    z-index: 200;
+    z-index: 100;
     position: relative;
+    border: 2px solid rgb(157, 155, 143);
+    border-bottom: none;
 }
 
 main table tr {
@@ -451,6 +459,13 @@ main table td, th {
     border-left: 2px solid rgb(157, 155, 143);
 }
 
+main table td input {
+    border: none;
+    background-color: transparent;
+    text-align: center;
+    font-weight: bold;
+}
+
 .white-line {
     visibility: hidden;
 }
@@ -459,7 +474,16 @@ main table .revenue, .deposits, .operating-expenses, .gross-profit {
     background-color: rgba(155, 153, 151, 0.5);
 }
 
+main table .revenue td:not(:first-child), .operating-expenses td:not(:first-child), .white-line td {
+    border-right: none;
+    border-left: none;
+}
+
 .revenue, .operating-expenses {
     text-align: center;
     font-weight: bold;
+}
+
+main table .type td:last-child {
+    position: relative;
 }

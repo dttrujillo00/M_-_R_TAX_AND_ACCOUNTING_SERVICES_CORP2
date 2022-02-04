@@ -44,8 +44,12 @@ home.addEventListener('click', retrocederHome);
  * MANEJADOR PARA POSICIONAR LAS TARJETAS DE LOS MESES *
  *  ****************************************************/
 
- const navegacionEmpresa = () => {
-    window.location.pathname = '/pages/empresa.html';
+ const navegacionEmpresa = (e) => {
+     if(e.target.classList.contains('nomina')){
+        window.location.pathname = '/pages/nomina.html';
+     } else {
+         window.location.pathname = '/pages/mes.html';
+     }
 }
 
 const posicionarTarjetasMeses = () => {
