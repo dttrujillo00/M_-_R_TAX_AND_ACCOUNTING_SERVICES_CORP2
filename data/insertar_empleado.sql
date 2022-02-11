@@ -1,0 +1,1 @@
+﻿INSERT INTO employee(employee_name, business_id) VALUES(?, ?)

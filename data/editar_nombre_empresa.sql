@@ -1,0 +1,1 @@
+﻿UPDATE business SET business_name = ? WHERE business_id = ?

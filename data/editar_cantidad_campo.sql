@@ -1,0 +1,1 @@
+﻿UPDATE account SET amount = ? WHERE account_id = ?
