@@ -487,3 +487,19 @@ main table .revenue td:not(:first-child), .operating-expenses td:not(:first-chil
 main table .type td:last-child {
     position: relative;
 }
+
+main table tr.nombre {
+    position: relative;
+}
+
+main table tr.nombre td img {
+    position: absolute;
+    z-index: 110;
+    left: -.5rem;
+    top: -.5rem;
+    visibility: hidden;
+}
+
+main table tr.nombre td img:hover {
+    cursor: pointer;
+}
