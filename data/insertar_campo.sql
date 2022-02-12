@@ -1,0 +1,1 @@
+﻿INSERT INTO field(field) VALUES(?)
