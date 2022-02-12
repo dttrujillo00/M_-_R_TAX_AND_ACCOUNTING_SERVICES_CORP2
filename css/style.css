@@ -48,6 +48,11 @@ body.opacity .logo {
     filter: blur(1px);
 }
 
+body::before {
+    content: '';
+    transition: all .3s;
+}
+
 body.opacity::before {
     content: '';
     position: absolute;
@@ -331,12 +336,13 @@ footer ul li:hover {
     position: absolute;
     z-index: 200;
     top: -100%;
-    right: 50%;
+    right: 49.5%;
     transform: translate(50%);
     transition: all .2s;
     padding: 1rem;
     padding-bottom: 0;
-    background-color: rgba(0, 0, 0, .250);
+    /* background-color: rgba(0, 0, 0, .250); */
+    background-color: rgb(168, 164, 154);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -402,9 +408,13 @@ body.opacity .empresa-name-container {
 
 .empresa-name-container {
     background-color: rgb(180, 176, 164);
-    padding: 1.3rem .8rem;
+    padding: 1.2rem .8rem;
     transform: translateX(-10%);
     width: 512px;
+}
+
+.empresa-name-container:hover {
+    cursor: pointer;
 }
 
 .empresa-name-container h1 {
@@ -412,6 +422,10 @@ body.opacity .empresa-name-container {
     font-weight: 400;
     font-size: 2.3rem;
     text-align: center;
+
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 main {
