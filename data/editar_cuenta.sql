@@ -1,0 +1,1 @@
+﻿UPDATE account SET amount = ?, is_positive = ? WHERE account_id = ?

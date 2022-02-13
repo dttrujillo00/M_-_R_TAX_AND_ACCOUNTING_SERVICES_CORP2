@@ -1,0 +1,1 @@
+﻿DELETE FROM payment_type WHERE payment_tyoe_id = ?

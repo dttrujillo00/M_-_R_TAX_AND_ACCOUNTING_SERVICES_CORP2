@@ -1,0 +1,1 @@
+﻿UPDATE payment_type SET payment_type = ? WHERE payment_type_id = ?

@@ -1,0 +1,1 @@
+﻿UPDATE payroll SET amount = ? WHERE payroll_id = ?
