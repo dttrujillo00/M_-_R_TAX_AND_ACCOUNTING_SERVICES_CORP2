@@ -1,0 +1,1 @@
+﻿SELECT employee_name, payment_type, amount, month FROM employee e INNER JOIN payroll p ON e.employee_id = p.employee_id INNER JOIN payment_type pt ON pt.payment_type_id = p.payment_type_id INNER JOIN date d ON p.date_id = d.date_id INNER JOIN business b ON b.business_id = e.business_id WHERE b.business_name = ? AND d.year = ?

@@ -1,0 +1,1 @@
+﻿INSERT INTO date(day, month, year) VALUES(?,?,?)

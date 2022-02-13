@@ -56,7 +56,7 @@ const posicionarTarjetasEmpresas = () => {
     const empresas = document.querySelectorAll('.empresa');
     const filasEmpresas = document.querySelectorAll('.fila-empresas');
     
-    let index = 80;
+    let index = 100;
     let count = 1;
     
     filasEmpresas.forEach( (fila, index) => {
