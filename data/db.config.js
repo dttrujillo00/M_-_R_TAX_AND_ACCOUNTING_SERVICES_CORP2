@@ -1,7 +1,7 @@
 const sqlite = require('sqlite3').verbose();
 const path = require('path');
 
-const db = new sqlite.Database(path.join(__dirname, 'db/electrondb.sqlite3'), (err) => {
+const db = new sqlite.Database(path.join(__dirname, './data.db'), (err) => {
 	if (err) {
 		console.log(err);
 	}
@@ -10,7 +10,7 @@ const db = new sqlite.Database(path.join(__dirname, 'db/electrondb.sqlite3'), (e
 
 db.on('open', () => {
 	console.log('database open');
-	db.run('CREATE TABLE IF NOT EXISTS product(id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, name TEXT, description TEXT, price REAL)');
+	// db.run('CREATE TABLE IF NOT EXISTS product(id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, name TEXT, description TEXT, price REAL)');
 })
 
 db.on('close', () => {
