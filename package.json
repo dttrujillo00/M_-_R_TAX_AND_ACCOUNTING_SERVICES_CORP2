@@ -4,6 +4,7 @@
   "description": "Gestor de contabilidad",
   "main": "main.js",
   "scripts": {
+    "mio":"electron .",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "electron-forge start",
     "package": "electron-forge package",
