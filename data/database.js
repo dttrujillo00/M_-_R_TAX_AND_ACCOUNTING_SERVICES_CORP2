@@ -5,7 +5,7 @@ const { getConnection } = require('./db.config')
 // Definiendo los handlers
 
 //                          Inserts
-ipcMain.handle('insertar_empleado', async (event, employee) => {
+ipcMain.handle('insertar_empleado', async (event, employee) => { 
 	
 	const field_name='employee';
 	const { name, business_id} = employee;
@@ -45,18 +45,38 @@ ipcMain.handle('insertar_campo', async (event, field) => {
 	return field;
 })
 
-//                            Gets
-ipcMain.handle('obtener_campo_cantidad', async (event, employee) => {
-	
-	const field_name='employee';
-	const { name, business_id} = employee;
-	const sql ='INSERT INTO employee(employee_name, business_id) '+'VALUES('+name+', '+business_id+')';
+ipcMain.handle('insertar_cuenta', async (event, account) => {
+	const field_name='field';
+	const { amount, is_positive, field_id, business_id} = account;
+	const sql ='INSERT INTO account(amount, is_positive, field_id, business_id) '+'VALUES('+amount+', '+is_positive+', '+field_id+', '+business_id+')';
 
-	const employee = await create(field_name,sql,employee);
-	return employee;
+	const account = await create(field_name,sql,account);
+	return account;
+})
+
+//                            Gets
+
+ipcMain.handle('Obtener_campos_empresa_anno', async (event, business) => { 
+	
+	const field_name='business';
+	const { name, anno} = business;
+	const sql ='SELECT field, SUM( CASE a.is_positive WHEN TRUE THEN amount ELSE -amount END) as amount FROM business b INNER JOIN account a ON b.business_id = a.business_id INNER JOIN date d ON a.date_id = d.date_id INNER JOIN field f ON a.field_id = f.field_id WHERE b.business_name =' +name+ 'AND d.year ='+anno+'GROUP BY field;'
+
+	const fields = await get(sql);
+	return fields;
 })
 
 
+
+ipcMain.handle('obtener_empleados_nomina', async (event, business) => { 
+	
+	const field_name='business';
+	const { name, anno} = business;
+	const sql ='SELECT employee_name, payment_type, amount, month FROM employee e INNER JOIN payroll p ON e.employee_id = p.employee_id INNER JOIN payment_type pt ON pt.payment_type_id = p.payment_type_id INNER JOIN date d ON p.date_id = d.date_id INNER JOIN business b ON b.business_id = e.business_id WHERE b.business_name ='+name+'AND d.year ='+anno
+
+	const employees = await get(sql);
+	return employees;
+})
 
 
 // Definiendo las funciones estandar de las consultas sql:
@@ -72,6 +92,13 @@ const create = async (field_name,sql,obj) => {
 
 	obj.id = result.insertId;
 	return obj;
+}
+
+async function get(sql) {
+	const conn = getConnection();
+	const result = await conn.query(sql);
+	return result;
+
 }
 
 // Exportando funciones de consultas sql
