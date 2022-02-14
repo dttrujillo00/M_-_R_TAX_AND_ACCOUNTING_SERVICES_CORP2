@@ -9,7 +9,7 @@ const db = new sqlite.Database(path.join(__dirname, './data.db'), (err) => {
 });
 
 db.on('open', () => {
-	console.log('database open');
+	console.log('Database is open');
 	// db.run('CREATE TABLE IF NOT EXISTS product(id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, name TEXT, description TEXT, price REAL)');
 })
 

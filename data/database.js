@@ -1,4 +1,4 @@
-const { BrowserWindow, ipcMain, ipcRenderer, Notification } = require('electron');
+const {ipcMain, Notification } = require('electron');
 const { getConnection } = require('./db.config')
 
 
@@ -49,7 +49,6 @@ ipcMain.handle('insertar_cuenta', async (event, account) => {
 	const field_name='field';
 	const { amount, is_positive, field_id, business_id} = account;
 	const sql ='INSERT INTO account(amount, is_positive, field_id, business_id) '+'VALUES('+amount+', '+is_positive+', '+field_id+', '+business_id+')';
-
 	const accountResult = await create(field_name,sql,account);
 	return accountResult;
 })
@@ -74,15 +73,30 @@ ipcMain.handle('obtener_empleados_nomina', async (event, business) => {
 })
 
 
-ipcMain.handle('obtener_empresas_por_anno', async (event, business) => { 
-	//esta hay q rectificar ver bien las fechas que debe recibir
-	const { anno1, anno2} = business;
-	const sql ='SELECT DISTINCT b.business_id, b.business_name FROM business b INNER JOIN employee e ON e.business_id = b.business_id INNER JOIN payroll p ON e.employee_id = p.employee_id INNER JOIN date de ON de.date_id = p.date_id INNER JOIN account a ON a.business_id = b.business_id INNER JOIN date da ON da.date_id = a.date_id WHERE de.year ='+anno1+'OR da.year ='+anno2
+ipcMain.handle('obtener_empresas_por_anno', async (event, year) => { 
+
+	const sql ='SELECT DISTINCT b.business_id, b.business_name FROM business b INNER JOIN employee e ON e.business_id = b.business_id INNER JOIN payroll p ON e.employee_id = p.employee_id INNER JOIN date de ON de.date_id = p.date_id INNER JOIN account a ON a.business_id = b.business_id INNER JOIN date da ON da.date_id = a.date_id WHERE de.year ='+year+'OR da.year ='+year
 	const empresas = await get(sql);
 	return empresas;
 })
 
-//                           Updates 
+
+// ipcMain.handle('obtener_campo_cantidad', async (event, business) => { 
+	
+// 	const { name, anno,month} = business;
+// 	const sql =''
+// 	const field = await get(sql);
+// 	return field;
+// })
+
+// ipcMain.handle('Obtener_campos_empresa_anno', async (event, business) => { 
+	
+// 	const { name, anno} = business;
+// 	const sql =''
+// 	const field = await get(sql);
+// 	return field;
+// })
+// //                           Updates 
 
 ipcMain.handle('editar_cantidad_campo', async (event, account) => { 
 	const { amount, account_id} = account;

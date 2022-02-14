@@ -1,3 +1,4 @@
+const ipcRenderer =window.ipcRenderer;
 /**********************
  * MANEJADOR DEL MENU *
  *  *******************/
@@ -101,11 +102,16 @@ btnAceptar.addEventListener('click', hideModal);
 btnCancelar.addEventListener('click', hideModal);
 
 // FUNCION ELIMINAR EMPRESA
-const eliminarEmpresa = (e) => {
+const eliminarEmpresa =  async(e) => {
     const nombre = e.target.parentElement.title;
     const id = e.target.parentElement.id;
     // console.log(e.target.parentElement.title);
     showModal(nombre);
+
+    await ipcRenderer.invoke('eliminar_empresa', id);
+    console.log("se elimino correctamente")
+	await getEmpresas();
+    return ;
 }
 
 const manejadorModificarEmpresas = () => {
@@ -195,19 +201,26 @@ const crearElementoHTMLEmpresa = (nombre, id, index) => {
     });
 }
 
-const getEmpresas = () => {
+const getEmpresas =async () => {
 
-    fetch('../empresas.json')
-    .then(res => res.json())
-    .then(data => {
-        renderEmpresas(data.empresas);
-        posicionarTarjetasEmpresas();
-        manejadorModificarEmpresas();
-    });
+    const result = await ipcRenderer.invoke('obtener_empresas_por_anno',year = 2021);
+    console.log("Termino la consulta");
+    console.log(result);
+	renderEmpresas(result);
+    posicionarTarjetasEmpresas();
+    manejadorModificarEmpresas();
+
+    // fetch('../empresas.json')
+    // .then(res => res.json())
+    // .then(data => {
+    //     renderEmpresas(data.empresas);
+    //     posicionarTarjetasEmpresas();
+    //     manejadorModificarEmpresas();
+    // });
 
 }
 
-getEmpresas();
+
 
 /***************************************
  * MANEJADOR PARA AGREGAR LAS EMPRESAS *
@@ -232,13 +245,25 @@ const agregarTarjeta = () => {
 
     inputNuevaEmpresa.removeAttribute('disabled');
     inputNuevaEmpresa.focus();
-    inputNuevaEmpresa.addEventListener('keydown', e => {
+    inputNuevaEmpresa.addEventListener('keydown', async(e) => {
         if(e.code === 'Enter'){
             inputNuevaEmpresa.blur();
             nuevaEmpresa.title = inputNuevaEmpresa.value;
             nuevaEmpresa.id = 100;
+
+	        const business = {
+		        name: nuevaEmpresa.title,
+	        }
+
+            const result = await ipcRenderer.invoke('insertar_empresa', business);
         }
     });
 }
 
 liAgregarEmpresa.addEventListener('click', agregarTarjeta);
+
+
+(async function init() {
+	await getEmpresas();
+    console.log("Inicio y pido los datos");
+})();

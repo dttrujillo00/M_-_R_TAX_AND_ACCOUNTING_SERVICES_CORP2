@@ -1,4 +1,5 @@
 const { app, BrowserWindow } = require('electron');
+// require('electron-reload')(__dirname)
 require('./data/database');
 
 
@@ -8,11 +9,14 @@ function createWindow () {
     height: 700,
     minWidth: 1024,
     minHeight: 600,
+    webPreferences:{
+      nodeIntegration : true,
+      preload:__dirname + '/preload.js',
+    }
   })
 
   win.loadFile('pages/index.html')
-
-  // win.webContents.openDevTools();
+  win.webContents.openDevTools();
 }
 
 app.whenReady().then(() => {
