@@ -1,4 +1,4 @@
-const ipcRenderer =window.ipcRenderer;
+// const ipcRenderer =window.ipcRenderer
 /**********************
  * MANEJADOR DEL MENU *
  *  *******************/
@@ -108,7 +108,7 @@ const eliminarEmpresa =  async(e) => {
     // console.log(e.target.parentElement.title);
     showModal(nombre);
 
-    await ipcRenderer.invoke('eliminar_empresa', id);
+    await window.ipcRenderer.invoke('eliminar_empresa', id);
     console.log("se elimino correctamente")
 	await getEmpresas();
     return ;
@@ -188,7 +188,8 @@ const crearElementoHTMLEmpresa = (nombre, id, index) => {
  const renderEmpresas = (empresas) => {
 
     empresas.forEach( (empresa,index) => {
-
+        console.log("Esta es la empresa "+empresa);
+        console.log("Esta es el index "+index);
         if(index%11 === 0){
             filaEmpresa = document.createElement("ul");
             filaEmpresa.classList.add('fila-empresas');
@@ -196,20 +197,21 @@ const crearElementoHTMLEmpresa = (nombre, id, index) => {
         }
 
 
-        filaEmpresa.innerHTML += crearElementoHTMLEmpresa(empresa.name, empresa.id);
+        filaEmpresa.innerHTML += crearElementoHTMLEmpresa(empresa.business_name, empresa.id);
         
     });
 }
 
 const getEmpresas =async () => {
-
-    const result = await ipcRenderer.invoke('obtener_empresas_por_anno',year = 2021);
-    console.log("Termino la consulta");
-    console.log(result);
-	renderEmpresas(result);
-    posicionarTarjetasEmpresas();
-    manejadorModificarEmpresas();
-
+    const year = 2022;
+    await window.ipcRenderer.invoke('obtener_empresas_por_anno',year).then((result) => {
+        console.log("Termino la consulta");
+        console.log(result);
+	    renderEmpresas(result);
+        posicionarTarjetasEmpresas();
+        manejadorModificarEmpresas();
+    })
+    
     // fetch('../empresas.json')
     // .then(res => res.json())
     // .then(data => {
@@ -255,7 +257,7 @@ const agregarTarjeta = () => {
 		        name: nuevaEmpresa.title,
 	        }
 
-            const result = await ipcRenderer.invoke('insertar_empresa', business);
+            const result = await window.ipcRenderer.invoke('insertar_empresa', business);
         }
     });
 }

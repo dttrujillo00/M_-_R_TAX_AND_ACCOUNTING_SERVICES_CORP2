@@ -3,6 +3,7 @@ const { app, BrowserWindow } = require('electron');
 require('./data/database');
 
 
+
 function createWindow () {
   const win = new BrowserWindow({
     width: 1200,
@@ -12,6 +13,10 @@ function createWindow () {
     webPreferences:{
       nodeIntegration : true,
       preload:__dirname + '/preload.js',
+      webSecurity: true,
+      contextIsolation: true,
+      enableRemoteModule: false,
+
     }
   })
 
@@ -21,8 +26,8 @@ function createWindow () {
 
 app.whenReady().then(() => {
   createWindow()
-
   app.on('activate', () => {
+  
     if (BrowserWindow.getAllWindows().length === 0) {
       createWindow()
     }
@@ -34,3 +39,4 @@ app.on('window-all-closed', () => {
     app.quit()
   }
 })
+

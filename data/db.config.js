@@ -17,6 +17,8 @@ db.on('close', () => {
 	db.close();
 })
 
+
+
 db.query = function (sql, params) {
 	params = params || [];
 	let that = this;
@@ -30,3 +32,8 @@ db.query = function (sql, params) {
 		})
 	})
 };
+
+function getConnection() {
+	return db;
+}
+module.exports ={getConnection} 
