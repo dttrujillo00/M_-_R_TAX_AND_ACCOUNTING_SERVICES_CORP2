@@ -1,3 +1,4 @@
+// const ipcRenderer =window.ipcRenderer
 /**********************
  * MANEJADOR DEL MENU *
  *  *******************/
@@ -101,11 +102,16 @@ btnAceptar.addEventListener('click', hideModal);
 btnCancelar.addEventListener('click', hideModal);
 
 // FUNCION ELIMINAR EMPRESA
-const eliminarEmpresa = (e) => {
+const eliminarEmpresa =  async(e) => {
     const nombre = e.target.parentElement.title;
     const id = e.target.parentElement.id;
     // console.log(e.target.parentElement.title);
     showModal(nombre);
+
+    await window.ipcRenderer.invoke('eliminar_empresa', id);
+    console.log("se elimino correctamente")
+	await getEmpresas();
+    return ;
 }
 
 const manejadorModificarEmpresas = () => {
@@ -182,7 +188,8 @@ const crearElementoHTMLEmpresa = (nombre, id, index) => {
  const renderEmpresas = (empresas) => {
 
     empresas.forEach( (empresa,index) => {
-
+        console.log("Esta es la empresa "+empresa);
+        console.log("Esta es el index "+index);
         if(index%11 === 0){
             filaEmpresa = document.createElement("ul");
             filaEmpresa.classList.add('fila-empresas');
@@ -190,24 +197,32 @@ const crearElementoHTMLEmpresa = (nombre, id, index) => {
         }
 
 
-        filaEmpresa.innerHTML += crearElementoHTMLEmpresa(empresa.name, empresa.id);
+        filaEmpresa.innerHTML += crearElementoHTMLEmpresa(empresa.business_name, empresa.id);
         
     });
 }
 
-const getEmpresas = () => {
-
-    fetch('../empresas.json')
-    .then(res => res.json())
-    .then(data => {
-        renderEmpresas(data.empresas);
+const getEmpresas =async () => {
+    const year = 2022;
+    await window.ipcRenderer.invoke('obtener_empresas_por_anno',year).then((result) => {
+        console.log("Termino la consulta");
+        console.log(result);
+	    renderEmpresas(result);
         posicionarTarjetasEmpresas();
         manejadorModificarEmpresas();
-    });
+    })
+    
+    // fetch('../empresas.json')
+    // .then(res => res.json())
+    // .then(data => {
+    //     renderEmpresas(data.empresas);
+    //     posicionarTarjetasEmpresas();
+    //     manejadorModificarEmpresas();
+    // });
 
 }
 
-getEmpresas();
+
 
 /***************************************
  * MANEJADOR PARA AGREGAR LAS EMPRESAS *
@@ -232,13 +247,25 @@ const agregarTarjeta = () => {
 
     inputNuevaEmpresa.removeAttribute('disabled');
     inputNuevaEmpresa.focus();
-    inputNuevaEmpresa.addEventListener('keydown', e => {
+    inputNuevaEmpresa.addEventListener('keydown', async(e) => {
         if(e.code === 'Enter'){
             inputNuevaEmpresa.blur();
             nuevaEmpresa.title = inputNuevaEmpresa.value;
             nuevaEmpresa.id = 100;
+
+	        const business = {
+		        name: nuevaEmpresa.title,
+	        }
+
+            const result = await window.ipcRenderer.invoke('insertar_empresa', business);
         }
     });
 }
 
 liAgregarEmpresa.addEventListener('click', agregarTarjeta);
+
+
+(async function init() {
+	await getEmpresas();
+    console.log("Inicio y pido los datos");
+})();
