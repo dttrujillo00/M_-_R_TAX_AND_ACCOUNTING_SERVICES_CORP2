@@ -105,12 +105,11 @@ btnCancelar.addEventListener('click', hideModal);
 const eliminarEmpresa =  async(e) => {
     const nombre = e.target.parentElement.title;
     const id = e.target.parentElement.id;
-    // console.log(e.target.parentElement.title);
+    console.log("eliminando id: "+e.target.parentElement.id);
     showModal(nombre);
 
-    await window.ipcRenderer.invoke('eliminar_empresa', id);
+    await window.ipcRenderer.invoke('eliminar_empresa', parseInt(id));
     console.log("se elimino correctamente")
-	await getEmpresas();
     return ;
 }
 
@@ -188,8 +187,6 @@ const crearElementoHTMLEmpresa = (nombre, id, index) => {
  const renderEmpresas = (empresas) => {
 
     empresas.forEach( (empresa,index) => {
-        console.log("Esta es la empresa "+empresa);
-        console.log("Esta es el index "+index);
         if(index%11 === 0){
             filaEmpresa = document.createElement("ul");
             filaEmpresa.classList.add('fila-empresas');
@@ -197,7 +194,7 @@ const crearElementoHTMLEmpresa = (nombre, id, index) => {
         }
 
 
-        filaEmpresa.innerHTML += crearElementoHTMLEmpresa(empresa.business_name, empresa.id);
+        filaEmpresa.innerHTML += crearElementoHTMLEmpresa(empresa.business_name, empresa.business_id);
         
     });
 }

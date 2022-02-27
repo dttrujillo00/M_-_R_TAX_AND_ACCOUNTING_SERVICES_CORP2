@@ -19,7 +19,7 @@ ipcMain.handle('insertar_empresa', async (event, business) => {
 	
 	const field_name='business';
 	const {name} = business;
-	const sql ='INSERT INTO business(business_name) '+'VALUES('+name+')';
+	const sql ='INSERT INTO business(business_name) '+'VALUES(\"'+name+'\")';
 
 	const businessResult = await create(field_name,sql,business);
 	return businessResult;
@@ -75,7 +75,7 @@ ipcMain.handle('obtener_empleados_nomina', async (event, business) => {
 
 ipcMain.handle('obtener_empresas_por_anno', async (event, year) => { 
 
-	const sql =' SELECT DISTINCT b.business_id, b.business_name FROM business b LEFT JOIN employee e ON e.business_id = b.business_id LEFT JOIN payroll p ON e.employee_id = p.employee_id LEFT JOIN date de ON de.date_id = p.date_id LEFT JOIN account a ON a.business_id = b.business_id LEFT JOIN date da ON da.date_id = a.date_id WHERE de.year =' year' OR da.year =' +year
+	const sql =' SELECT DISTINCT b.business_id, b.business_name FROM business b LEFT JOIN employee e ON e.business_id = b.business_id LEFT JOIN payroll p ON e.employee_id = p.employee_id LEFT JOIN date de ON de.date_id = p.date_id LEFT JOIN account a ON a.business_id = b.business_id LEFT JOIN date da ON da.date_id = a.date_id WHERE de.year =' +year + ' OR da.year =' +year
 	const empresas = await get(sql);
 	return empresas;
 })
@@ -89,14 +89,7 @@ ipcMain.handle('obtener_empresas_por_anno', async (event, year) => {
 // 	return field;
 // })
 
-// ipcMain.handle('Obtener_campos_empresa_anno', async (event, business) => { 
-	
-// 	const { name, anno} = business;
-// 	const sql =''
-// 	const field = await get(sql);
-// 	return field;
-// })
-// //                           Updates 
+                    //  Updates 
 
 ipcMain.handle('editar_cantidad_campo', async (event, account) => { 
 	const { amount, account_id} = account;
@@ -165,7 +158,7 @@ const edit = async (sql) => {
 
 const deleteObj = async (sql) => {
 	const conn = await getConnection();
-	const result = await conn.query('DELETE FROM product WHERE id=?', id);
+	const result = await conn.query(sql);
 	console.log(result);
 	return result;
 }
