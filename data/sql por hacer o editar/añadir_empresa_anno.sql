@@ -1,0 +1,1 @@
+﻿INSERT INTO business_year VALUES(?, ?)
