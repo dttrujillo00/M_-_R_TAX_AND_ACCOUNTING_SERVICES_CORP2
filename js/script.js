@@ -1,4 +1,9 @@
 // const ipcRenderer =window.ipcRenderer
+
+const year = document.querySelector('span.year');
+let currentYear = new Date().getFullYear();
+year.innerText = currentYear;
+
 /**********************
  * MANEJADOR DEL MENU *
  *  *******************/
@@ -9,6 +14,7 @@ const body = document.querySelector('body');
 const closeMenuElement = document.querySelector('.hide-menu');
 const liArchivo = document.querySelector('.li-archivo');
 const archivoContent = document.querySelector('.archivo-content');
+const annos = archivoContent.querySelectorAll('li');
 
 const auxiliarHideMenu = (e) => {
     if(e.target === body){
@@ -37,6 +43,16 @@ const hideMenu = () => {
 const showArchivo = () => {
     archivoContent.classList.toggle('active');
 }
+
+annos.forEach(anno => {
+    anno.addEventListener('click', () => {
+        hideMenu();
+        archivoContent.classList.toggle('active');
+        currentYear = anno.querySelector('p').innerText;
+        year.innerText = currentYear;
+        getEmpresas();
+    })
+})
 
 iconMenu.addEventListener('click',showMenu);
 secondIconMenu.addEventListener('click', hideMenu);
@@ -193,6 +209,8 @@ const crearElementoHTMLEmpresa = (nombre, id, index) => {
 }
 
  const renderEmpresas = (empresas) => {
+    const emptyFooter = ``;
+    footer.innerHTML = emptyFooter;
 
     empresas.forEach( (empresa,index) => {
         if(index%11 === 0){
@@ -208,8 +226,8 @@ const crearElementoHTMLEmpresa = (nombre, id, index) => {
 }
 
 const getEmpresas =async () => {
-    const year = 2022;
-    await window.ipcRenderer.invoke('obtener_empresas_por_anno',year).then((result) => {
+
+    await window.ipcRenderer.invoke('obtener_empresas_por_anno',currentYear).then((result) => {
         console.log("Termino la consulta");
         console.log(result);
 	    renderEmpresas(result);
@@ -266,10 +284,10 @@ const agregarTarjeta = () => {
             });
             inputNuevaEmpresa.blur();
             nuevaEmpresa.title = inputNuevaEmpresa.value;
-            nuevaEmpresa.id = 100;
 
 	        const business = {
 		        name: nuevaEmpresa.title,
+                year: currentYear
 	        }
 
             const result = await window.ipcRenderer.invoke('insertar_empresa', business);
