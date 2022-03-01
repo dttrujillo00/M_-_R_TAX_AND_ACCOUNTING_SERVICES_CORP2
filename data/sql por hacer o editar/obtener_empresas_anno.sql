@@ -1,0 +1,1 @@
+﻿SELECT business_name FROM business b INNER JOIN business_year y ON b.business_id = y.business_id WHERE y.year = ?
