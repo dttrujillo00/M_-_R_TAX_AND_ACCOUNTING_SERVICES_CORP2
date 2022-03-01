@@ -114,6 +114,7 @@ const manejadorModificarEmpresas = () => {
     const checkIcon = document.querySelector('.check');
     const iconDeleteList = document.querySelectorAll('.empresa img');
     const inputs = document.querySelectorAll('.empresa .empresa-name input');
+    let empresasToEdit = []
     let value;
     
     const changeIntoModify = () => {
@@ -129,19 +130,26 @@ const manejadorModificarEmpresas = () => {
 
         inputs.forEach( input => {
             input.removeAttribute('disabled');
-            // input.addEventListener('input', e => {
-            //     value = input.value;
-            // });
+
             input.addEventListener('keydown', e => {
                 if(e.code === 'Enter'){
                     input.blur();
                     input.parentElement.parentElement.title = input.value
+                    console.log(input.value);
+
+                    let toEdit = {
+                        nombre: input.value,
+                        id: 1
+                    }
+
+                    empresasToEdit.push(toEdit);
                 }
             })
         });
     }
     
     const changeOutModify = () => {
+        //EJECUTAR CONSULTAS PARA EDITAR LAS EMPRESAS
         empresas.forEach(empresa => {
             empresa.addEventListener('click', navegacionEmpresa);
         });
@@ -216,6 +224,7 @@ const liAgregarEmpresa = document.querySelector('.agregar-empresa');
 
 const agregarTarjeta = () => {
     hideMenu();
+
     filaEmpresa.innerHTML += crearElementoHTMLEmpresa('', '');
     posicionarTarjetasEmpresas();
     manejadorModificarEmpresas();
@@ -230,13 +239,24 @@ const agregarTarjeta = () => {
         footer.appendChild(filaEmpresa);
     }
 
+
     inputNuevaEmpresa.removeAttribute('disabled');
     inputNuevaEmpresa.focus();
+
+    empresas.forEach(empresa => {
+        empresa.removeEventListener('click', navegacionEmpresa);
+    });
+
     inputNuevaEmpresa.addEventListener('keydown', e => {
         if(e.code === 'Enter'){
+            empresas.forEach(empresa => {
+                empresa.addEventListener('click', navegacionEmpresa);
+            });
             inputNuevaEmpresa.blur();
             nuevaEmpresa.title = inputNuevaEmpresa.value;
             nuevaEmpresa.id = 100;
+            console.log(inputNuevaEmpresa.value);
+            //EJECUTAR CONSULTA PARA AGREGAR UNA NUEVA EMPRESA
         }
     });
 }
