@@ -1,0 +1,48 @@
+main {
+    max-height: 83vh !important;
+    overflow-y: hidden !important;
+    margin-top: 1rem;
+}
+
+main .row {
+    display: flex;
+}
+
+main .row div {
+    overflow-y: scroll !important;
+    max-height: 83vh;
+}
+
+main .row .col-8 {
+    flex: 0 0 calc(66.66% - 1rem);
+    max-width: 66.66%;
+}
+
+main .row .col-8 table thead tr th:nth-child(2) {
+    width: 83.33%;
+    text-align: left;
+}
+
+main .row .col-8 table thead tr th:first-child,
+main .row .col-8 table thead tr th:last-child {
+    width: 8.33%;
+}
+
+main .row .col-8 table tbody tr td:nth-child(2) {
+    text-align: left;
+    font-weight: 300;
+}
+
+main .row .col-8 table tbody tr td input {
+    appearance: none;
+}
+
+main .row .col-4 {
+    flex: 0 0 calc(33.33% - 1rem);
+    max-width: 66.66%;
+}
+
+main .row .col-4 table tbody tr td:last-child {
+    font-weight: 600;
+}
+

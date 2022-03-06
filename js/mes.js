@@ -39,3 +39,7 @@ iconMenu.addEventListener('click',showMenu);
 secondIconMenu.addEventListener('click', hideMenu);
 closeMenuElement.addEventListener('click', hideMenu);
 empresaPage.addEventListener('click', retrocederPage);
+
+/***********************
+ *  AGREGAR OPERACION  *
+ *  ********************/
