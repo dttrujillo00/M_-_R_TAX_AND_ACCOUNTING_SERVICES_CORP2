@@ -43,3 +43,25 @@ empresaPage.addEventListener('click', retrocederPage);
 /***********************
  *  AGREGAR OPERACION  *
  *  ********************/
+
+/**********************
+ *  EDITAR OPERACION  *
+ *  *******************/
+const editarBtn = document.querySelector('.editar-operacion');
+
+const editarOperacion = () => {
+    console.log('Editar Operacion')
+}
+
+editarBtn.addEventListener('click', editarOperacion)
+
+/************************
+ *  ELIMINAR OPERACION  *
+ *  *********************/
+ const eliminarBtn = document.querySelector('.eliminar-operacion');
+
+ const eliminarOperacion = () => {
+     console.log('Eliminar Operacion')
+ }
+ 
+ eliminarBtn.addEventListener('click', eliminarOperacion)

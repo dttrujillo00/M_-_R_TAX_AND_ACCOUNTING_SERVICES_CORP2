@@ -1,3 +1,5 @@
+/* Archivo exportado a style.css */
+
 main {
     max-height: 83vh !important;
     overflow-y: hidden !important;
@@ -26,6 +28,15 @@ main .row .col-8 table thead tr th:nth-child(2) {
 main .row .col-8 table thead tr th:first-child,
 main .row .col-8 table thead tr th:last-child {
     width: 8.33%;
+}
+
+main .row .col-8 table tbody tr td img {
+    transform: scale(.8);
+}
+
+main .row .col-8 table tbody tr td.editar-operacion:hover,
+main .row .col-8 table tbody tr td.eliminar-operacion:hover {
+    cursor: pointer;
 }
 
 main .row .col-8 table tbody tr td:nth-child(2) {
