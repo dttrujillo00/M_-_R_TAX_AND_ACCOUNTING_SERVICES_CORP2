@@ -3,6 +3,7 @@
 const year = document.querySelector('span.year');
 let currentYear = new Date().getFullYear();
 year.innerText = currentYear;
+const listaEmpresas =[];
 
 /**********************
  * MANEJADOR DEL MENU *
@@ -240,6 +241,11 @@ const agregarTarjeta = () => {
                 year: currentYear
 	        }
 
+                for (const empresa in listaEmpresas) {
+                    if (empresa.bussines_name == empresa.bussines_title) {
+                        print("Esa empresa ya existe")
+                    }
+                }
             const result = await window.ipcRenderer.invoke('insertar_empresa', business);
             console.log(result);
         }
@@ -283,7 +289,8 @@ liAgregarEmpresa.addEventListener('click', agregarTarjeta);
          }
  
          filaEmpresa.innerHTML += crearElementoHTMLEmpresa(empresa.business_name, empresa.business_id);
-         
+         listaEmpresas.appendChild(empresa);
+         print(listaEmpresas);
      });
  }
  

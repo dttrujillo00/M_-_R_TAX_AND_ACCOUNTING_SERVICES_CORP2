@@ -18,10 +18,11 @@ ipcMain.handle('insertar_empleado', async (event, employee) => {
 ipcMain.handle('insertar_empresa', async (event, business) => {
 	
 	const field_name='business';
-	const {name} = business;
+	const {name,year} = business;
 	const sql ='INSERT INTO business(business_name) '+'VALUES(\"'+name+'\")';
-
+	// INSERT INTO business_year VALUES(?, ?)
 	const businessResult = await create(field_name,sql,business);
+	await console.log(businessResult);
 	return businessResult;
 })
 
@@ -75,7 +76,7 @@ ipcMain.handle('obtener_empleados_nomina', async (event, business) => {
 
 ipcMain.handle('obtener_empresas_por_anno', async (event, year) => { 
 
-	const sql =' SELECT DISTINCT b.business_id, b.business_name FROM business b LEFT JOIN employee e ON e.business_id = b.business_id LEFT JOIN payroll p ON e.employee_id = p.employee_id LEFT JOIN date de ON de.date_id = p.date_id LEFT JOIN account a ON a.business_id = b.business_id LEFT JOIN date da ON da.date_id = a.date_id WHERE de.year =' +year + ' OR da.year =' +year
+	const sql = 'SELECT business_name FROM business b INNER JOIN business_year y ON b.business_id = y.business_id WHERE y.year = '+year
 	const empresas = await get(sql);
 	return empresas;
 })
