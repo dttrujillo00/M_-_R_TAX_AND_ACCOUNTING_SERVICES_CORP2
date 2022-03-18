@@ -43,6 +43,19 @@ empresaPage.addEventListener('click', retrocederPage);
 /***********************
  *  AGREGAR OPERACION  *
  *  ********************/
+const addRevenueBtn = document.querySelector('.add-revenue');
+const addExpenseBtn = document.querySelector('.add-expense');
+
+const addRevenue = () => {
+    console.log('Funcion Revenue');
+}
+
+const addExpense = () => {
+    console.log('Funcion Expense');
+}
+
+addRevenueBtn.addEventListener('click', addRevenue);
+addExpenseBtn.addEventListener('click', addExpense);
 
 /**********************
  *  EDITAR OPERACION  *

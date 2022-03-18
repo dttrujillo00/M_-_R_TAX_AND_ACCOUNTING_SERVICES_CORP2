@@ -57,3 +57,10 @@ main .row .col-4 table tbody tr td:last-child {
     font-weight: 600;
 }
 
+.form-agregar-operacion {
+    position: absolute;
+    z-index: 200;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+}
