@@ -1,0 +1,1 @@
+﻿SELECT business_id AS id FROM business WHERE business_name = ?
