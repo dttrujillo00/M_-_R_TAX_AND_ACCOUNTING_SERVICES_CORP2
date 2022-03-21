@@ -3,7 +3,9 @@
 const year = document.querySelector('span.year');
 let currentYear = new Date().getFullYear();
 year.innerText = currentYear;
-const listaEmpresas =[];
+let listaEmpresas =[];
+
+
 
 /**********************
  * MANEJADOR DEL MENU *
@@ -121,7 +123,7 @@ const eliminarEmpresa =  (e) => {
 
     const nombre = e.target.parentElement.title;
     const id = e.target.parentElement.id;
-    console.log("eliminando id: "+e.target.parentElement.id);
+    console.log("eliminando id: "+id);
     showModal(nombre);
 
     btnAceptar.addEventListener('click', async () => {
@@ -165,8 +167,8 @@ const manejadorModificarEmpresas = () => {
                     input.parentElement.parentElement.title = input.value
 
                     let toEdit = {
-                        nombre: input.value,
-                        id: 1
+                        name: input.value,
+                        business_id:e.target.parentElement.id
                     }
 
                     empresasToEdit.push(toEdit);
@@ -177,6 +179,11 @@ const manejadorModificarEmpresas = () => {
     
     const changeOutModify = () => {
         //EJECUTAR CONSULTAS PARA EDITAR LAS EMPRESAS
+        empresasToEdit.forEach(async(empresa) => {
+            await window.ipcRenderer.invoke('editar_nombre_empresa', empresa);
+        });
+
+
         empresas.forEach(empresa => {
             empresa.addEventListener('click', navegacionEmpresa);
         });
@@ -202,6 +209,7 @@ const manejadorModificarEmpresas = () => {
 const liAgregarEmpresa = document.querySelector('.agregar-empresa');
 
 const agregarTarjeta = () => {
+    let exist = false;
     hideMenu();
 
     filaEmpresa.innerHTML += crearElementoHTMLEmpresa('', '');
@@ -240,13 +248,18 @@ const agregarTarjeta = () => {
                 currentYear: currentYear
 	        }
 
-                for (const empresa in listaEmpresas) {
-                    if (empresa.bussines_name == empresa.bussines_title) {
-                        print("Esa empresa ya existe")
-                    }
+            listaEmpresas.forEach((empresa)=>{
+                if(business.name == empresa){
+                    alert("❌Error: Esta empresa ya existe");
+                    exist = true;
+                    return;
                 }
-            const result = await window.ipcRenderer.invoke('insertar_empresa', business);
-            console.log("REsultado de insertar empresa: "+result);
+            });
+            if (!exist) {
+                const result = await window.ipcRenderer.invoke('insertar_empresa', business);
+                await getEmpresas();
+            }
+            
         }
     });
 }
@@ -260,8 +273,8 @@ liAgregarEmpresa.addEventListener('click', agregarTarjeta);
  let filaEmpresa;
  
  const crearElementoHTMLEmpresa = (nombre, id) => {
-     console.log("nombre de la empresa: "+nombre);
-     element = `
+     console.log("Empresa: "+nombre);
+    element =`
      <li title="${nombre}" class="empresa" id="${id}">
          <img src="../icons/delete.png" class="icon-delete">
          <div class="empresa-name">
@@ -288,10 +301,11 @@ liAgregarEmpresa.addEventListener('click', agregarTarjeta);
              footer.appendChild(filaEmpresa);
          }
  
-         filaEmpresa.innerHTML += crearElementoHTMLEmpresa(empresa.business_name, empresa.business_id);
-        //  listaEmpresas.appendChild(empresa.business_name);
-        //  console.log(listaEmpresas[0]);
+        filaEmpresa.innerHTML += crearElementoHTMLEmpresa(empresa.business_name, empresa.business_id);
+        listaEmpresas.push(empresa.business_name);
      });
+    
+     console.log(filaEmpresa);
  }
  
  const getEmpresas =async () => {

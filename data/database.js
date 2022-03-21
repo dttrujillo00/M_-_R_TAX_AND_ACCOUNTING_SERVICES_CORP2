@@ -23,8 +23,6 @@ ipcMain.handle('insertar_empresa', async (event, business) => {
 
 	const businessResult = await create(field_name,sql,business);
 
-
-
 	IdBusssines = await id(name);
 	console.log("Este es el anno: "+currentYear);
 	poner_anno =await anno(IdBusssines[0].id,currentYear,business);
@@ -98,8 +96,9 @@ ipcMain.handle('obtener_empleados_nomina', async (event, business) => {
 
 ipcMain.handle('obtener_empresas_por_anno', async (event, year) => { 
 
-	const sql = 'SELECT business_name FROM business b INNER JOIN business_year y ON b.business_id = y.business_id WHERE y.year = '+parseInt(year)
+	const sql = 'SELECT * FROM business b INNER JOIN business_year y ON b.business_id = y.business_id WHERE y.year = '+parseInt(year)
 	const empresas = await get(sql);
+
 	return empresas;
 })
 
@@ -128,7 +127,7 @@ ipcMain.handle('editar_nombre_empleado', async (event, employee) => {
 
 ipcMain.handle('editar_nombre_empresa', async (event, business) => { 
 	const { name, business_id} = business;
-	const sql ='UPDATE business SET business_name = '+name+' WHERE business_id = '+business_id
+	const sql ='UPDATE business SET business_name = \"'+name+'\" WHERE business_id = '+parseInt(business_id)
 	await edit(sql);
 })
 
