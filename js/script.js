@@ -238,7 +238,7 @@ const agregarTarjeta = () => {
 
 	        const business = {
 		        name: nuevaEmpresa.title,
-                year: currentYear
+                year: year
 	        }
 
                 for (const empresa in listaEmpresas) {
@@ -289,14 +289,14 @@ liAgregarEmpresa.addEventListener('click', agregarTarjeta);
          }
  
          filaEmpresa.innerHTML += crearElementoHTMLEmpresa(empresa.business_name, empresa.business_id);
-         listaEmpresas.appendChild(empresa);
+        //  listaEmpresas.appendChild(empresa);
          print(listaEmpresas);
      });
  }
  
  const getEmpresas =async () => {
  
-     await window.ipcRenderer.invoke('obtener_empresas_por_anno',currentYear).then((result) => {
+     await window.ipcRenderer.invoke('obtener_empresas_por_anno',year).then((result) => {
          console.log("Termino la consulta");
          console.log(result);
          renderEmpresas(result);

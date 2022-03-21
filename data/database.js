@@ -23,8 +23,24 @@ ipcMain.handle('insertar_empresa', async (event, business) => {
 	// INSERT INTO business_year VALUES(?, ?)
 	const businessResult = await create(field_name,sql,business);
 	await console.log(businessResult);
+
+	id   = async(name) =>{
+		const  id_empresa = await get('SELECT business_id AS id FROM business WHERE business_name ='+name);
+		return id_empresa;
+	}
+	
+	anno = async(id,year) => {
+		poner_anno =await create('INSERT INTO business_year VALUES('+ id_empresa +',' + year +')')
+   
+	   return poner_anno
+   }
+    
+	await console.log(anno); 
+
 	return businessResult;
 })
+
+  
 
 ipcMain.handle('insertar_fecha', async (event, date) => {
 	
@@ -72,6 +88,7 @@ ipcMain.handle('obtener_empleados_nomina', async (event, business) => {
 	const employees = await get(sql);
 	return employees;
 })
+
 
 
 ipcMain.handle('obtener_empresas_por_anno', async (event, year) => { 
