@@ -205,7 +205,6 @@ const agregarTarjeta = () => {
     hideMenu();
 
     filaEmpresa.innerHTML += crearElementoHTMLEmpresa('', '');
-    console.log("esta es la fila empresa:" +filaEmpresa);
     posicionarTarjetasEmpresas();
     manejadorModificarEmpresas();
 
@@ -290,8 +289,8 @@ liAgregarEmpresa.addEventListener('click', agregarTarjeta);
          }
  
          filaEmpresa.innerHTML += crearElementoHTMLEmpresa(empresa.business_name, empresa.business_id);
-         listaEmpresas.appendChild(empresa);
-         console.log(listaEmpresas);
+        //  listaEmpresas.appendChild(empresa.business_name);
+        //  console.log(listaEmpresas[0]);
      });
  }
  
@@ -299,7 +298,6 @@ liAgregarEmpresa.addEventListener('click', agregarTarjeta);
  
      await window.ipcRenderer.invoke('obtener_empresas_por_anno',currentYear).then((result) => {
          console.log("Se obtuvieron las empresas del año "+currentYear);
-         console.log("Resultado de la consulta de obtener empresas: "+result);
          renderEmpresas(result);
          posicionarTarjetasEmpresas();
          manejadorModificarEmpresas();
@@ -310,6 +308,6 @@ liAgregarEmpresa.addEventListener('click', agregarTarjeta);
 
 
 (async function init() {
-	await getEmpresas();
     console.log("Inicio y pido los datos");
+	await getEmpresas();
 })();

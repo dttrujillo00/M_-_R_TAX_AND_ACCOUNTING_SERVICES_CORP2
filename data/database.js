@@ -18,30 +18,31 @@ ipcMain.handle('insertar_empleado', async (event, employee) => {
 ipcMain.handle('insertar_empresa', async (event, business) => {
 	
 	const field_name='business';
-	const {name,year} = business;
+	const {name,currentYear} = business;
 	const sql ='INSERT INTO business(business_name) '+'VALUES(\"'+name+'\")';
 
 	const businessResult = await create(field_name,sql,business);
 
+
+
 	IdBusssines = await id(name);
-	await console.log(IdBusssines);
+	console.log("Este es el anno: "+currentYear);
+	poner_anno =await anno(IdBusssines[0].id,currentYear,business);
 
-	poner_anno =await anno(IdBusssines,year);
-	await console.log(poner_anno);
-
-
-	await console.log(businessResult);
 
 	return businessResult;
 })
   
 async function id(name){
-	const  id_empresa = await get('SELECT business_id AS id FROM business WHERE business_name ='+name);
+	const  id_empresa = await get('SELECT business_id AS id FROM business WHERE business_name = \"'+name+'\"');
 	return id_empresa;
 }
 
-async function anno(id,year){
-	poner_anno =await create('INSERT INTO business_year VALUES(\"'+ id_empresa +',' + year +'\")')
+async function anno(id,currentYear,business){
+	field_name="business_year"
+	console.log("ESTE ES EL ID: "+id+" ESTE ES EL ANNO: "+currentYear);
+	const sql ='INSERT INTO business_year '+'VALUES('+id+', '+currentYear+')';
+	const poner_anno =await create(field_name,sql,business)
 
 	return poner_anno
 }
@@ -77,10 +78,9 @@ ipcMain.handle('insertar_cuenta', async (event, account) => {
 
 //                            Gets
 
-ipcMain.handle('Obtener_campos_empresa_anno', async (event, business) => { 
-	const { name, anno} = business;
-	const sql ='SELECT field, SUM( CASE a.is_positive WHEN TRUE THEN amount ELSE -amount END) as amount FROM business b INNER JOIN account a ON b.business_id = a.business_id INNER JOIN date d ON a.date_id = d.date_id INNER JOIN field f ON a.field_id = f.field_id WHERE b.business_name =' +name+ 'AND d.year ='+anno+'GROUP BY field;'
-
+ipcMain.handle('Obtener_campos_empresa_anno', async (event, year) => { 
+	const { name, currentYear} = business;
+	const sql ='SELECT field AS Field, SUM(CASE month WHEN 1 THEN (CASE a.is_positive WHEN TRUE THEN amount ELSE -amount END) ELSE 0 END) AS January, SUM(CASE month WHEN 2 THEN (CASE a.is_positive WHEN TRUE THEN amount ELSE -amount END) ELSE 0 END) AS February, SUM(CASE month WHEN 3 THEN (CASE a.is_positive WHEN TRUE THEN amount ELSE -amount END) ELSE 0 END) AS March, SUM(CASE month WHEN 4 THEN (CASE a.is_positive WHEN TRUE THEN amount ELSE -amount END) ELSE 0 END) AS April, SUM(CASE month WHEN 5 THEN (CASE a.is_positive WHEN TRUE THEN amount ELSE -amount END) ELSE 0 END) AS May,SUM(CASE month WHEN 6 THEN (CASE a.is_positive WHEN TRUE THEN amount ELSE -amount END) ELSE 0 END) AS June, SUM(CASE month WHEN 7 THEN (CASE a.is_positive WHEN TRUE THEN amount ELSE -amount END) ELSE 0 END) AS July, SUM(CASE month WHEN 8 THEN (CASE a.is_positive WHEN TRUE THEN amount ELSE -amount END) ELSE 0 END) AS August, SUM(CASE month WHEN 9 THEN (CASE a.is_positive WHEN TRUE THEN amount ELSE -amount END) ELSE 0 END) AS September, SUM(CASE month WHEN 10 THEN (CASE a.is_positive WHEN TRUE THEN amount ELSE -amount END) ELSE 0 END) AS October, SUM(CASE month WHEN 11 THEN (CASE a.is_positive WHEN TRUE THEN amount ELSE -amount END) ELSE 0 END) AS November, SUM(CASE month WHEN 12 THEN (CASE a.is_positive WHEN TRUE THEN amount ELSE -amount END) ELSE 0 END) AS December,SUM( CASE a.is_positive WHEN TRUE THEN amount ELSE -amount END) AS YDT FROM business b INNER JOIN account a ON b.business_id = a.business_id INNER JOIN date d ON a.date_id = d.date_id INNER JOIN field f ON a.field_id = f.field_id WHERE b.business_name = \"'+name+'\" AND d.year = '+parseInt(currentYear)+' GROUP BY field'
 	const fields = await get(sql);
 	return fields;
 })
@@ -98,7 +98,7 @@ ipcMain.handle('obtener_empleados_nomina', async (event, business) => {
 
 ipcMain.handle('obtener_empresas_por_anno', async (event, year) => { 
 
-	const sql = 'SELECT business_name FROM business b INNER JOIN business_year y ON b.business_id = y.business_id WHERE y.year = '+year
+	const sql = 'SELECT business_name FROM business b INNER JOIN business_year y ON b.business_id = y.business_id WHERE y.year = '+parseInt(year)
 	const empresas = await get(sql);
 	return empresas;
 })
