@@ -20,27 +20,32 @@ ipcMain.handle('insertar_empresa', async (event, business) => {
 	const field_name='business';
 	const {name,year} = business;
 	const sql ='INSERT INTO business(business_name) '+'VALUES(\"'+name+'\")';
-	// INSERT INTO business_year VALUES(?, ?)
-	const businessResult = await create(field_name,sql,business);
-	await console.log(businessResult);
 
-	id   = async(name) =>{
-		const  id_empresa = await get('SELECT business_id AS id FROM business WHERE business_name ='+name);
-		return id_empresa;
-	}
-	
-	anno = async(id,year) => {
-		poner_anno =await create('INSERT INTO business_year VALUES('+ id_empresa +',' + year +')')
-   
-	   return poner_anno
-   }
-    
-	await console.log(anno); 
+	const businessResult = await create(field_name,sql,business);
+
+	IdBusssines = await id(name);
+	await console.log(IdBusssines);
+
+	poner_anno =await anno(IdBusssines,year);
+	await console.log(poner_anno);
+
+
+	await console.log(businessResult);
 
 	return businessResult;
 })
-
   
+async function id(name){
+	const  id_empresa = await get('SELECT business_id AS id FROM business WHERE business_name ='+name);
+	return id_empresa;
+}
+
+async function anno(id,year){
+	poner_anno =await create('INSERT INTO business_year VALUES(\"'+ id_empresa +',' + year +'\")')
+
+	return poner_anno
+}
+
 
 ipcMain.handle('insertar_fecha', async (event, date) => {
 	

@@ -163,7 +163,6 @@ const manejadorModificarEmpresas = () => {
                 if(e.code === 'Enter'){
                     input.blur();
                     input.parentElement.parentElement.title = input.value
-                    console.log(input.value);
 
                     let toEdit = {
                         nombre: input.value,
@@ -206,14 +205,14 @@ const agregarTarjeta = () => {
     hideMenu();
 
     filaEmpresa.innerHTML += crearElementoHTMLEmpresa('', '');
-    console.log(filaEmpresa);
+    console.log("esta es la fila empresa:" +filaEmpresa);
     posicionarTarjetasEmpresas();
     manejadorModificarEmpresas();
 
     const empresas = document.querySelectorAll('.empresa');
     const nuevaEmpresa = empresas[empresas.length - 1];
     const inputNuevaEmpresa = nuevaEmpresa.querySelector('input');
-    console.log(empresas.length);
+    console.log("Cantidad de empresas: "+empresas.length);
     if(empresas.length%11 === 0){
         filaEmpresa = document.createElement("ul");
         filaEmpresa.classList.add('fila-empresas');
@@ -236,9 +235,10 @@ const agregarTarjeta = () => {
             inputNuevaEmpresa.blur();
             nuevaEmpresa.title = inputNuevaEmpresa.value;
 
+
 	        const business = {
 		        name: nuevaEmpresa.title,
-                year: year
+                currentYear: currentYear
 	        }
 
                 for (const empresa in listaEmpresas) {
@@ -247,7 +247,7 @@ const agregarTarjeta = () => {
                     }
                 }
             const result = await window.ipcRenderer.invoke('insertar_empresa', business);
-            console.log(result);
+            console.log("REsultado de insertar empresa: "+result);
         }
     });
 }
@@ -261,6 +261,7 @@ liAgregarEmpresa.addEventListener('click', agregarTarjeta);
  let filaEmpresa;
  
  const crearElementoHTMLEmpresa = (nombre, id) => {
+     console.log("nombre de la empresa: "+nombre);
      element = `
      <li title="${nombre}" class="empresa" id="${id}">
          <img src="../icons/delete.png" class="icon-delete">
@@ -289,19 +290,20 @@ liAgregarEmpresa.addEventListener('click', agregarTarjeta);
          }
  
          filaEmpresa.innerHTML += crearElementoHTMLEmpresa(empresa.business_name, empresa.business_id);
-        //  listaEmpresas.appendChild(empresa);
-         print(listaEmpresas);
+         listaEmpresas.appendChild(empresa);
+         console.log(listaEmpresas);
      });
  }
  
  const getEmpresas =async () => {
  
-     await window.ipcRenderer.invoke('obtener_empresas_por_anno',year).then((result) => {
-         console.log("Termino la consulta");
-         console.log(result);
+     await window.ipcRenderer.invoke('obtener_empresas_por_anno',currentYear).then((result) => {
+         console.log("Se obtuvieron las empresas del año "+currentYear);
+         console.log("Resultado de la consulta de obtener empresas: "+result);
          renderEmpresas(result);
          posicionarTarjetasEmpresas();
          manejadorModificarEmpresas();
+
      })
  
  }
