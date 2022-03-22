@@ -1,5 +1,5 @@
-// const ipcRenderer =window.ipcRenderer
 
+const contextMenu = document.querySelector('.contextMenu-container');
 const year = document.querySelector('span.year');
 let currentYear = new Date().getFullYear();
 year.innerText = currentYear;
@@ -88,6 +88,12 @@ const posicionarTarjetasEmpresas = () => {
         empresa.style.zIndex = index;
         index--;
         empresa.addEventListener('click', navegacionEmpresa);
+        empresa.addEventListener('contextmenu', (e) => {
+            empresas.forEach( emp => {
+                emp.childNodes[1].classList.remove('show')
+            })
+            empresa.childNodes[1].classList.add('show')
+        });
     });
     
     empresas.forEach((empresa, index) => {
@@ -187,6 +193,7 @@ const manejadorModificarEmpresas = () => {
         empresas.forEach(empresa => {
             empresa.addEventListener('click', navegacionEmpresa);
         });
+
         hideModal();
         checkIcon.style.visibility = 'hidden';
         iconDeleteList.forEach(icon => {
@@ -238,6 +245,12 @@ const agregarTarjeta = () => {
         if(e.code === 'Enter'){
             empresas.forEach(empresa => {
                 empresa.addEventListener('click', navegacionEmpresa);
+                empresa.addEventListener('contextmenu', (e) => {
+                    empresas.forEach( emp => {
+                        emp.childNodes[1].classList.remove('show')
+                    })
+                    empresa.childNodes[1].classList.add('show')
+                });
             });
             inputNuevaEmpresa.blur();
             nuevaEmpresa.title = inputNuevaEmpresa.value;
@@ -276,10 +289,16 @@ liAgregarEmpresa.addEventListener('click', agregarTarjeta);
      console.log("Empresa: "+nombre);
     element =`
      <li title="${nombre}" class="empresa" id="${id}">
-         <img src="../icons/delete.png" class="icon-delete">
-         <div class="empresa-name">
-             <input type="text" value="${nombre}" disabled>
-         </div> 
+        <div class="contextMenu-container">
+            <ul>
+                <li class="icon-pencil"></li>
+                <li class="icon-trash"></li>
+                <li class="icon-cancel"></li>
+            </ul>
+        </div>
+        <div class="empresa-name">
+            <input type="text" value="${nombre}" disabled>
+        </div> 
      </li>
      `;
      return element;
@@ -289,9 +308,9 @@ liAgregarEmpresa.addEventListener('click', agregarTarjeta);
      const emptyFooter = ``;
      footer.innerHTML = emptyFooter;
 
-     filaEmpresa = document.createElement("ul");
-     filaEmpresa.classList.add('fila-empresas');
-     footer.appendChild(filaEmpresa);
+    //  filaEmpresa = document.createElement("ul");
+    //  filaEmpresa.classList.add('fila-empresas');
+    //  footer.appendChild(filaEmpresa);
  
      empresas.forEach( (empresa,index) => {
  
