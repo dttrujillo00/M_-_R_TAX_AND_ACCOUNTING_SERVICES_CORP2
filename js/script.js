@@ -68,7 +68,7 @@ liArchivo.addEventListener('click', showArchivo);
  * MANEJADOR DEL POSICIONAMIENTO DE LAS TARJETAS DE EMPRESA *
  *  *********************************************************/
 
-const navegacionEmpresa = () => {
+const navegacionEmpresa = (event) => {
     window.location.pathname = '/pages/empresa.html';
 }
 
@@ -124,18 +124,22 @@ const hideModal = () => {
 
 // FUNCION ELIMINAR EMPRESA
 const eliminarEmpresa =  (e) => {
+    e.stopPropagation();
+    e.target.parentElement.parentElement.classList.remove('show');
     const btnAceptar = document.querySelector('.modal .btn-aceptar');
     const btnCancelar = document.querySelector('.modal .btn-cancelar');
 
-    const nombre = e.target.parentElement.title;
-    const id = e.target.parentElement.id;
+    const nombre = e.target.parentElement.parentElement.parentElement.title;
+    const id = e.target.parentElement.parentElement.parentElement.id;
     console.log("eliminando id: "+id);
     showModal(nombre);
 
     btnAceptar.addEventListener('click', async () => {
         await window.ipcRenderer.invoke('eliminar_empresa', parseInt(id));
         console.log("se elimino correctamente")
-        return ;
+        hideModal();
+        getEmpresas();
+        return;
     });
 
     btnCancelar.addEventListener('click', () => {
@@ -145,69 +149,49 @@ const eliminarEmpresa =  (e) => {
 }
 
 const manejadorModificarEmpresas = () => {
-    const empresas = document.querySelectorAll('.empresa');
-    const liModificar = document.querySelector('.modificar-empresas');
-    const checkIcon = document.querySelector('.check');
-    const iconDeleteList = document.querySelectorAll('.empresa img');
-    const inputs = document.querySelectorAll('.empresa .empresa-name input');
-    let empresasToEdit = []
-    let value;
-    
-    const changeIntoModify = () => {
-        empresas.forEach(empresa => {
-            empresa.removeEventListener('click', navegacionEmpresa);
-        });
-        hideMenu();
-        checkIcon.style.visibility = 'visible';
-        iconDeleteList.forEach(icon => {
-            icon.style.visibility = 'visible';
-            icon.addEventListener('click', eliminarEmpresa);
-        });
+    const botonesEditar = document.querySelectorAll('.icon-pencil');
+    const botonesEliminar = document.querySelectorAll('.icon-trash');
+    const botonesCloseContextMenu = document.querySelectorAll('.icon-cancel')
 
-        inputs.forEach( input => {
-            input.removeAttribute('disabled');
+    botonesCloseContextMenu.forEach( btn => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            e.target.parentElement.parentElement.classList.remove('show');
+        })
+    });
 
-            input.addEventListener('keydown', e => {
+    botonesEliminar.forEach( btn => {
+        btn.addEventListener('click', eliminarEmpresa)
+    });
+
+    botonesEditar.forEach( btn => {
+        btn.addEventListener('click', (e) => {
+            e.target.parentElement.parentElement.classList.remove('show');
+            e.stopPropagation();
+
+            let thisInput = e.target.parentElement.parentElement.nextSibling.nextSibling.childNodes[1];
+            let thisEmpresa = e.target.parentElement.parentElement.parentElement;
+
+            thisEmpresa.removeEventListener('click', navegacionEmpresa);
+            thisInput.removeAttribute('disabled');
+            thisInput.focus();
+
+            thisInput.addEventListener('keydown', async (e) => {
                 if(e.code === 'Enter'){
-                    input.blur();
-                    input.parentElement.parentElement.title = input.value
+                    thisInput.blur();
+                    thisInput.parentElement.parentElement.title = thisInput.value
 
                     let toEdit = {
-                        name: input.value,
-                        business_id:e.target.parentElement.id
+                        name: thisInput.value,
+                        business_id: e.target.parentElement.parentElement.id
                     }
 
-                    empresasToEdit.push(toEdit);
+                    await window.ipcRenderer.invoke('editar_nombre_empresa', toEdit);
+                    thisEmpresa.addEventListener('click', navegacionEmpresa);
                 }
             })
-        });
-    }
-    
-    const changeOutModify = () => {
-        //EJECUTAR CONSULTAS PARA EDITAR LAS EMPRESAS
-        empresasToEdit.forEach(async(empresa) => {
-            await window.ipcRenderer.invoke('editar_nombre_empresa', empresa);
-        });
-
-
-        empresas.forEach(empresa => {
-            empresa.addEventListener('click', navegacionEmpresa);
-        });
-
-        hideModal();
-        checkIcon.style.visibility = 'hidden';
-        iconDeleteList.forEach(icon => {
-            icon.style.visibility = 'hidden';
-            icon.removeEventListener('click', eliminarEmpresa);
-        });
-
-        inputs.forEach( input => {
-            input.setAttribute('disabled', 'true');
-        });
-    }
-    
-    liModificar.addEventListener('click', changeIntoModify);
-    checkIcon.addEventListener('click', changeOutModify);
+        })
+    });
 }
 
 /***************************************
@@ -216,23 +200,29 @@ const manejadorModificarEmpresas = () => {
 const liAgregarEmpresa = document.querySelector('.agregar-empresa');
 
 const agregarTarjeta = () => {
+    const empresas = document.querySelectorAll('.empresa');
     let exist = false;
     hideMenu();
 
-    filaEmpresa.innerHTML += crearElementoHTMLEmpresa('', '');
-    posicionarTarjetasEmpresas();
-    manejadorModificarEmpresas();
+    let newEmpresa = crearElementoHTMLEmpresa('', '');
+    console.log(newEmpresa);
 
-    const empresas = document.querySelectorAll('.empresa');
-    const nuevaEmpresa = empresas[empresas.length - 1];
-    const inputNuevaEmpresa = nuevaEmpresa.querySelector('input');
-    console.log("Cantidad de empresas: "+empresas.length);
     if(empresas.length%11 === 0){
         filaEmpresa = document.createElement("ul");
         filaEmpresa.classList.add('fila-empresas');
         footer.appendChild(filaEmpresa);
     }
 
+    filaEmpresa.innerHTML += newEmpresa;
+    console.log(filaEmpresa);
+    posicionarTarjetasEmpresas();
+    manejadorModificarEmpresas();
+
+    const empresasPlus = document.querySelectorAll('.empresa');
+    console.log(empresasPlus.length);
+    const nuevaEmpresa = empresasPlus[empresasPlus.length - 1];
+    const inputNuevaEmpresa = nuevaEmpresa.querySelector('input');
+    console.log(nuevaEmpresa);
 
     inputNuevaEmpresa.removeAttribute('disabled');
     inputNuevaEmpresa.focus();
@@ -245,7 +235,7 @@ const agregarTarjeta = () => {
         if(e.code === 'Enter'){
             empresas.forEach(empresa => {
                 empresa.addEventListener('click', navegacionEmpresa);
-                empresa.addEventListener('contextmenu', (e) => {
+                empresa.addEventListener('contextmenu', () => {
                     empresas.forEach( emp => {
                         emp.childNodes[1].classList.remove('show')
                     })
@@ -265,6 +255,7 @@ const agregarTarjeta = () => {
                 if(business.name == empresa){
                     alert("❌Error: Esta empresa ya existe");
                     exist = true;
+                    getEmpresas();
                     return;
                 }
             });
@@ -286,7 +277,6 @@ liAgregarEmpresa.addEventListener('click', agregarTarjeta);
  let filaEmpresa;
  
  const crearElementoHTMLEmpresa = (nombre, id) => {
-     console.log("Empresa: "+nombre);
     element =`
      <li title="${nombre}" class="empresa" id="${id}">
         <div class="contextMenu-container">
@@ -307,10 +297,6 @@ liAgregarEmpresa.addEventListener('click', agregarTarjeta);
   const renderEmpresas = (empresas) => {
      const emptyFooter = ``;
      footer.innerHTML = emptyFooter;
-
-    //  filaEmpresa = document.createElement("ul");
-    //  filaEmpresa.classList.add('fila-empresas');
-    //  footer.appendChild(filaEmpresa);
  
      empresas.forEach( (empresa,index) => {
  
@@ -324,7 +310,7 @@ liAgregarEmpresa.addEventListener('click', agregarTarjeta);
         listaEmpresas.push(empresa.business_name);
      });
     
-     console.log(filaEmpresa);
+     console.log(footer);
  }
  
  const getEmpresas =async () => {

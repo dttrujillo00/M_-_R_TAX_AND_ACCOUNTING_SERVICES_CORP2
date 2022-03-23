@@ -250,6 +250,7 @@ transform: translateX(0);
     transition: 0.3s all ease-out;
     width: 100%;
     opacity: 0;
+    visibility: hidden;
 }
 
 .contextMenu-container ul {
@@ -281,6 +282,7 @@ transform: translateX(0);
 }
 
 .contextMenu-container.show {
+    visibility: visible;
     top: -60%;
     opacity: 1;
 }
