@@ -30,13 +30,18 @@ main .row .col-8 table thead tr th:last-child {
     width: 8.33%;
 }
 
-main .row .col-8 table tbody tr td img {
+/* main .row .col-8 table tbody tr td img {
     transform: scale(.8);
-}
+} */
 
 main .row .col-8 table tbody tr td.editar-operacion:hover,
 main .row .col-8 table tbody tr td.eliminar-operacion:hover {
     cursor: pointer;
+}
+
+main .row .col-8 table tbody tr td span {
+    font-size: 1.3rem;
+    color: var(--verdeColor);
 }
 
 main .row .col-8 table tbody tr td:nth-child(2) {
@@ -57,10 +62,70 @@ main .row .col-4 table tbody tr td:last-child {
     font-weight: 600;
 }
 
+/**************************
+ * FORM AGREGAR OPERACION *
+***************************/
+
 .form-agregar-operacion {
     position: absolute;
     z-index: 200;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%) scale(0);
     top: 50%;
     left: 50%;
+    box-shadow: 0 0 7px black;
+    padding: 4rem 2rem;
+    border-radius: 10px;
+    background-color: var(--bgColor);
+    transition: .2s all;
+}
+
+.form-agregar-operacion.show {
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.form-agregar-operacion form {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+}
+
+.form-agregar-operacion form .form-group {
+    width: 100%;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+}
+
+.form-agregar-operacion form .form-group label {
+    margin-right: .5rem;
+    font-weight: bold;
+}
+
+.form-agregar-operacion form .form-group input {
+    width: 100%;
+    padding: .2rem .5rem;
+    border: none;
+    background-color: transparent;
+    box-shadow: 0 0 3px black;
+    border-radius: 5px;
+    font-size: .8rem;
+    transition: .3s all;
+    font-family: 'Poppins';
+}
+
+.form-agregar-operacion form .form-group input:focus {
+    box-shadow: 0 0 6px black;
+}
+
+.form-agregar-operacion form .submit-group {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    margin-top: 1rem;
+}
+
+.form-agregar-operacion form .submit-group input {
+    padding: .2rem 1.2rem;
+    font-family: 'Poppins';
 }

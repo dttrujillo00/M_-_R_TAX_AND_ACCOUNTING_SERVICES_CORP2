@@ -45,17 +45,43 @@ empresaPage.addEventListener('click', retrocederPage);
  *  ********************/
 const addRevenueBtn = document.querySelector('.add-revenue');
 const addExpenseBtn = document.querySelector('.add-expense');
+const formAgregarOperacion = document.querySelector('.form-agregar-operacion');
+const cancelBtn = document.querySelector('.submit-group .btn-cancel');
+const saveBtn = document.querySelector('.submit-group .btn-save');
+
+const showForm = () => {
+    formAgregarOperacion.querySelector('form').reset();
+    formAgregarOperacion.classList.add('show');
+}
+
+const hideForm = () => {
+    formAgregarOperacion.classList.remove('show');
+}
 
 const addRevenue = () => {
+    hideMenu();
+    showForm();
+    formAgregarOperacion.querySelector('#date').focus();
     console.log('Funcion Revenue');
 }
 
 const addExpense = () => {
+    hideMenu();
+    showForm();
+    formAgregarOperacion.querySelector('#date').focus();
     console.log('Funcion Expense');
+}
+
+const guardarOperacion = (e) => {
+    e.preventDefault();
+    hideForm();
+    console.log('Guardando operacion...')
 }
 
 addRevenueBtn.addEventListener('click', addRevenue);
 addExpenseBtn.addEventListener('click', addExpense);
+cancelBtn.addEventListener('click', hideForm);
+saveBtn.addEventListener('click', guardarOperacion);
 
 /**********************
  *  EDITAR OPERACION  *
