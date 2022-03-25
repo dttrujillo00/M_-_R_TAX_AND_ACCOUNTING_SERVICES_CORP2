@@ -97,10 +97,22 @@ editarBtn.addEventListener('click', editarOperacion)
 /************************
  *  ELIMINAR OPERACION  *
  *  *********************/
- const eliminarBtn = document.querySelector('.eliminar-operacion');
-
- const eliminarOperacion = () => {
-     console.log('Eliminar Operacion')
- }
+ const eliminarBtn = document.querySelectorAll('.eliminar-operacion');
+ const deleteContainer = document.querySelectorAll('.delete-container');
+ const cancelDelete = document.querySelectorAll('.cancel-delete');
+ const confirmDelete = document.querySelectorAll('.confirm-delete');
  
- eliminarBtn.addEventListener('click', eliminarOperacion)
+eliminarBtn.forEach( (btn, index) => {
+    console.log(index);
+    btn.addEventListener('click', () => {
+        console.log('Eliminar Operacion')
+
+        deleteContainer[index].classList.add('show');
+    });
+});
+
+cancelDelete.forEach( (btn, index) => {
+    btn.addEventListener('click', () => {
+        deleteContainer[index].classList.remove('show');
+    });
+});
