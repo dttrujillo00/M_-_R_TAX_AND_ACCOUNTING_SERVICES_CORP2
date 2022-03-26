@@ -43,8 +43,7 @@ empresaPage.addEventListener('click', retrocederPage);
 /***********************
  *  AGREGAR OPERACION  *
  *  ********************/
-const addRevenueBtn = document.querySelector('.add-revenue');
-const addExpenseBtn = document.querySelector('.add-expense');
+const addOperationBtn = document.querySelector('.add-operation2');
 const formAgregarOperacion = document.querySelector('.form-agregar-operacion');
 const cancelBtn = document.querySelector('.submit-group .btn-cancel');
 const saveBtn = document.querySelector('.submit-group .btn-save');
@@ -58,18 +57,11 @@ const hideForm = () => {
     formAgregarOperacion.classList.remove('show');
 }
 
-const addRevenue = () => {
+const addOperation = () => {
     hideMenu();
     showForm();
     formAgregarOperacion.querySelector('#date').focus();
-    console.log('Funcion Revenue');
-}
-
-const addExpense = () => {
-    hideMenu();
-    showForm();
-    formAgregarOperacion.querySelector('#date').focus();
-    console.log('Funcion Expense');
+    console.log('Funcion Add operation...');
 }
 
 const guardarOperacion = (e) => {
@@ -78,8 +70,7 @@ const guardarOperacion = (e) => {
     console.log('Guardando operacion...')
 }
 
-addRevenueBtn.addEventListener('click', addRevenue);
-addExpenseBtn.addEventListener('click', addExpense);
+addOperationBtn.addEventListener('click', addOperation);
 cancelBtn.addEventListener('click', hideForm);
 saveBtn.addEventListener('click', guardarOperacion);
 

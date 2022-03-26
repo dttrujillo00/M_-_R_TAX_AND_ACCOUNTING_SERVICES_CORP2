@@ -187,3 +187,48 @@ main .row .col-4 table tbody tr td:last-child {
     padding: .2rem 1.2rem;
     font-family: 'Poppins';
 }
+
+.buttons-group {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.add-operation {
+    padding: .5rem;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    box-shadow: 2px 2px 5px var(--verdeColor);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(90, 84, 74, .3);
+    transition: .2s all;
+}
+
+.add-operation:hover  {
+    cursor: pointer;
+    box-shadow: 2px 2px 10px var(--verdeColor);
+}
+
+.add-operation2 {
+    box-shadow: 2px 2px 5px var(--verdeColor);
+    padding: .5rem 1.2rem;
+    border-radius: 5px;
+    font-size: 1rem;
+    background-color: rgba(90, 84, 74, .3);
+    font-family: 'Raleway';
+    font-weight: bold;
+    color: rgba(0, 0, 0, .8);
+    transition: .2s all;
+}
+
+.add-operation2:hover {
+    cursor: pointer;
+    box-shadow: 2px 2px 10px var(--verdeColor);
+}
+
+.add-operation2:active {
+    box-shadow: none;
+}
