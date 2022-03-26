@@ -172,6 +172,11 @@ main .row .col-4 table tbody tr td:last-child {
     font-family: 'Poppins';
 }
 
+.form-agregar-operacion form .form-group input.invalid-data,
+.form-agregar-operacion form .form-group input.invalid-data:focus {
+    box-shadow: 0 0 7px red;
+}
+
 .form-agregar-operacion form .form-group input:focus {
     box-shadow: 0 0 6px black;
 }
@@ -195,24 +200,6 @@ main .row .col-4 table tbody tr td:last-child {
 }
 
 .add-operation {
-    padding: .5rem;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    box-shadow: 2px 2px 5px var(--verdeColor);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: rgba(90, 84, 74, .3);
-    transition: .2s all;
-}
-
-.add-operation:hover  {
-    cursor: pointer;
-    box-shadow: 2px 2px 10px var(--verdeColor);
-}
-
-.add-operation2 {
     box-shadow: 2px 2px 5px var(--verdeColor);
     padding: .5rem 1.2rem;
     border-radius: 5px;
@@ -224,11 +211,11 @@ main .row .col-4 table tbody tr td:last-child {
     transition: .2s all;
 }
 
-.add-operation2:hover {
+.add-operation:hover {
     cursor: pointer;
     box-shadow: 2px 2px 10px var(--verdeColor);
 }
 
-.add-operation2:active {
+.add-operation:active {
     box-shadow: none;
 }

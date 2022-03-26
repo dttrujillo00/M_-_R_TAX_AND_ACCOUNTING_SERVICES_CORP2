@@ -43,13 +43,19 @@ empresaPage.addEventListener('click', retrocederPage);
 /***********************
  *  AGREGAR OPERACION  *
  *  ********************/
-const addOperationBtn = document.querySelector('.add-operation2');
+const addOperationBtn = document.querySelector('.add-operation');
 const formAgregarOperacion = document.querySelector('.form-agregar-operacion');
 const cancelBtn = document.querySelector('.submit-group .btn-cancel');
 const saveBtn = document.querySelector('.submit-group .btn-save');
+const inputs = formAgregarOperacion.querySelectorAll('.form-group input');
+let readyToSend;
 
-const showForm = () => {
+const showForm = (date, operation, amount) => {
     formAgregarOperacion.querySelector('form').reset();
+    inputs.forEach( input => input.classList.remove('invalid-data'))
+    inputs[0].value = date;
+    inputs[1].value = operation;
+    inputs[2].value = amount;
     formAgregarOperacion.classList.add('show');
 }
 
@@ -59,31 +65,57 @@ const hideForm = () => {
 
 const addOperation = () => {
     hideMenu();
-    showForm();
+    showForm('', '', '');
     formAgregarOperacion.querySelector('#date').focus();
     console.log('Funcion Add operation...');
 }
 
-const guardarOperacion = (e) => {
-    e.preventDefault();
-    hideForm();
-    console.log('Guardando operacion...')
+const validate = (e) => {
+    e.preventDefault()
+
+    readyToSend = 0
+    for (let index = inputs.length - 1; index >= 0; index--) {
+        if(inputs[index].value === '') {
+            inputs[index].classList.add('invalid-data');
+            inputs[index].focus();
+        } else {
+            inputs[index].classList.remove('invalid-data');
+            readyToSend++;
+        }
+        
+    }
+
+    if(readyToSend === inputs.length) {
+        hideForm();
+        console.log('Saving Data...');
+    }
 }
 
 addOperationBtn.addEventListener('click', addOperation);
 cancelBtn.addEventListener('click', hideForm);
-saveBtn.addEventListener('click', guardarOperacion);
+saveBtn.addEventListener('click', validate)
 
 /**********************
  *  EDITAR OPERACION  *
  *  *******************/
-const editarBtn = document.querySelector('.editar-operacion');
+const editarBtn = document.querySelectorAll('.editar-operacion');
+const operationList = document.querySelectorAll('.data-table tbody tr')
 
-const editarOperacion = () => {
-    console.log('Editar Operacion')
-}
+editarBtn.forEach((btn, index) => {
+    btn.addEventListener('click', () => {
+        console.log('Editar Operacion ' + index)
+        
+        let rowToEdit = operationList[index];
+        let date = rowToEdit.querySelector('.date').value;
+        console.log(date);
+        let operation = rowToEdit.querySelector('.operation').innerText;
+        console.log(operation);
+        let amount = rowToEdit.querySelector('.amount').innerHTML;
+        console.log(amount.slice(1));
 
-editarBtn.addEventListener('click', editarOperacion)
+        showForm(date, operation, amount.slice(1));
+    });
+});
 
 /************************
  *  ELIMINAR OPERACION  *
@@ -94,7 +126,6 @@ editarBtn.addEventListener('click', editarOperacion)
  const confirmDelete = document.querySelectorAll('.confirm-delete');
  
 eliminarBtn.forEach( (btn, index) => {
-    console.log(index);
     btn.addEventListener('click', () => {
         console.log('Eliminar Operacion')
 
