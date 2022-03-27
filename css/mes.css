@@ -1,8 +1,8 @@
 /* Archivo exportado a style.css */
 
-main {
-    max-height: 83vh !important;
-    overflow-y: hidden !important;
+main.mes {
+    max-height: 83vh;
+    overflow-y: hidden;
     margin-top: 1rem;
 }
 
