@@ -88,6 +88,10 @@ const validate = (e) => {
     if(readyToSend === inputs.length) {
         hideForm();
         console.log('Saving Data...');
+        /********************************************************
+         *  FUNCION PARA GUARDAR OPERACION EN LA DB             *
+         *  Y LUEGO EJECUTAR LA FUNCION DE OBTENER OPERACIONES  *
+         *  *****************************************************/
     }
 }
 
@@ -138,3 +142,29 @@ cancelDelete.forEach( (btn, index) => {
         deleteContainer[index].classList.remove('show');
     });
 });
+
+/*************************
+ *  OBTENER OPERACIONES  *
+ *  **********************/
+const bodyDataTable = document.querySelector('main .data-table tbody');
+
+const createHTMLOperation = (date, operation, amount) => {
+    let element = `
+        <tr>
+            <td>
+                <input type="date" name="fecha" id="" value="${date}" class="date">
+                <div class="delete-container">
+                    <p>You want to delete this operation?</p>
+                    <button class="confirm-delete">Delete</button>
+                    <button class="cancel-delete">Cancel</button>
+                </div>
+            </td>
+            <td class="operation">${operation}</td>
+            <td class="amount">$${amount}</td>
+            <td class="editar-operacion"><span class="icon-pencil"></span></td>
+            <td class="eliminar-operacion"><span class="icon-trash"></span></td>
+        </tr>
+    `;
+
+    return element;
+}
