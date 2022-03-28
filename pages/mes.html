@@ -5,22 +5,32 @@
     <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
 
     <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/fontello.css">
     <title>M&R Tax and Accounting Service, Corp</title>
 </head>
 <body class="background-opacity">
     <div class="form-agregar-operacion">
         <form>
             <div class="form-group">
-                <label for="date">Date</label>
+                <label for="date">Date:</label>
                 <input type="date" name="date" id="date">
             </div>
             <div class="form-group">
-                <label for="operation">Operation</label>
+                <label for="operation">Operation:</label>
                 <input type="text" name="operation" id="operation">
             </div>
             <div class="form-group">
-                <label for="amount">Amount</label>
+                <label for="amount">Amount:</label>
                 <input type="number" name="amount" id="amount" min="0">
+            </div>
+            <!-- <div class="form-group">
+                <input type="checkbox" name="type" id="expense">
+                <input type="checkbox" name="type" id="revenue">
+            </div> -->
+
+            <div class="submit-group">
+                <input type="submit" value="Save" class="btn-save">
+                <input type="button" value="Cancel" class="btn-cancel">
             </div>
         </form>
     </div>
@@ -34,26 +44,15 @@
         <div class="empresa-name-container">
             <h1>DECEMBER</h1>
         </div>
-        <!-- <button class="check"><img src="../icons/cruz.png" alt=""></button> -->
-        <div></div>
+        <div class="buttons-group">
+            <button class="add-operation">Add operation</button>
+        </div>
     </header>
 
     <div class="menu">
         <img src="../icons/menu.png" alt="">
         <div class="menu-content">
             <ul>
-                <!-- <li class="modificar-operacion">
-                    <p>Modify</p>
-                    <img src="../icons/lapiz.png" alt="">
-                </li> -->
-                <li class="add-revenue">
-                    <p>Add Revenue</p>
-                    <img src="../icons/agregarElemento.png" alt="">
-                </li>
-                <li class="add-expense">
-                    <p>Add Expense</p>
-                    <img src="../icons/agregarElemento.png" alt="">
-                </li>
                 <li class="empresa-page">
                     <p>Enterprise Page</p>
                     <img src="../icons/retroceder.png" alt="">
@@ -73,7 +72,7 @@
         </div>
     </div>
 
-    <main>
+    <main class="mes">
         <div class="row">
             <div class="col-8 data-table">
                 <table>
@@ -82,17 +81,220 @@
                             <th>Date</th>
                             <th>Operation</th>
                             <th>Amount</th>
-                            <th>Editar</th>
-                            <th>Eliminar</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td><input type="date" name="fecha" id=""></td>
-                            <td>Gastos en mantenimiento</td>
-                            <td>$400</td>
-                            <td class="editar-operacion"><img src="./../icons/lapiz.png" alt=""></td>
-                            <td class="eliminar-operacion"><img src="./../icons/trash.png" alt=""></td>
+                            <td>
+                                <input type="date" name="fecha" id="" value="2022-03-26" class="date">
+                                <div class="delete-container">
+                                    <p>You want to delete this operation?</p>
+                                    <button class="confirm-delete">Delete</button>
+                                    <button class="cancel-delete">Cancel</button>
+                                </div>
+                            </td>
+                            <td class="operation">Gastos en mantenimiento</td>
+                            <td class="amount">$400</td>
+                            <td class="editar-operacion"><span class="icon-pencil"></span></td>
+                            <td class="eliminar-operacion"><span class="icon-trash"></span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="date" name="fecha" id="" value="2022-03-26" class="date">
+                                <div class="delete-container">
+                                    <p>You want to delete this operation?</p>
+                                    <button class="confirm-delete">Delete</button>
+                                    <button class="cancel-delete">Cancel</button>
+                                </div>
+                            </td>
+                            <td class="operation">Arreglos</td>
+                            <td class="amount">$400</td>
+                            <td class="editar-operacion"><span class="icon-pencil"></span></td>
+                            <td class="eliminar-operacion"><span class="icon-trash"></span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="date" name="fecha" id="" value="2022-03-26" class="date">
+                                <div class="delete-container">
+                                    <p>You want to delete this operation?</p>
+                                    <button class="confirm-delete">Delete</button>
+                                    <button class="cancel-delete">Cancel</button>
+                                </div>
+                            </td>
+                            <td class="operation">Gastos de oficina</td>
+                            <td class="amount">$400</td>
+                            <td class="editar-operacion"><span class="icon-pencil"></span></td>
+                            <td class="eliminar-operacion"><span class="icon-trash"></span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="date" name="fecha" id="" value="2022-03-26" class="date">
+                                <div class="delete-container">
+                                    <p>You want to delete this operation?</p>
+                                    <button class="confirm-delete">Delete</button>
+                                    <button class="cancel-delete">Cancel</button>
+                                </div>
+                            </td>
+                            <td class="operation">Gastos en mantenimiento</td>
+                            <td class="amount">$400</td>
+                            <td class="editar-operacion"><span class="icon-pencil"></span></td>
+                            <td class="eliminar-operacion"><span class="icon-trash"></span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="date" name="fecha" id="" value="2022-03-26" class="date">
+                                <div class="delete-container">
+                                    <p>You want to delete this operation?</p>
+                                    <button class="confirm-delete">Delete</button>
+                                    <button class="cancel-delete">Cancel</button>
+                                </div>
+                            </td>
+                            <td class="operation">Arreglos</td>
+                            <td class="amount">$400</td>
+                            <td class="editar-operacion"><span class="icon-pencil"></span></td>
+                            <td class="eliminar-operacion"><span class="icon-trash"></span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="date" name="fecha" id="" value="2022-03-26" class="date">
+                                <div class="delete-container">
+                                    <p>You want to delete this operation?</p>
+                                    <button class="confirm-delete">Delete</button>
+                                    <button class="cancel-delete">Cancel</button>
+                                </div>
+                            </td>
+                            <td class="operation">Gastos de oficina</td>
+                            <td class="amount">$400</td>
+                            <td class="editar-operacion"><span class="icon-pencil"></span></td>
+                            <td class="eliminar-operacion"><span class="icon-trash"></span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="date" name="fecha" id="" value="2022-03-26" class="date">
+                                <div class="delete-container">
+                                    <p>You want to delete this operation?</p>
+                                    <button class="confirm-delete">Delete</button>
+                                    <button class="cancel-delete">Cancel</button>
+                                </div>
+                            </td>
+                            <td class="operation">Gastos en mantenimiento</td>
+                            <td class="amount">$400</td>
+                            <td class="editar-operacion"><span class="icon-pencil"></span></td>
+                            <td class="eliminar-operacion"><span class="icon-trash"></span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="date" name="fecha" id="" value="2022-03-26" class="date">
+                                <div class="delete-container">
+                                    <p>You want to delete this operation?</p>
+                                    <button class="confirm-delete">Delete</button>
+                                    <button class="cancel-delete">Cancel</button>
+                                </div>
+                            </td>
+                            <td class="operation">Arreglos</td>
+                            <td class="amount">$400</td>
+                            <td class="editar-operacion"><span class="icon-pencil"></span></td>
+                            <td class="eliminar-operacion"><span class="icon-trash"></span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="date" name="fecha" id="" value="2022-03-26" class="date">
+                                <div class="delete-container">
+                                    <p>You want to delete this operation?</p>
+                                    <button class="confirm-delete">Delete</button>
+                                    <button class="cancel-delete">Cancel</button>
+                                </div>
+                            </td>
+                            <td class="operation">Gastos de oficina</td>
+                            <td class="amount">$400</td>
+                            <td class="editar-operacion"><span class="icon-pencil"></span></td>
+                            <td class="eliminar-operacion"><span class="icon-trash"></span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="date" name="fecha" id="" value="2022-03-26" class="date">
+                                <div class="delete-container">
+                                    <p>You want to delete this operation?</p>
+                                    <button class="confirm-delete">Delete</button>
+                                    <button class="cancel-delete">Cancel</button>
+                                </div>
+                            </td>
+                            <td class="operation">Gastos en mantenimiento</td>
+                            <td class="amount">$400</td>
+                            <td class="editar-operacion"><span class="icon-pencil"></span></td>
+                            <td class="eliminar-operacion"><span class="icon-trash"></span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="date" name="fecha" id="" value="2022-03-26" class="date">
+                                <div class="delete-container">
+                                    <p>You want to delete this operation?</p>
+                                    <button class="confirm-delete">Delete</button>
+                                    <button class="cancel-delete">Cancel</button>
+                                </div>
+                            </td>
+                            <td class="operation">Arreglos</td>
+                            <td class="amount">$400</td>
+                            <td class="editar-operacion"><span class="icon-pencil"></span></td>
+                            <td class="eliminar-operacion"><span class="icon-trash"></span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="date" name="fecha" id="" value="2022-03-26" class="date">
+                                <div class="delete-container">
+                                    <p>You want to delete this operation?</p>
+                                    <button class="confirm-delete">Delete</button>
+                                    <button class="cancel-delete">Cancel</button>
+                                </div>
+                            </td>
+                            <td class="operation">Gastos de oficina</td>
+                            <td class="amount">$400</td>
+                            <td class="editar-operacion"><span class="icon-pencil"></span></td>
+                            <td class="eliminar-operacion"><span class="icon-trash"></span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="date" name="fecha" id="" value="2022-03-26" class="date">
+                                <div class="delete-container">
+                                    <p>You want to delete this operation?</p>
+                                    <button class="confirm-delete">Delete</button>
+                                    <button class="cancel-delete">Cancel</button>
+                                </div>
+                            </td>
+                            <td class="operation">Gastos en mantenimiento</td>
+                            <td class="amount">$400</td>
+                            <td class="editar-operacion"><span class="icon-pencil"></span></td>
+                            <td class="eliminar-operacion"><span class="icon-trash"></span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="date" name="fecha" id="" value="2022-03-26" class="date">
+                                <div class="delete-container">
+                                    <p>You want to delete this operation?</p>
+                                    <button class="confirm-delete">Delete</button>
+                                    <button class="cancel-delete">Cancel</button>
+                                </div>
+                            </td>
+                            <td class="operation">Arreglos</td>
+                            <td class="amount">$400</td>
+                            <td class="editar-operacion"><span class="icon-pencil"></span></td>
+                            <td class="eliminar-operacion"><span class="icon-trash"></span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="date" name="fecha" id="" value="2022-03-26" class="date">
+                                <div class="delete-container">
+                                    <p>You want to delete this operation?</p>
+                                    <button class="confirm-delete">Delete</button>
+                                    <button class="cancel-delete">Cancel</button>
+                                </div>
+                            </td>
+                            <td class="operation">Gastos de oficina</td>
+                            <td class="amount">$400</td>
+                            <td class="editar-operacion"><span class="icon-pencil"></span></td>
+                            <td class="eliminar-operacion"><span class="icon-trash"></span></td>
                         </tr>
                     </tbody>
                 </table>
@@ -112,7 +314,11 @@
                             <td>$650</td>
                         </tr>
                         <tr>
-                            <td>Miscelaneos</td>
+                            <td>Arreglos</td>
+                            <td>$800</td>
+                        </tr>
+                        <tr>
+                            <td>Gastos de oficina</td>
                             <td>$800</td>
                         </tr>
                     </tbody>

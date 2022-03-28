@@ -43,38 +43,128 @@ empresaPage.addEventListener('click', retrocederPage);
 /***********************
  *  AGREGAR OPERACION  *
  *  ********************/
-const addRevenueBtn = document.querySelector('.add-revenue');
-const addExpenseBtn = document.querySelector('.add-expense');
+const addOperationBtn = document.querySelector('.add-operation');
+const formAgregarOperacion = document.querySelector('.form-agregar-operacion');
+const cancelBtn = document.querySelector('.submit-group .btn-cancel');
+const saveBtn = document.querySelector('.submit-group .btn-save');
+const inputs = formAgregarOperacion.querySelectorAll('.form-group input');
+let readyToSend;
 
-const addRevenue = () => {
-    console.log('Funcion Revenue');
+const showForm = (date, operation, amount) => {
+    formAgregarOperacion.querySelector('form').reset();
+    inputs.forEach( input => input.classList.remove('invalid-data'))
+    inputs[0].value = date;
+    inputs[1].value = operation;
+    inputs[2].value = amount;
+    formAgregarOperacion.classList.add('show');
 }
 
-const addExpense = () => {
-    console.log('Funcion Expense');
+const hideForm = () => {
+    formAgregarOperacion.classList.remove('show');
 }
 
-addRevenueBtn.addEventListener('click', addRevenue);
-addExpenseBtn.addEventListener('click', addExpense);
+const addOperation = () => {
+    hideMenu();
+    showForm('', '', '');
+    formAgregarOperacion.querySelector('#date').focus();
+    console.log('Funcion Add operation...');
+}
+
+const validate = (e) => {
+    e.preventDefault()
+
+    readyToSend = 0
+    for (let index = inputs.length - 1; index >= 0; index--) {
+        if(inputs[index].value === '') {
+            inputs[index].classList.add('invalid-data');
+            inputs[index].focus();
+        } else {
+            inputs[index].classList.remove('invalid-data');
+            readyToSend++;
+        }
+        
+    }
+
+    if(readyToSend === inputs.length) {
+        hideForm();
+        console.log('Saving Data...');
+        /********************************************************
+         *  FUNCION PARA GUARDAR OPERACION EN LA DB             *
+         *  Y LUEGO EJECUTAR LA FUNCION DE OBTENER OPERACIONES  *
+         *  *****************************************************/
+    }
+}
+
+addOperationBtn.addEventListener('click', addOperation);
+cancelBtn.addEventListener('click', hideForm);
+saveBtn.addEventListener('click', validate)
 
 /**********************
  *  EDITAR OPERACION  *
  *  *******************/
-const editarBtn = document.querySelector('.editar-operacion');
+const editarBtn = document.querySelectorAll('.editar-operacion');
+const operationList = document.querySelectorAll('.data-table tbody tr')
 
-const editarOperacion = () => {
-    console.log('Editar Operacion')
-}
+editarBtn.forEach((btn, index) => {
+    btn.addEventListener('click', () => {
+        console.log('Editar Operacion ' + index)
+        
+        let rowToEdit = operationList[index];
+        let date = rowToEdit.querySelector('.date').value;
+        console.log(date);
+        let operation = rowToEdit.querySelector('.operation').innerText;
+        console.log(operation);
+        let amount = rowToEdit.querySelector('.amount').innerHTML;
+        console.log(amount.slice(1));
 
-editarBtn.addEventListener('click', editarOperacion)
+        showForm(date, operation, amount.slice(1));
+    });
+});
 
 /************************
  *  ELIMINAR OPERACION  *
  *  *********************/
- const eliminarBtn = document.querySelector('.eliminar-operacion');
-
- const eliminarOperacion = () => {
-     console.log('Eliminar Operacion')
- }
+ const eliminarBtn = document.querySelectorAll('.eliminar-operacion');
+ const deleteContainer = document.querySelectorAll('.delete-container');
+ const cancelDelete = document.querySelectorAll('.cancel-delete');
+ const confirmDelete = document.querySelectorAll('.confirm-delete');
  
- eliminarBtn.addEventListener('click', eliminarOperacion)
+eliminarBtn.forEach( (btn, index) => {
+    btn.addEventListener('click', () => {
+        console.log('Eliminar Operacion')
+
+        deleteContainer[index].classList.add('show');
+    });
+});
+
+cancelDelete.forEach( (btn, index) => {
+    btn.addEventListener('click', () => {
+        deleteContainer[index].classList.remove('show');
+    });
+});
+
+/*************************
+ *  OBTENER OPERACIONES  *
+ *  **********************/
+const bodyDataTable = document.querySelector('main .data-table tbody');
+
+const createHTMLOperation = (date, operation, amount) => {
+    let element = `
+        <tr>
+            <td>
+                <input type="date" name="fecha" id="" value="${date}" class="date">
+                <div class="delete-container">
+                    <p>You want to delete this operation?</p>
+                    <button class="confirm-delete">Delete</button>
+                    <button class="cancel-delete">Cancel</button>
+                </div>
+            </td>
+            <td class="operation">${operation}</td>
+            <td class="amount">$${amount}</td>
+            <td class="editar-operacion"><span class="icon-pencil"></span></td>
+            <td class="eliminar-operacion"><span class="icon-trash"></span></td>
+        </tr>
+    `;
+
+    return element;
+}

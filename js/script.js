@@ -297,6 +297,7 @@ liAgregarEmpresa.addEventListener('click', agregarTarjeta);
   const renderEmpresas = (empresas) => {
      const emptyFooter = ``;
      footer.innerHTML = emptyFooter;
+     listaEmpresas.length = 0
  
      empresas.forEach( (empresa,index) => {
  
