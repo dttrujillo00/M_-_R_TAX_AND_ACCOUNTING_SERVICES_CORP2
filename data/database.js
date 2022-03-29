@@ -45,6 +45,14 @@ async function anno(id,currentYear,business){
 	return poner_anno
 }
 
+// Agregar operacion
+
+ipcMain.handle('agregar_operacion', async (event, date,operation,amount) => {
+	
+	
+	return result; 
+})
+
 
 ipcMain.handle('insertar_fecha', async (event, date) => {
 	
@@ -53,7 +61,7 @@ ipcMain.handle('insertar_fecha', async (event, date) => {
 	const sql ='INSERT INTO date(day, month, year) '+'VALUES('+ day +', '+ month +', '+ year+')';
 
 	const dateResult = await create(field_name,sql,date);
-	return dateResult;
+	return dateResult; 
 })
 
 ipcMain.handle('insertar_campo', async (event, field) => {

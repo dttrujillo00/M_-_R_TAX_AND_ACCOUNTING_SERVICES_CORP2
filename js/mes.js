@@ -70,7 +70,7 @@ const addOperation = () => {
     console.log('Funcion Add operation...');
 }
 
-const validate = (e) => {
+const validate = async(e) => {
     e.preventDefault()
 
     readyToSend = 0
@@ -92,6 +92,9 @@ const validate = (e) => {
          *  FUNCION PARA GUARDAR OPERACION EN LA DB             *
          *  Y LUEGO EJECUTAR LA FUNCION DE OBTENER OPERACIONES  *
          *  *****************************************************/
+
+         await window.ipcRenderer.invoke('agregar_operacion', date,operation,amount);
+         console.log('Operacion agregada con exito');
     }
 }
 
