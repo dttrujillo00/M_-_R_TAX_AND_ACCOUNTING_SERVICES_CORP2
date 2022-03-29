@@ -1,6 +1,7 @@
 /* Archivo exportado a style.css */
 
-main.mes {
+main.mes,
+main.employee {
     max-height: 83vh;
     overflow-y: hidden;
     margin-top: 1rem;

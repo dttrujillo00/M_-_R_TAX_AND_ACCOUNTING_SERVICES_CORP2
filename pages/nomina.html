@@ -5,6 +5,7 @@
     <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
 
     <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/fontello.css">
     <title>M&R Tax and Accounting Service, Corp</title>
 </head>
 <body class="background-opacity">
@@ -60,29 +61,90 @@
         </div>
     </div>
 
-    <main>
-        <table>
-            <thead>
-                <tr>
-                    <th></th>
-                    <th>January</th>
-                    <th>Februar</th>
-                    <th>March</th>
-                    <th>April</th>
-                    <th>May</th>
-                    <th>June</th>
-                    <th>July</th>
-                    <th>August</th>
-                    <th>September</th>
-                    <th>October</th>
-                    <th>November</th>
-                    <th>December</th>
-                    <th>Total</th>
-                </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
+    <main class="employee">
+        <div class="row">
+            <div class="col-8 employee-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Name</th>
+                            <th>Amount</th>
+                            <th>Type</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <input type="date" name="fecha" id="" value="2022-03-26" class="date" disabled>
+                                <div class="delete-container">
+                                    <p>You want to delete this record?</p>
+                                    <button class="confirm-delete">Delete</button>
+                                    <button class="cancel-delete">Cancel</button>
+                                </div>
+                            </td>
+                            <td class="employee-name" title="See details">Monkey D. Luffy</td>
+                            <td>$500</td>
+                            <td>ATM</td>
+                            <td class="editar-operacion"><span class="icon-pencil"></span></td>
+                            <td class="eliminar-operacion"><span class="icon-trash"></span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="date" name="fecha" id="" value="2022-03-26" class="date" disabled>
+                                <div class="delete-container">
+                                    <p>You want to delete this record?</p>
+                                    <button class="confirm-delete">Delete</button>
+                                    <button class="cancel-delete">Cancel</button>
+                                </div>
+                            </td>
+                            <td class="employee-name" title="See details">Monkey D. Luffy</td>
+                            <td>$500</td>
+                            <td>CASH</td>
+                            <td class="editar-operacion"><span class="icon-pencil"></span></td>
+                            <td class="eliminar-operacion"><span class="icon-trash"></span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="date" name="fecha" id="" value="2022-03-26" class="date" disabled>
+                                <div class="delete-container">
+                                    <p>You want to delete this record?</p>
+                                    <button class="confirm-delete">Delete</button>
+                                    <button class="cancel-delete">Cancel</button>
+                                </div>
+                            </td>
+                            <td class="employee-name" title="See details">Monkey D. Luffy</td>
+                            <td>$500</td>
+                            <td>ATM</td>
+                            <td class="editar-operacion"><span class="icon-pencil"></span></td>
+                            <td class="eliminar-operacion"><span class="icon-trash"></span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="date" name="fecha" id="" value="2022-03-26" class="date" disabled>
+                                <div class="delete-container">
+                                    <p>You want to delete this record?</p>
+                                    <button class="confirm-delete">Delete</button>
+                                    <button class="cancel-delete">Cancel</button>
+                                </div>
+                            </td>
+                            <td class="employee-name" title="See details">Roronoa Zoro</td>
+                            <td>$450</td>
+                            <td>ATM</td>
+                            <td class="editar-operacion"><span class="icon-pencil"></span></td>
+                            <td class="eliminar-operacion"><span class="icon-trash"></span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-4 employee-details">
+                <table>
+                </table>
+            </div>
+        </div>
     </main>
 
 

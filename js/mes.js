@@ -152,7 +152,7 @@ const createHTMLOperation = (date, operation, amount) => {
     let element = `
         <tr>
             <td>
-                <input type="date" name="fecha" id="" value="${date}" class="date">
+                <input type="date" name="fecha" id="" value="${date}" class="date" disabled>
                 <div class="delete-container">
                     <p>You want to delete this operation?</p>
                     <button class="confirm-delete">Delete</button>
