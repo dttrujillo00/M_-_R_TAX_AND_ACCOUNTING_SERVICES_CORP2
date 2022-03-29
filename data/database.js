@@ -48,6 +48,8 @@ async function anno(id,currentYear,business){
 // Agregar operacion
 
 ipcMain.handle('agregar_operacion', async (event, date,operation,amount) => {
+	id_fecha = await obtener_id_por_fecha(date);
+	
 	
 	
 	return result; 
@@ -63,6 +65,12 @@ ipcMain.handle('insertar_fecha', async (event, date) => {
 	const dateResult = await create(field_name,sql,date);
 	return dateResult; 
 })
+
+async function obtener_id_por_fecha(date){
+	const {day, month, year} = date.split('-')
+	const  id_fecha = await get('SELECT date_id FROM date WHERE year =' +year+' AND month = '+month+' AND day = '+day);
+	return id_fecha;
+}
 
 ipcMain.handle('insertar_campo', async (event, field) => {
 	

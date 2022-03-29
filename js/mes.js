@@ -56,7 +56,9 @@ const showForm = (date, operation, amount) => {
     inputs[0].value = date;
     inputs[1].value = operation;
     inputs[2].value = amount;
+
     formAgregarOperacion.classList.add('show');
+
 }
 
 const hideForm = () => {
@@ -92,9 +94,9 @@ const validate = async(e) => {
          *  FUNCION PARA GUARDAR OPERACION EN LA DB             *
          *  Y LUEGO EJECUTAR LA FUNCION DE OBTENER OPERACIONES  *
          *  *****************************************************/
-
-         await window.ipcRenderer.invoke('agregar_operacion', date,operation,amount);
-         console.log('Operacion agregada con exito');
+        //  console.log(date.value.split('-'));
+        const result =await window.ipcRenderer.invoke('agregar_operacion', date.value,operation.value,amount.value);
+        console.log('Operacion agregada con exito '+result);
     }
 }
 
