@@ -1,3 +1,28 @@
 .employee-name:hover {
     cursor: pointer;
 }
+
+.select-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.select-container select {
+    padding: .5rem;
+    font-weight: bold;
+    border-radius: 5px;
+    background-color: rgba(90, 84, 74, .3);
+    font-family: 'Raleway';
+}
+
+.select-container select:focus {
+    outline: none;
+}
+
+.select-container select option {
+    padding: .5rem;
+    font-weight: inherit;
+    font-family: inherit;
+    margin-bottom: 1rem;
+}
