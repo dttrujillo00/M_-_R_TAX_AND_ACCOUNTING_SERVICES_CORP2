@@ -11,7 +11,7 @@ ipcMain.handle('insertar_empleado', async (event, employee) => {
 	const { name, business_id} = employee;
 	const sql ='INSERT INTO employee(employee_name, business_id) '+'VALUES('+name+', '+business_id+')';
 
-	const employeeResult = await create(field_name,sql,employee);
+	const employeeResult = await create(field_name,sql);
 	return employeeResult;
 })
 
@@ -21,9 +21,9 @@ ipcMain.handle('insertar_empresa', async (event, business) => {
 	const {name,currentYear} = business;
 	const sql ='INSERT INTO business(business_name) '+'VALUES(\"'+name+'\")';
 
-	const businessResult = await create(field_name,sql,business);
+	const businessResult = await create(field_name,sql);
 
-	IdBusssines = await id(name);
+	IdBusssines = await bussines_id(name);
 	console.log("Este es el anno: "+currentYear);
 	poner_anno =await anno(IdBusssines[0].id,currentYear,business);
 
@@ -31,7 +31,7 @@ ipcMain.handle('insertar_empresa', async (event, business) => {
 	return businessResult;
 })
   
-async function id(name){
+async function bussines_id(name){
 	const  id_empresa = await get('SELECT business_id AS id FROM business WHERE business_name = \"'+name+'\"');
 	return id_empresa;
 }
@@ -40,65 +40,86 @@ async function anno(id,currentYear,business){
 	field_name="business_year"
 	console.log("ESTE ES EL ID: "+id+" ESTE ES EL ANNO: "+currentYear);
 	const sql ='INSERT INTO business_year '+'VALUES('+id+', '+currentYear+')';
-	const poner_anno =await create(field_name,sql,business)
+	const poner_anno =await create(field_name,sql)
 
 	return poner_anno
 }
 
 // Agregar operacion
 
-ipcMain.handle('agregar_operacion', async (event, date,operation,amount,gasto) => {
+ipcMain.handle('agregar_operacion', async (event, date,operation,amount,gasto,business_id) => {
+	
 	id_fecha = await obtener_id_por_fecha(date);
+	id_field = await obtener_id_por_campo(operation);
 
 
+	const account = { 
+		amount: amount, 
+		is_positive: gasto, 
+		field_id: id_field, 
+		business_id: business_id,
+		date_id: id_fecha,
+	} ;
+
+	cuenta =await insertar_cuenta(account);
 	
 	
 	
-	return id_fecha; 
+	return cuenta; 
 })
 
 
-ipcMain.handle('insertar_fecha', async (event, date) => {
+async function insertar_fecha(date){
 	
 	const field_name='date';
-	const {day, month, year} = date;
-	const sql ='INSERT INTO date(day, month, year) '+'VALUES('+ day +', '+ month +', '+ year+')';
+	const [year, month, day] = date.split('-')
+	const sql ='INSERT INTO date(day, month, year) '+'VALUES('+ parseInt(day) +', '+ parseInt(month) +', '+ parseInt(year)+')';
 
-	const dateResult = await create(field_name,sql,date);
+	
+	const dateResult = await create(field_name,sql);
 	return dateResult; 
-})
+}
 
 async function obtener_id_por_fecha(date){
 	const [year, month, day] = date.split('-')
-	const  id_fecha = await get('SELECT date_id FROM date WHERE year = ' +parseInt(year)+' AND month = '+parseInt(month)+' AND day = '+parseInt(day));
-	
+	id_fecha = await get('SELECT date_id FROM date WHERE year = ' +parseInt(year)+' AND month = '+parseInt(month)+' AND day = '+parseInt(day));
+
+	if(id_fecha[0] == undefined){
+		await insertar_fecha(date);
+		id_fecha = await get('SELECT date_id FROM date WHERE year = ' +parseInt(year)+' AND month = '+parseInt(month)+' AND day = '+parseInt(day));
+	}
+
 	return 	id_fecha[0].date_id;
 }
-
-ipcMain.handle('insertar_campo', async (event, field) => {
+async function insertar_campo (field){
 	
 	const field_name='field';
-	const {name} = field;
-	const sql ='INSERT INTO field(field) '+'VALUES('+name+')';
+	const sql ='INSERT INTO field(field) '+'VALUES(\"'+field+'\")';
 
-	const fieldResult = await create(field_name,sql,field);
+	
+	const fieldResult = await create(field_name,sql);
 	return fieldResult;
-})
+}
 
 async function obtener_id_por_campo(operation){
 
-	const  field_id = await get('SELECT date_id FROM date WHERE year = ' +parseInt(year)+' AND month = '+parseInt(month)+' AND day = '+parseInt(day));
-	
+	field_id = await get('SELECT field_id FROM field WHERE field = \"'+operation+'\"');
+
+	if(field_id[0] == undefined){
+		await insertar_campo(operation);
+		field_id = await get('SELECT field_id FROM field WHERE field = \"'+operation+'\"');
+
+	}
 	return field_id[0].field_id;
 }
 
-ipcMain.handle('insertar_cuenta', async (event, account) => {
-	const field_name='field';
-	const { amount, is_positive, field_id, business_id} = account;
-	const sql ='INSERT INTO account(amount, is_positive, field_id, business_id) '+'VALUES('+amount+', '+is_positive+', '+field_id+', '+business_id+')';
-	const accountResult = await create(field_name,sql,account);
+async function insertar_cuenta(account) {
+	const field_name='account';
+	const { amount, is_positive, field_id, business_id, date_id} = account;
+	const sql ='INSERT INTO account(amount, is_positive, field_id, business_id, date_id) '+'VALUES('+amount+', '+is_positive+', '+field_id+', '+business_id+', '+date_id+')';
+	const accountResult = await create(field_name,sql);
 	return accountResult;
-})
+}
 
 //                            Gets
 
@@ -176,7 +197,7 @@ ipcMain.handle('eliminar_empresa', async (event, id) => {
 
 
 // Definiendo las funciones estandar de las consultas sql:
-const create = async (field_name,sql,obj) => {
+const create = async (field_name,sql) => {
 	const conn = getConnection();
 	const result = await conn.query(sql);
 	console.log(result);
@@ -186,8 +207,7 @@ const create = async (field_name,sql,obj) => {
 		body: 'New'+field_name+ 'saved successfully',
 	}).show();
 
-	obj.id = result.insertId;
-	return obj;
+	return result;
 }
 
 async function get(sql) {
@@ -216,7 +236,3 @@ const deleteObj = async (sql) => {
 // 	createProduct,
 // 	getProducts
 // }
-
-
-
-
