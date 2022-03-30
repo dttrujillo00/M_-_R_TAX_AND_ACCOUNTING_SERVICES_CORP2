@@ -47,12 +47,14 @@ async function anno(id,currentYear,business){
 
 // Agregar operacion
 
-ipcMain.handle('agregar_operacion', async (event, date,operation,amount) => {
+ipcMain.handle('agregar_operacion', async (event, date,operation,amount,gasto) => {
 	id_fecha = await obtener_id_por_fecha(date);
+
+
 	
 	
 	
-	return result; 
+	return id_fecha; 
 })
 
 
@@ -67,9 +69,10 @@ ipcMain.handle('insertar_fecha', async (event, date) => {
 })
 
 async function obtener_id_por_fecha(date){
-	const {day, month, year} = date.split('-')
-	const  id_fecha = await get('SELECT date_id FROM date WHERE year =' +year+' AND month = '+month+' AND day = '+day);
-	return id_fecha;
+	const [year, month, day] = date.split('-')
+	const  id_fecha = await get('SELECT date_id FROM date WHERE year = ' +parseInt(year)+' AND month = '+parseInt(month)+' AND day = '+parseInt(day));
+	
+	return 	id_fecha[0].date_id;
 }
 
 ipcMain.handle('insertar_campo', async (event, field) => {
@@ -81,6 +84,13 @@ ipcMain.handle('insertar_campo', async (event, field) => {
 	const fieldResult = await create(field_name,sql,field);
 	return fieldResult;
 })
+
+async function obtener_id_por_campo(operation){
+
+	const  field_id = await get('SELECT date_id FROM date WHERE year = ' +parseInt(year)+' AND month = '+parseInt(month)+' AND day = '+parseInt(day));
+	
+	return field_id[0].field_id;
+}
 
 ipcMain.handle('insertar_cuenta', async (event, account) => {
 	const field_name='field';

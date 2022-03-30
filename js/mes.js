@@ -95,8 +95,9 @@ const validate = async(e) => {
          *  Y LUEGO EJECUTAR LA FUNCION DE OBTENER OPERACIONES  *
          *  *****************************************************/
         //  console.log(date.value.split('-'));
-        const result =await window.ipcRenderer.invoke('agregar_operacion', date.value,operation.value,amount.value);
-        console.log('Operacion agregada con exito '+result);
+        let gasto = true;
+        const result =await window.ipcRenderer.invoke('agregar_operacion', date.value,operation.value,amount.value,gasto);
+        console.log('Operacion agregada con exito ');
     }
 }
 
