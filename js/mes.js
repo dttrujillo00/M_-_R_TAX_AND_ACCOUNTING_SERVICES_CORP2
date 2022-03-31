@@ -94,7 +94,7 @@ const validate = async(e) => {
          *  FUNCION PARA GUARDAR OPERACION EN LA DB             *
          *  Y LUEGO EJECUTAR LA FUNCION DE OBTENER OPERACIONES  *
          *  *****************************************************/
-
+       // Pasar el id de la empresa de una pagina a otra
         let business_id = 0;
         let gasto = true;
         const result =await window.ipcRenderer.invoke('agregar_operacion', date.value,operation.value,amount.value,gasto,business_id);
