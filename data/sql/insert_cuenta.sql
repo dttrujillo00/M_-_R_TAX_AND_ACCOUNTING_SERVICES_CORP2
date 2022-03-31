@@ -1,1 +1,1 @@
-﻿INSERT INTO account(amount, is_positive, field_id, business_id) VALUES(?,?,?,?)
+﻿INSERT INTO account(amount, is_positive, field_id, business_id, date_id) VALUES(?,?,?,?,?)
