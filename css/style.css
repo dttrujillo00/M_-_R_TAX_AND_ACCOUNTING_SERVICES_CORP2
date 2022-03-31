@@ -463,8 +463,11 @@ body.opacity .empresa-name-container {
 .empresa-name-container {
     background-color: rgb(180, 176, 164);
     padding: 1.2rem .8rem;
-    transform: translateX(-10%);
     width: 512px;
+}
+
+.empresa-name-container.translateX {
+    transform: translateX(-10%);
 }
 
 .empresa-name-container:hover {
@@ -535,16 +538,11 @@ main table td input {
 }
 
 .white-line {
-    visibility: hidden;
+    height: 33px;
 }
 
 main table .revenue, .deposits, .operating-expenses, .gross-profit {
     background-color: rgba(155, 153, 151, 0.5);
-}
-
-main table .revenue td:not(:first-child), .operating-expenses td:not(:first-child), .white-line td {
-    border-right: none;
-    border-left: none;
 }
 
 .revenue, .operating-expenses {

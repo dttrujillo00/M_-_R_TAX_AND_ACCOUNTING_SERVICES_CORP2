@@ -2,27 +2,56 @@
     cursor: pointer;
 }
 
-.select-container {
+.buttons-group {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
 }
 
-.select-container select {
-    padding: .5rem;
+.buttons-group select {
+    padding: .4rem;
     font-weight: bold;
     border-radius: 5px;
     background-color: rgba(90, 84, 74, .3);
     font-family: 'Raleway';
+    color: rgba(0, 0, 0, .8);
+    font-size: 1rem;
+    border: none;
+    box-shadow: 2px 2px 5px var(--verdeColor);
+    margin-left: 1rem;
 }
 
-.select-container select:focus {
+.buttons-group select:focus {
     outline: none;
 }
 
-.select-container select option {
-    padding: .5rem;
+.buttons-group select:hover {
+    cursor: pointer;
+    box-shadow: 2px 2px 10px var(--verdeColor);
+}
+
+.buttons-group select option {
     font-weight: inherit;
     font-family: inherit;
-    margin-bottom: 1rem;
+    border: none;
+    border-radius: 5px;
+}
+
+.employee-details tr td {
+    width: 50%;
+}
+
+.head-tr {
+    position: relative;
+}
+
+.export-icon {
+    position: absolute;
+    top: 50%;
+    right: 1rem;
+    transform: translateY(-50%);
+}
+
+.export-icon:hover {
+    cursor: pointer;
 }
