@@ -1,6 +1,7 @@
 /* Archivo exportado a style.css */
 
-main.mes {
+main.mes,
+main.employee {
     max-height: 83vh;
     overflow-y: hidden;
     margin-top: 1rem;
@@ -118,6 +119,7 @@ main .row .col-4 {
 
 main .row .col-4 table tbody tr td:last-child {
     font-weight: 600;
+    text-align: right;
 }
 
 /**************************
@@ -172,13 +174,31 @@ main .row .col-4 table tbody tr td:last-child {
     font-family: 'Poppins';
 }
 
+.form-agregar-operacion form .form-group select {
+    width: 100%;
+    padding-left: .3rem;
+    border: none;
+    background-color: transparent;
+    box-shadow: 0 0 3px black;
+    border-radius: 5px;
+    transition: .3s all;
+    font-family: 'Poppins';
+}
+
 .form-agregar-operacion form .form-group input.invalid-data,
-.form-agregar-operacion form .form-group input.invalid-data:focus {
+.form-agregar-operacion form .form-group input.invalid-data:focus,
+.form-agregar-operacion form .form-group select.invalid-data,
+.form-agregar-operacion form .form-group select.invalid-data:focus {
     box-shadow: 0 0 7px red;
 }
 
-.form-agregar-operacion form .form-group input:focus {
+.form-agregar-operacion form .form-group input:focus,
+.form-agregar-operacion form .form-group select:focus {
     box-shadow: 0 0 6px black;
+}
+
+.form-agregar-operacion form .form-group select:focus {
+    outline: none;
 }
 
 .form-agregar-operacion form .submit-group {
@@ -201,7 +221,7 @@ main .row .col-4 table tbody tr td:last-child {
 
 .add-operation {
     box-shadow: 2px 2px 5px var(--verdeColor);
-    padding: .5rem 1.2rem;
+    padding: .5rem .9rem;
     border-radius: 5px;
     font-size: 1rem;
     background-color: rgba(90, 84, 74, .3);
