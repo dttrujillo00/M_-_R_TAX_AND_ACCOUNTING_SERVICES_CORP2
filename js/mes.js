@@ -98,8 +98,12 @@ const validate = async(e) => {
          *  *****************************************************/
        // Pasar el id de la empresa de una pagina a otra
         let business_id = 0;
-        let gasto = true;
-        const result =await window.ipcRenderer.invoke('agregar_operacion', date.value,operation.value,amount.value,gasto,business_id);
+        let selector  = document.getElementById('type');
+        let is_positive;
+        console.log(selector.options[selector.selectedIndex].value);
+
+        is_positive = selector.options[selector.selectedIndex].value;
+        const result =await window.ipcRenderer.invoke('agregar_operacion', date.value,operation.value,amount.value,is_positive,business_id);
         console.log('Operacion agregada con exito '+result);
     }
 }
@@ -198,6 +202,16 @@ const createHTMLOperation = (date, operation, amount) => {
     return element;
 }
 
+const renderOperaciones = (Operaciones) => {
+    const emptybodyDataTable  = ``;
+    bodyDataTable .innerHTML = emptybodyDataTable ;
+    Operaciones.forEach( (operacion,index) => {
+        bodyDataTable.innerHTML += createHTMLOperation(operacion.date_id, operacion.field_id,operacion.amount);
+    });
+}
+
+
+
 const createHTMLTotalOperation = (operation, total) => {
     let element = `
         <tr>
@@ -208,3 +222,20 @@ const createHTMLTotalOperation = (operation, total) => {
 
     return element;
 }
+
+const getOperaciones =async () => {
+
+    const year = 2022
+    const name = "DamaSoft"
+    await window.ipcRenderer.invoke('Obtener_campos_empresa_anno',name, year).then((result) => {
+        console.log("Se obtuvieron las operaciones del año "+year);
+        console.log(result);
+        renderOperaciones(result);
+    })
+}
+
+
+(async function init() {
+    console.log("Inicio y pido los datos");
+	await getOperaciones();
+})();
