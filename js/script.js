@@ -68,9 +68,10 @@ liArchivo.addEventListener('click', showArchivo);
  * MANEJADOR DEL POSICIONAMIENTO DE LAS TARJETAS DE EMPRESA *
  *  *********************************************************/
 
-const navegacionEmpresa = (event) => {
-    window.location.pathname = '/pages/empresa.html';
-}
+// const navegacionEmpresa = (event) => {
+    
+//     window.location.pathname = '/pages/empresa.html';
+// }
 
 const posicionarTarjetasEmpresas = () => {
     const empresas = document.querySelectorAll('.empresa');
@@ -87,7 +88,9 @@ const posicionarTarjetasEmpresas = () => {
     empresas.forEach((empresa) => {
         empresa.style.zIndex = index;
         index--;
-        empresa.addEventListener('click', navegacionEmpresa);
+        empresa.addEventListener('click', (e)=>{
+            window.ipcRenderer.send('pasar-id-pagina-mes',empresa.id)
+        });
         empresa.addEventListener('contextmenu', (e) => {
             empresas.forEach( emp => {
                 emp.childNodes[1].classList.remove('show')

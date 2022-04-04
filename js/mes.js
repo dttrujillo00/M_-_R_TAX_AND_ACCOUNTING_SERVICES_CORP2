@@ -138,14 +138,22 @@ editarBtn.forEach((btn, index) => {
  
 eliminarBtn.forEach( (btn, index) => {
     btn.addEventListener('click', () => {
-        console.log('Eliminar Operacion')
-
+        console.log('Eliminar Operacion');
+        
         deleteContainer[index].classList.add('show');
     });
 });
 
 cancelDelete.forEach( (btn, index) => {
     btn.addEventListener('click', () => {
+        deleteContainer[index].classList.remove('show');
+    });
+});
+
+confirmDelete.forEach( (btn, index) => {
+    btn.addEventListener('click', async() => {
+        const result =await window.ipcRenderer.invoke('eliminar_operacion',2);
+        console.log('Operacion eliminada con exito '+result);
         deleteContainer[index].classList.remove('show');
     });
 });

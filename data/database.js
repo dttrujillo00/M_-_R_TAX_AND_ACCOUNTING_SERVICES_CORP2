@@ -180,7 +180,7 @@ ipcMain.handle('editar_nombre_empresa', async (event, business) => {
 
 //                           Delete
 
-ipcMain.handle('eliminar_campo', async (event, id) => {
+ipcMain.handle('eliminar_operacion', async (event, id) => {
 	const sql='DELETE FROM account WHERE account_id = '+id
 	return await deleteObj(sql);
 })

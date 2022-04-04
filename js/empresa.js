@@ -1,3 +1,6 @@
+
+
+
 /**********************
  * MANEJADOR DEL MENU *
  *  *******************/
@@ -83,4 +86,8 @@ const posicionarTarjetasMeses = () => {
 
 document.addEventListener('DOMContentLoaded', e => {
     posicionarTarjetasMeses();
+    // window.ipcRenderer.on("enviar-id",function (e, id) { console.log(id)});
 })
+
+
+
