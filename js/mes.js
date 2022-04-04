@@ -51,6 +51,7 @@ const inputs = formAgregarOperacion.querySelectorAll('.form-group input');
 let readyToSend;
 
 const showForm = (date, operation, amount) => {
+    body.classList.add('opacity');
     formAgregarOperacion.querySelector('form').reset();
     inputs.forEach( input => input.classList.remove('invalid-data'))
     inputs[0].value = date;
@@ -62,6 +63,7 @@ const showForm = (date, operation, amount) => {
 }
 
 const hideForm = () => {
+    body.classList.remove('opacity');
     formAgregarOperacion.classList.remove('show');
 }
 
@@ -104,7 +106,7 @@ const validate = async(e) => {
 
 addOperationBtn.addEventListener('click', addOperation);
 cancelBtn.addEventListener('click', hideForm);
-saveBtn.addEventListener('click', validate)
+saveBtn.addEventListener('click', validate);
 
 /**********************
  *  EDITAR OPERACION  *
@@ -121,7 +123,7 @@ editarBtn.forEach((btn, index) => {
         console.log(date);
         let operation = rowToEdit.querySelector('.operation').innerText;
         console.log(operation);
-        let amount = rowToEdit.querySelector('.amount').innerHTML;
+        let amount = rowToEdit.querySelector('.amount').innerText;
         console.log(amount.slice(1));
 
         showForm(date, operation, amount.slice(1));
@@ -158,16 +160,28 @@ confirmDelete.forEach( (btn, index) => {
     });
 });
 
+
+/************************
+ *      CAMBIAR MES     *
+ *  *********************/
+ const meses = document.querySelector('select.meses');
+
+ meses.addEventListener('change', e => {
+     console.log('Fetching the month number: ' + e.target.value);
+ });
+
+
 /*************************
  *  OBTENER OPERACIONES  *
  *  **********************/
 const bodyDataTable = document.querySelector('main .data-table tbody');
+const bodyTotalTable = document.querySelector('.total-table table tbody');
 
 const createHTMLOperation = (date, operation, amount) => {
     let element = `
         <tr>
             <td>
-                <input type="date" name="fecha" id="" value="${date}" class="date">
+                <input type="date" name="fecha" id="" value="${date}" class="date" disabled>
                 <div class="delete-container">
                     <p>You want to delete this operation?</p>
                     <button class="confirm-delete">Delete</button>
@@ -178,6 +192,17 @@ const createHTMLOperation = (date, operation, amount) => {
             <td class="amount">$${amount}</td>
             <td class="editar-operacion"><span class="icon-pencil"></span></td>
             <td class="eliminar-operacion"><span class="icon-trash"></span></td>
+        </tr>
+    `;
+
+    return element;
+}
+
+const createHTMLTotalOperation = (operation, total) => {
+    let element = `
+        <tr>
+            <td>${operation}</td>
+            <td>$${total}</td>
         </tr>
     `;
 
