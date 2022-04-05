@@ -184,6 +184,14 @@ ipcMain.handle('editar_nombre_empresa', async (event, business) => {
 	await edit(sql);
 })
 
+ipcMain.handle('editar_cuenta', async (event, account) => {
+	
+
+	const { amount, account_id} = account;
+	const sql ='UPDATE account SET amount = '+amount+' WHERE account_id = '+account_id
+	await edit(sql);
+})
+
 //                           Delete
 
 ipcMain.handle('eliminar_operacion', async (event, id) => {
