@@ -1,3 +1,16 @@
+/*******************************************************
+ * Variables Indispensables para las consultas a la DB *
+ * *****************************************************/
+ let business_id = 0;
+ let year  = 2022;
+ let month ;
+ let name = "DamasSoft";
+
+
+
+
+
+
 /**********************
  * MANEJADOR DEL MENU *
  *  *******************/
@@ -96,8 +109,7 @@ const validate = async(e) => {
          *  FUNCION PARA GUARDAR OPERACION EN LA DB             *
          *  Y LUEGO EJECUTAR LA FUNCION DE OBTENER OPERACIONES  *
          *  *****************************************************/
-       // Pasar el id de la empresa de una pagina a otra
-        let business_id = 0;
+
         let selector  = document.getElementById('type');
         let is_positive;
         console.log(selector.options[selector.selectedIndex].value);
@@ -158,7 +170,7 @@ cancelDelete.forEach( (btn, index) => {
 
 confirmDelete.forEach( (btn, index) => {
     btn.addEventListener('click', async() => {
-        const result =await window.ipcRenderer.invoke('eliminar_operacion',2);
+        const result =await window.ipcRenderer.invoke('eliminar_operacion',index);
         console.log('Operacion eliminada con exito '+result);
         deleteContainer[index].classList.remove('show');
     });
@@ -224,9 +236,6 @@ const createHTMLTotalOperation = (operation, total) => {
 }
 
 const getOperaciones =async () => {
-
-    const year = 2022
-    const name = "DamaSoft"
     await window.ipcRenderer.invoke('Obtener_campos_empresa_anno',name, year).then((result) => {
         console.log("Se obtuvieron las operaciones del año "+year);
         console.log(result);
