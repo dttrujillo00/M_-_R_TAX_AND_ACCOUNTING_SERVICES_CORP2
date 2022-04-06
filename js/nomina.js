@@ -51,7 +51,7 @@ empresaPage.addEventListener('click', retrocederPage);
  const select = formAgregarOperacion.querySelector('.form-group select');
  let readyToSend;
 
- const showForm = (date, name, amount, type) => {
+ const showForm = (date, name, amount, type, edit) => {
     body.classList.add('opacity');
     formAgregarOperacion.querySelector('form').reset();
     inputs.forEach( input => input.classList.remove('invalid-data'))
@@ -66,6 +66,13 @@ empresaPage.addEventListener('click', retrocederPage);
     } else {
         select.value = 2
     }
+
+    if (edit) {
+        formAgregarOperacion.querySelector('.btn-save').classList.add('edit');
+    } else {
+        formAgregarOperacion.querySelector('.btn-save').classList.remove('edit');
+    }
+
     formAgregarOperacion.classList.add('show');
 }
 
@@ -76,7 +83,7 @@ const hideForm = () => {
 
 const addOperation = () => {
     hideMenu();
-    showForm('', '', '', '');
+    showForm('', '', '', '', false);
     formAgregarOperacion.querySelector('#date').focus();
     console.log('Funcion Add operation...');
 }
@@ -112,6 +119,11 @@ const validate = (e) => {
          *  FUNCION PARA GUARDAR OPERACION EN LA DB             *
          *  Y LUEGO EJECUTAR LA FUNCION DE OBTENER OPERACIONES  *
          *  *****************************************************/
+        if (e.target.classList.contains('edit')) {
+            console.log('Editar');
+        } else {
+            console.log('Agregar');
+        }
     }
 }
 
@@ -140,7 +152,7 @@ editarBtn.forEach((btn, index) => {
         let type = rowToEdit.querySelector('.type').innerText;
         console.log(type);
 
-        showForm(date, name, amount.slice(1), type);
+        showForm(date, name, amount.slice(1), type, true);
     });
 });
 
