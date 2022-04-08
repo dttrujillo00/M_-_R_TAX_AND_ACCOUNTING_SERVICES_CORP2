@@ -1,10 +1,10 @@
 /*******************************************************
  * Variables Indispensables para las consultas a la DB *
  * *****************************************************/
- let business_id = 0;
+ let business_id = 76;
  let year  = 2022;
- let month ;
- let name = "DamasSoft";
+ let month = "1" ;
+ let bussines = "DamasSoft";
 
 
 
@@ -134,6 +134,7 @@ const validate = async(e) => {
             is_positive = selector.options[selector.selectedIndex].value;
             const result =await window.ipcRenderer.invoke('agregar_operacion', date.value,operation.value,amount.value,is_positive,business_id);
             console.log('Operacion agregada con exito '+result);
+            await getOperaciones();
         }
 
     }
@@ -248,7 +249,17 @@ const renderOperaciones = (Operaciones) => {
     const emptybodyDataTable  = ``;
     bodyDataTable .innerHTML = emptybodyDataTable ;
     Operaciones.forEach( (operacion,index) => {
-        bodyDataTable.innerHTML += createHTMLOperation(operacion.date_id, operacion.field_id,operacion.amount);
+        let mes= operacion.month;
+        let day= operacion.day;
+        if (operacion.month< 10){
+             mes= '0'+operacion.month;
+        }
+        if (operacion.day< 10){
+             day= '0'+operacion.day;
+        }
+        
+        let date = operacion.year+'-'+mes+'-'+day
+        bodyDataTable.innerHTML += createHTMLOperation(date, operacion.field,operacion.amount);
     });
 }
 
@@ -266,7 +277,7 @@ const createHTMLTotalOperation = (operation, total) => {
 }
 
 const getOperaciones =async () => {
-    await window.ipcRenderer.invoke('Obtener_campos_empresa_anno',name, year).then((result) => {
+    await window.ipcRenderer.invoke('obtener_cuentas_por_anno',bussines,month, year).then((result) => {
         console.log("Se obtuvieron las operaciones del año "+year);
         console.log(result);
         renderOperaciones(result);
@@ -276,5 +287,5 @@ const getOperaciones =async () => {
 
 (async function init() {
     console.log("Inicio y pido los datos");
-	// await getOperaciones();
+	await getOperaciones();
 })();

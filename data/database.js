@@ -123,8 +123,8 @@ async function insertar_cuenta(account) {
 
 //                           Gets
 
-ipcMain.handle('obtener_cuentas_por_anno', async (event, name ,year) => { 
-	const sql ='SELECT * FROM account WHERE  '
+ipcMain.handle('obtener_cuentas_por_anno', async (event, name ,month,year) => { 
+	const sql ='SELECT account_id, amount, is_positive, f.field_id, field, b.business_id, business_name, year, month, day FROM account a LEFT JOIN date d ON a.date_id = d.date_id LEFT JOIN business b ON a.business_id = b.business_id LEFT JOIN field f ON a.field_id = f.field_id WHERE b.business_name = \"'+name+'\" AND d.year = '+year+' AND d.month = '+month
 	const fields = await get(sql);
 	return fields;
 })

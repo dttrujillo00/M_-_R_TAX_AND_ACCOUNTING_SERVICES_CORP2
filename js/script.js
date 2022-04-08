@@ -68,10 +68,10 @@ liArchivo.addEventListener('click', showArchivo);
  * MANEJADOR DEL POSICIONAMIENTO DE LAS TARJETAS DE EMPRESA *
  *  *********************************************************/
 
-// const navegacionEmpresa = (event) => {
+const navegacionEmpresa = (event) => {
     
-//     window.location.pathname = '/pages/empresa.html';
-// }
+    window.location.pathname = '/pages/empresa.html';
+}
 
 const posicionarTarjetasEmpresas = () => {
     const empresas = document.querySelectorAll('.empresa');
