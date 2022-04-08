@@ -1,4 +1,5 @@
 @import url(./mes.css);
+@import url(./nomina.css);
 
 *, *:before, *:after {
     margin: 0;
@@ -24,6 +25,19 @@
 :root {
     --bgColor: rgb(236, 226, 214);
     --verdeColor: rgb(92, 104, 92);
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
 }
 
 body{
@@ -215,6 +229,7 @@ transform: translateX(0);
     transition: all .2s;
     transform: scale(0);
     transform-origin: top left;
+    overflow-y: scroll;
 }
 
 .archivo-content.active {
@@ -462,8 +477,11 @@ body.opacity .empresa-name-container {
 .empresa-name-container {
     background-color: rgb(180, 176, 164);
     padding: 1.2rem .8rem;
-    transform: translateX(-10%);
     width: 512px;
+}
+
+.empresa-name-container.translateX {
+    transform: translateX(-10%);
 }
 
 .empresa-name-container:hover {
@@ -534,16 +552,11 @@ main table td input {
 }
 
 .white-line {
-    visibility: hidden;
+    height: 33px;
 }
 
 main table .revenue, .deposits, .operating-expenses, .gross-profit {
     background-color: rgba(155, 153, 151, 0.5);
-}
-
-main table .revenue td:not(:first-child), .operating-expenses td:not(:first-child), .white-line td {
-    border-right: none;
-    border-left: none;
 }
 
 .revenue, .operating-expenses {

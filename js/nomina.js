@@ -40,165 +40,219 @@ secondIconMenu.addEventListener('click', hideMenu);
 closeMenuElement.addEventListener('click', hideMenu);
 empresaPage.addEventListener('click', retrocederPage);
 
-/*************************
- * MANEJADOR DE LA TABLA *
- *  **********************/
-const bodyTable = document.querySelector('tbody');
-let empleados;
+/***********************
+ *  AGREGAR OPERACION  *
+ *  ********************/
+ const addOperationBtn = document.querySelector('.add-operation');
+ const formAgregarOperacion = document.querySelector('.form-agregar-operacion');
+ const cancelBtn = document.querySelector('.submit-group .btn-cancel');
+ const saveBtn = document.querySelector('.submit-group .btn-save');
+ const inputs = formAgregarOperacion.querySelectorAll('.form-group input');
+ const select = formAgregarOperacion.querySelector('.form-group select');
+ let readyToSend;
 
-let defaultEmployee = {
-    name: ''
+ const showForm = (date, name, amount, type, edit) => {
+    body.classList.add('opacity');
+    formAgregarOperacion.querySelector('form').reset();
+    inputs.forEach( input => input.classList.remove('invalid-data'))
+    inputs[0].value = date;
+    inputs[1].value = name;
+    inputs[2].value = amount;
+
+    if(type === 'ATM'){
+        select.value = 0;
+    } else if(type === 'CASH') {
+        select.value = 1;
+    } else {
+        select.value = 2
+    }
+
+    if (edit) {
+        formAgregarOperacion.querySelector('.btn-save').classList.add('edit');
+    } else {
+        formAgregarOperacion.querySelector('.btn-save').classList.remove('edit');
+    }
+
+    formAgregarOperacion.classList.add('show');
 }
 
+const hideForm = () => {
+    body.classList.remove('opacity');
+    formAgregarOperacion.classList.remove('show');
+}
 
- const htmlEmployees = (employee) => {
-     console.log(employee.name);
-    let newEmployee = `
-    <tr class="nombre revenue">
-        <td>
-            <img src="../icons/delete.png" class="icon-delete">
-            <input type="text" value="${employee.name}" ${employee.name === ''? 'autofocus':'id='}>
-        </td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
+const addOperation = () => {
+    hideMenu();
+    showForm('', '', '', '', false);
+    formAgregarOperacion.querySelector('#date').focus();
+    console.log('Funcion Add operation...');
+}
+
+const validate = (e) => {
+    e.preventDefault()
+
+    readyToSend = 0
+
+    if(select.value === '') {
+        select.classList.add('invalid-data');
+        select.focus();
+    } else {
+        select.classList.remove('invalid-data');
+        readyToSend++;
+    }
+
+    for (let index = inputs.length - 1; index >= 0; index--) {
+        if(inputs[index].value === '') {
+            inputs[index].classList.add('invalid-data');
+            inputs[index].focus();
+        } else {
+            inputs[index].classList.remove('invalid-data');
+            readyToSend++;
+        }
+        
+    }
+
+    if(readyToSend === inputs.length + 1) {
+        hideForm();
+        console.log('Saving Data...');
+        /********************************************************
+         *  FUNCION PARA GUARDAR OPERACION EN LA DB             *
+         *  Y LUEGO EJECUTAR LA FUNCION DE OBTENER OPERACIONES  *
+         *  *****************************************************/
+        if (e.target.classList.contains('edit')) {
+            console.log('Editar');
+        } else {
+            console.log('Agregar');
+        }
+    }
+}
+
+addOperationBtn.addEventListener('click', addOperation);
+cancelBtn.addEventListener('click', hideForm);
+saveBtn.addEventListener('click', validate);
+
+/**********************
+ *  EDITAR OPERACION  *
+ *  *******************/
+const editarBtn = document.querySelectorAll('.editar-operacion');
+const operationList = document.querySelectorAll('.employee-table tbody tr');
+
+editarBtn.forEach((btn, index) => {
+    btn.addEventListener('click', () => {
+        console.log('Editar Operacion ' + index)
+        
+        let rowToEdit = operationList[index];
+        console.log(rowToEdit);
+        let date = rowToEdit.querySelector('.date').value;
+        console.log(date);
+        let name = rowToEdit.querySelector('.employee-name').innerText;
+        console.log(name);
+        let amount = rowToEdit.querySelector('.amount').innerText;
+        console.log(amount.slice(1));
+        let type = rowToEdit.querySelector('.type').innerText;
+        console.log(type);
+
+        showForm(date, name, amount.slice(1), type, true);
+    });
+});
+
+/************************
+ *  ELIMINAR OPERACION  *
+ *  *********************/
+const eliminarBtn = document.querySelectorAll('.eliminar-operacion');
+const deleteContainer = document.querySelectorAll('.delete-container');
+const cancelDelete = document.querySelectorAll('.cancel-delete');
+const confirmDelete = document.querySelectorAll('.confirm-delete');
+
+eliminarBtn.forEach( (btn, index) => {
+    btn.addEventListener('click', () => {
+        console.log('Eliminar Operacion')
+
+        deleteContainer[index].classList.add('show');
+    });
+});
+
+cancelDelete.forEach( (btn, index) => {
+    btn.addEventListener('click', () => {
+        deleteContainer[index].classList.remove('show');
+    });
+});
+
+/************************
+ *      CAMBIAR MES     *
+ *  *********************/
+const meses = document.querySelector('select.meses');
+
+meses.addEventListener('change', e => {
+    console.log('Fetching the month number: ' + e.target.value);
+});
+
+/************************
+ *  EXPORT EMPLOYEE     *
+ *  *********************/
+const btnExport = document.querySelectorAll('.export-icon');
+
+btnExport.forEach( btn => {
+    btn.addEventListener('click', e => {
+        console.log('Exporting ' + e.target.id);
+    })
+})
+
+/*************************
+ *  OBTENER OPERACIONES  *
+ *  **********************/
+const bodyEmployeeTable = document.querySelector('.employee-table table tbody');
+const bodyEmployeeDetail = document.querySelector('.employee-details table tbody')
+
+const createHTMLOperation = (date, name, amount, type) => {
+    let typeConverted;
+    if(type === 0){
+        typeConverted = 'ATM';
+    } else if(type === 1) {
+        typeConverted = 'CASH';
+    } else {
+        typeConverted = 'TRANSF'
+    }
+
+    let element = `
+        <tr>
+            <td>
+                <input type="date" name="fecha" id="date" value="${date}" class="date" disabled>
+                <div class="delete-container">
+                    <p>You want to delete this record?</p>
+                    <button class="confirm-delete">Delete</button>
+                    <button class="cancel-delete">Cancel</button>
+                </div>
+            </td>
+            <td class="employee-name" title="See details">${name}</td>
+            <td class="amount">$${amount}</td>
+            <td class="type">${typeConverted}</td>
+            <td class="editar-operacion"><span class="icon-pencil"></span></td>
+            <td class="eliminar-operacion"><span class="icon-trash"></span></td>
+        </tr>
+    `;
+
+    return element;
+}
+
+const createHTMLEmployeeDetail = (name, atm, cash, transf) => {
+    let element = `
+    <tr>
+        <td colspan="2" style="text-align: center;">${name}<img src="../icons/export.png" title="Export" alt="Export-icon" class="export-icon"></td>
     </tr>
-     <tr class="amount">
-        <td>Amount</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
+    <tr>
+        <td>Total ATM</td>
+        <td>$${atm}</td>
     </tr>
-    <tr class="type">
-        <td>Type</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-         <td></td>
-         <td></td>
-         <td></td>
-         <td></td>
+    <tr>
+        <td>Total CASH</td>
+        <td>$${cash}</td>
+    </tr>
+    <tr>
+        <td>Total TRANSF</td>
+        <td>$${transf}</td>
      </tr>
     `;
 
-    return newEmployee;
- }
-
-///// TRAER EMPLEADOS /////
-const renderData = (data) => {
-    data.empleados.forEach(empleado => {
-        bodyTable.innerHTML += htmlEmployees(empleado);
-    });
+    return element;
 }
-
-const traerEmpleados = () => {
-    fetch('../empleados.json')
-    .then(res => res.json())
-    .then(data => {
-        empleados = data;
-        renderData(data);
-        manejadorModificarEmpleado();
-    })
-}
-
-
-///// CREAR EMPLEADO NUEVO /////
-const addEmployeeBtn = document.querySelector('.add-employee');
-
-const addEmployee = () => {
-    hideMenu();
-    bodyTable.innerHTML += htmlEmployees(defaultEmployee);
-
-}
-
-///// EDITAR EMPLEADOS /////
-
-const manejadorModificarEmpleado = () => {
-    const modifyBtn = document.querySelector('.modify-employee');
-    const deleteIcons = document.querySelectorAll('main table tr.nombre td img');
-    const checkIcon = document.querySelector('.check');
-    
-    console.log(deleteIcons);
-
-    const changeIntoModify = () => {
-        hideMenu();
-        checkIcon.style.visibility = 'visible';
-    
-        deleteIcons.forEach(icon => {
-            icon.style.visibility = 'visible';
-            icon.addEventListener('click', eliminarEmpleado);
-        })
-    }
-
-    const changeOutModify = () => {
-        checkIcon.style.visibility = 'hidden';
-    
-        deleteIcons.forEach(icon => {
-            icon.style.visibility = 'hidden';
-        })
-    }
-
-    modifyBtn.addEventListener('click', changeIntoModify);
-    checkIcon.addEventListener('click', changeOutModify);
-}
-
-/*****************************************
- * MANEJADOR PARA ELIMINAR LOS EMPLEADOS *
- *  **************************************/
- const modal = document.querySelector('.modal');
- const btnAceptar = document.querySelector('.btn-aceptar');
- const btnCancelar = document.querySelector('.btn-cancelar');
- 
- const showModal = nombre => {
-     modal.children[1].innerText = nombre;
-     modal.classList.add('active');
- }
- 
- const hideModal = () => {
-     modal.classList.remove('active');
- }
- 
- btnAceptar.addEventListener('click', hideModal);
- btnCancelar.addEventListener('click', hideModal);
-
-//  *************************************
-
-// FUNCION ELIMINAR EMPRESA
-const eliminarEmpleado = (e) => {
-    const nombre = e.target.nextSibling.nextSibling.value;
-    // const id = e.target.parentElement.id;
-    // console.log(e.target.nextSibling.nextSibling.value);
-    showModal(nombre);
-}
-// ***********************************
-
-
-addEmployeeBtn.addEventListener('click', addEmployee);
-
-traerEmpleados();

@@ -1,3 +1,6 @@
+
+
+
 /**********************
  * MANEJADOR DEL MENU *
  *  *******************/
@@ -83,4 +86,11 @@ const posicionarTarjetasMeses = () => {
 
 document.addEventListener('DOMContentLoaded', e => {
     posicionarTarjetasMeses();
+    console.log("Estoy en cargando la pagina empresa");
+    window.ipcRenderer.on("enviar-id",(e,id)=>{
+        console.log(id);
+    });
 })
+
+
+

@@ -5,17 +5,39 @@
     <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
 
     <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/fontello.css">
     <title>M&R Tax and Accounting Service, Corp</title>
 </head>
 <body class="background-opacity">
     <img src="../icons/logo.png" alt="Logo" class="logo">
-    <div class="modal">
-        <h3>Delete permanently?</h3>
-        <h2></h2>
-        <div class="botones">
-            <button class="btn-aceptar">OK</button>
-            <button class="btn-cancelar">Cancel</button>
-        </div>
+    <div class="form-agregar-operacion">
+        <form>
+            <div class="form-group">
+                <label for="date">Date:</label>
+                <input type="date" name="date" id="date">
+            </div>
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" name="name" id="name">
+            </div>
+            <div class="form-group">
+                <label for="amount">Amount:</label>
+                <input type="number" name="amount" id="amount" min="0">
+            </div>
+            <div class="form-group">
+                <label for="type">Type:</label>
+                <select name="type" id="type">
+                    <option value="0">ATM</option>
+                    <option value="1">CASH</option>
+                    <option value="2">TRANSF</option>
+                </select>
+            </div>
+
+            <div class="submit-group">
+                <input type="submit" value="Save" class="btn-save">
+                <input type="button" value="Cancel" class="btn-cancel">
+            </div>
+        </form>
     </div>
     <header class="site-header">
         <div class="menu-and-year">
@@ -26,21 +48,29 @@
         <div class="empresa-name-container">
             <h1>PAYROLL</h1>
         </div>
-        <button class="check"><img src="../icons/cruz.png" alt=""></button>
+        <div class="buttons-group">
+            <button class="add-operation">Add operation</button>
+            <select name="meses" class="meses">
+                <option value="0">January</option>
+                <option value="1">February</option>
+                <option value="2">March</option>
+                <option value="3">April</option>
+                <option value="4">May</option>
+                <option value="5">June</option>
+                <option value="6">July</option>
+                <option value="7">August</option>
+                <option value="8">September</option>
+                <option value="9">October</option>
+                <option value="10">November</option>
+                <option value="11">December</option>
+            </select>
+        </div>
     </header>
 
     <div class="menu">
         <img src="../icons/menu.png" alt="">
         <div class="menu-content">
             <ul>
-                <li class="modify-employee">
-                    <p>Modify</p>
-                    <img src="../icons/lapiz.png" alt="">
-                </li>
-                <li class="add-employee">
-                    <p>Add Employee</p>
-                    <img src="../icons/agregarElemento.png" alt="">
-                </li>
                 <li class="empresa-page">
                     <p>Enterprise Page</p>
                     <img src="../icons/retroceder.png" alt="">
@@ -60,29 +90,122 @@
         </div>
     </div>
 
-    <main>
-        <table>
-            <thead>
-                <tr>
-                    <th></th>
-                    <th>January</th>
-                    <th>Februar</th>
-                    <th>March</th>
-                    <th>April</th>
-                    <th>May</th>
-                    <th>June</th>
-                    <th>July</th>
-                    <th>August</th>
-                    <th>September</th>
-                    <th>October</th>
-                    <th>November</th>
-                    <th>December</th>
-                    <th>Total</th>
-                </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
+    <main class="employee">
+        <div class="row">
+            <div class="col-8 employee-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Name</th>
+                            <th>Amount</th>
+                            <th>Type</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <input type="date" name="fecha" id="date" value="2022-03-26" class="date" disabled>
+                                <div class="delete-container">
+                                    <p>You want to delete this record?</p>
+                                    <button class="confirm-delete">Delete</button>
+                                    <button class="cancel-delete">Cancel</button>
+                                </div>
+                            </td>
+                            <td class="employee-name" title="See details">Monkey D. Luffy</td>
+                            <td class="amount">$500</td>
+                            <td class="type">ATM</td>
+                            <td class="editar-operacion"><span class="icon-pencil"></span></td>
+                            <td class="eliminar-operacion"><span class="icon-trash"></span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="date" name="fecha" id="date" value="2022-03-26" class="date" disabled>
+                                <div class="delete-container">
+                                    <p>You want to delete this record?</p>
+                                    <button class="confirm-delete">Delete</button>
+                                    <button class="cancel-delete">Cancel</button>
+                                </div>
+                            </td>
+                            <td class="employee-name" title="See details">Monkey D. Luffy</td>
+                            <td class="amount">$500</td>
+                            <td class="type">CASH</td>
+                            <td class="editar-operacion"><span class="icon-pencil"></span></td>
+                            <td class="eliminar-operacion"><span class="icon-trash"></span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="date" name="fecha" id="date" value="2022-03-26" class="date" disabled>
+                                <div class="delete-container">
+                                    <p>You want to delete this record?</p>
+                                    <button class="confirm-delete">Delete</button>
+                                    <button class="cancel-delete">Cancel</button>
+                                </div>
+                            </td>
+                            <td class="employee-name" title="See details">Monkey D. Luffy</td>
+                            <td class="amount">$500</td>
+                            <td class="type">ATM</td>
+                            <td class="editar-operacion"><span class="icon-pencil"></span></td>
+                            <td class="eliminar-operacion"><span class="icon-trash"></span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="date" name="fecha" id="date" value="2022-03-26" class="date" disabled>
+                                <div class="delete-container">
+                                    <p>You want to delete this record?</p>
+                                    <button class="confirm-delete">Delete</button>
+                                    <button class="cancel-delete">Cancel</button>
+                                </div>
+                            </td>
+                            <td class="employee-name" title="See details">Roronoa Zoro</td>
+                            <td class="amount">$450</td>
+                            <td class="type">ATM</td>
+                            <td class="editar-operacion"><span class="icon-pencil"></span></td>
+                            <td class="eliminar-operacion"><span class="icon-trash"></span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-4 employee-details">
+                <table>
+                    <tbody>
+                            <tr class="head-tr">
+                                <td colspan="2" style="text-align: center;">Monkey D. Luffy<img alt="Export-icon" src="../icons/export.png" title="Export" class="export-icon" id="0"></td>
+                            </tr>
+                            <tr>
+                                <td>Total ATM</td>
+                                <td>$1000</td>
+                            </tr>
+                            <tr>
+                                <td>Total CASH</td>
+                                <td>$500</td>
+                            </tr>
+                            <tr>
+                                <td>Total TRANSF</td>
+                                <td>$0</td>
+                            </tr>
+                            <tr class="head-tr">
+                                <td colspan="2" style="text-align: center;">Roronoa Zoro<img src="../icons/export.png" title="Export" class="export-icon" id="1"></td>
+                            </tr>
+                            <tr>
+                                <td>Total ATM</td>
+                                <td>$450</td>
+                            </tr>
+                            <tr>
+                                <td>Total CASH</td>
+                                <td>$0</td>
+                            </tr>
+                            <tr>
+                                <td>Total TRANSF</td>
+                                <td>$0</td>
+                            </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </main>
 
 

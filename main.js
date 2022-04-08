@@ -1,11 +1,13 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow,ipcMain} = require('electron');
+const path = require('path');
+const url = require('url');
 // require('electron-reload')(__dirname)
 require('./data/database');
 
-
+let win ;
 
 function createWindow () {
-  const win = new BrowserWindow({
+    win = new BrowserWindow({
     width: 1200,
     height: 700,
     minWidth: 1024,
@@ -40,3 +42,14 @@ app.on('window-all-closed', () => {
   }
 })
 
+
+
+
+
+ipcMain.on('pasar-id-pagina-mes',(e, id) => {
+  win.webContents.send('enviar-id',id)
+  win.loadFile('pages/empresa.html')
+  
+  console.log("envie el id: "+id)
+ 
+})
