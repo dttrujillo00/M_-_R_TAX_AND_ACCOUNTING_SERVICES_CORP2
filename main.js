@@ -47,8 +47,9 @@ app.on('window-all-closed', () => {
 
 
 ipcMain.on('pasar-id-pagina-mes',(e, id) => {
-  win.loadFile('pages/empresa.html')
   win.webContents.send('enviar-id',id)
+  win.loadFile('pages/empresa.html')
+  
   console.log("envie el id: "+id)
  
 })

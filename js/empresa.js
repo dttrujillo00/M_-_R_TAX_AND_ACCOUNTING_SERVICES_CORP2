@@ -86,7 +86,10 @@ const posicionarTarjetasMeses = () => {
 
 document.addEventListener('DOMContentLoaded', e => {
     posicionarTarjetasMeses();
-    // window.ipcRenderer.on("enviar-id",function (e, id) { console.log(id)});
+    console.log("Estoy en cargando la pagina empresa");
+    window.ipcRenderer.on("enviar-id",(e,id)=>{
+        console.log(id);
+    });
 })
 
 
