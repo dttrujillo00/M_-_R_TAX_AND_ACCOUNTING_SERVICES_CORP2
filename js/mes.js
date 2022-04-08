@@ -63,13 +63,19 @@ const saveBtn = document.querySelector('.submit-group .btn-save');
 const inputs = formAgregarOperacion.querySelectorAll('.form-group input');
 let readyToSend;
 
-const showForm = (date, operation, amount) => {
+const showForm = (date, operation, amount, edit) => {
     body.classList.add('opacity');
     formAgregarOperacion.querySelector('form').reset();
     inputs.forEach( input => input.classList.remove('invalid-data'))
     inputs[0].value = date;
     inputs[1].value = operation;
     inputs[2].value = amount;
+
+    if (edit) {
+        formAgregarOperacion.querySelector('.btn-save').classList.add('edit');
+    } else {
+        formAgregarOperacion.querySelector('.btn-save').classList.remove('edit');
+    }
 
     formAgregarOperacion.classList.add('show');
 
@@ -82,13 +88,14 @@ const hideForm = () => {
 
 const addOperation = () => {
     hideMenu();
-    showForm('', '', '');
+    showForm('', '', '', false);
     formAgregarOperacion.querySelector('#date').focus();
     console.log('Funcion Add operation...');
 }
 
 const validate = async(e) => {
     e.preventDefault()
+    console.log(e.target);
 
     readyToSend = 0
     for (let index = inputs.length - 1; index >= 0; index--) {
@@ -110,15 +117,38 @@ const validate = async(e) => {
          *  Y LUEGO EJECUTAR LA FUNCION DE OBTENER OPERACIONES  *
          *  *****************************************************/
 
-        let selector  = document.getElementById('type');
-        let is_positive;
-        console.log(selector.options[selector.selectedIndex].value);
+        if(e.target.classList.contains('edit')) {
+            console.log('Editar');
+        } else {
+            console.log('Agregar');
+            let selector  = document.getElementById('type');
+            let is_positive;
+            console.log(selector.options[selector.selectedIndex].value);
+            
+            // if (selector.options[selector.selectedIndex].value === 'false') {
+            //     is_positive = false;
+            // } else {
+            //     is_positive = true
+            // }
+    
+            is_positive = selector.options[selector.selectedIndex].value;
+            const result =await window.ipcRenderer.invoke('agregar_operacion', date.value,operation.value,amount.value,is_positive,business_id);
+            console.log('Operacion agregada con exito '+result);
+        }
 
-        is_positive = selector.options[selector.selectedIndex].value;
-        const result =await window.ipcRenderer.invoke('agregar_operacion', date.value,operation.value,amount.value,is_positive,business_id);
-        console.log('Operacion agregada con exito '+result);
     }
 }
+
+inputs.forEach( input => {
+    input.addEventListener('input', e => {
+        console.log(e.target.value);
+        if(e.target.value !== '') {
+            e.target.classList.remove('invalid-data');
+        } else {
+            e.target.classList.add('invalid-data');
+        }
+    })
+})
 
 addOperationBtn.addEventListener('click', addOperation);
 cancelBtn.addEventListener('click', hideForm);
@@ -142,7 +172,7 @@ editarBtn.forEach((btn, index) => {
         let amount = rowToEdit.querySelector('.amount').innerText;
         console.log(amount.slice(1));
 
-        showForm(date, operation, amount.slice(1));
+        showForm(date, operation, amount.slice(1), true);
     });
 });
 

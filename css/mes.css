@@ -33,8 +33,8 @@ main .row .col-8 table thead tr th:last-child {
 
 main .row .col-8 table tbody tr {
     position: relative;
+    /* background-color: rgba(0, 255, 0, .1); */
 }
-
 main .row .col-8 table tbody tr td:last-child {
     width: 0;
 }
