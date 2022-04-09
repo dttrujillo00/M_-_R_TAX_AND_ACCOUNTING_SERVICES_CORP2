@@ -134,6 +134,7 @@ const validate = async(e) => {
             const result =await window.ipcRenderer.invoke('editar_cuenta',business_id,75,date.toString(),is_positive,operation,amount);
             console.log('Operacion editada con exito '+result);
             await getOperaciones();
+            await getTotalOperaciones()
 
         } else {
             console.log('Agregar');
@@ -151,6 +152,7 @@ const validate = async(e) => {
             const result =await window.ipcRenderer.invoke('agregar_operacion', date.value,operation.value,amount.value,is_positive,business_id);
             console.log('Operacion agregada con exito '+result);
             await getOperaciones();
+            await getTotalOperaciones()
         }
 
     }
@@ -229,6 +231,7 @@ function handleDelete() {
             console.log('Operacion eliminada con exito '+result);
             deleteContainer[index].classList.remove('show');
             await getOperaciones();
+            await getTotalOperaciones()
         });
     });
 }
@@ -331,23 +334,14 @@ const renderTotalOperaciones = (Operaciones) => {
     const emptybodyDataTable  = ``;
     bodyTotalTable.innerHTML = emptybodyDataTable ;
     Operaciones.forEach( (operacion,index) => {
-        let mes= operacion.month;
-        let day= operacion.day;
-        if (operacion.month< 10){
-             mes= '0'+operacion.month;
-        }
-        if (operacion.day< 10){
-             day= '0'+operacion.day;
-        }
-        
-        let date = operacion.year+'-'+mes+'-'+day
-        bodyTotalTable.innerHTML += createHTMLOperation(date, operacion.field,operacion.amount, operacion.account_id);
+        console.log(operacion)
+        bodyTotalTable.innerHTML += createHTMLTotalOperation(operacion.Field, operacion.YDT);
     });
 }
 
 
 const getTotalOperaciones =async () => {
-    await window.ipcRenderer.invoke('obtener_cuentas_por_anno',bussines,month, year).then((result) => {
+    await window.ipcRenderer.invoke('obtener_campos_por_mes',bussines,year, month).then((result) => {
         console.log("Se obtuvo el total de cada operacion del mes "+month);
         console.log(result);
         renderTotalOperaciones(result);
@@ -366,5 +360,6 @@ yearSpan.innerText = localStorage.getItem('actual_year');
 (async function init() {
     console.log("Inicio y pido los datos");
 	await getOperaciones();
+    await getTotalOperaciones()
 
 })();
