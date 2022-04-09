@@ -256,10 +256,12 @@ mesesSelect.value = month;
 mesTitulo.innerText = mesesArray[month - 1];
 console.log(mesesArray[month - 1]);
 
- mesesSelect.addEventListener('change', e => {
+ mesesSelect.addEventListener('change', async(e) => {
      console.log('Fetching the month number: ' + e.target.value); 
      localStorage.setItem('actual_month', e.target.value);
      mesTitulo.innerText = mesesArray[e.target.value - 1];
+     await getOperaciones();
+     await getTotalOperaciones()
  });
 
 
@@ -311,7 +313,7 @@ const renderOperaciones = (Operaciones) => {
 
 
 const getOperaciones =async () => {
-    await window.ipcRenderer.invoke('obtener_cuentas_por_anno',bussines,month, year).then((result) => {
+    await window.ipcRenderer.invoke('obtener_cuentas_por_anno',bussines,localStorage.getItem('actual_month'), year).then((result) => {
         console.log("Se obtuvieron las operaciones del año "+year);
         console.log(result);
         renderOperaciones(result);
@@ -350,8 +352,8 @@ const renderTotalOperaciones = (Operaciones) => {
 
 
 const getTotalOperaciones =async () => {
-    await window.ipcRenderer.invoke('obtener_campos_por_mes',bussines,year, month).then((result) => {
-        console.log("Se obtuvo el total de cada operacion del mes "+month);
+    await window.ipcRenderer.invoke('obtener_campos_por_mes',bussines,year, localStorage.getItem('actual_month')).then((result) => {
+        console.log("Se obtuvo el total de cada operacion del mes "+localStorage.getItem('actual_month'));
         console.log(result);
         renderTotalOperaciones(result);
 
