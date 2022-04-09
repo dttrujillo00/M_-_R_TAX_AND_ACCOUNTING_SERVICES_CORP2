@@ -303,4 +303,5 @@ const getOperaciones =async () => {
 (async function init() {
     console.log("Inicio y pido los datos");
 	await getOperaciones();
+
 })();

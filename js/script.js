@@ -88,7 +88,6 @@ const posicionarTarjetasEmpresas = () => {
       localStorage.setItem("actual_year", currentYear);
       localStorage.setItem("actual_business", empresa.title);
       localStorage.setItem("id_bussines", empresa.id);
-      localStorage.setItem("actual_month", '1');
       window.ipcRenderer.send("pasar-id-pagina-mes", empresa.id);
     });
     empresa.addEventListener("contextmenu", (e) => {
