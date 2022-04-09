@@ -89,8 +89,21 @@ const hideForm = () => {
 }
 
 const addOperation = () => {
+    let day = new Date().getDate();
+    let year = new Date().getFullYear();
+    let month = new Date().getMonth();
+
+    if(month <10) {
+        month = '0' + (month + 1);
+    }
+
+    if(day <10) {
+        day = '0' + day;
+    }
+
+    console.log(`${year}-${month}-${day}`);
     hideMenu();
-    showForm('', '', '', false, '');
+    showForm(`${year}-${month}-${day}`, '', '', false, '');
     formAgregarOperacion.querySelector('#date').focus();
     console.log('Funcion Add operation...');
 }
