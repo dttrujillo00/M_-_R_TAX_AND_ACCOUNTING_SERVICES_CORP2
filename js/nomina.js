@@ -1,3 +1,5 @@
+let month = localStorage.getItem('actual_month');
+
 /**********************
  * MANEJADOR DEL MENU *
  *  *******************/
@@ -183,8 +185,11 @@ cancelDelete.forEach( (btn, index) => {
  *  *********************/
 const meses = document.querySelector('select.meses');
 
+meses.value = month
+
 meses.addEventListener('change', e => {
     console.log('Fetching the month number: ' + e.target.value);
+    localStorage.setItem('actual_month', e.target.value);
 });
 
 /************************
@@ -256,3 +261,7 @@ const createHTMLEmployeeDetail = (name, atm, cash, transf) => {
 
     return element;
 }
+
+const yearSpan = document.querySelector('span.year');
+
+yearSpan.innerText = localStorage.getItem('actual_year');

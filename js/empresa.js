@@ -87,6 +87,12 @@ const posicionarTarjetasMeses = () => {
     });
 }
 
+const empresaTitulo = document.querySelector('.empresa-name-container h1');
+const year = document.querySelector('span.year');
+
+year.innerText = localStorage.getItem('actual_year');
+empresaTitulo.innerText = localStorage.getItem('actual_business');
+
 document.addEventListener('DOMContentLoaded', e => {
     posicionarTarjetasMeses();
     console.log("Estoy en cargando la pagina empresa");

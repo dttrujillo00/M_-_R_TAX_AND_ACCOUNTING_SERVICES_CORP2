@@ -223,10 +223,18 @@ function handleDelete() {
 /************************
  *      CAMBIAR MES     *
  *  *********************/
- const meses = document.querySelector('select.meses');
+const mesesSelect = document.querySelector('select.meses');
+const mesTitulo = document.querySelector('.empresa-name-container h1');
+const mesesArray = ['JANUARY', 'FEBRUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE', 'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER'];
 
- meses.addEventListener('change', e => {
-     console.log('Fetching the month number: ' + e.target.value);
+mesesSelect.value = month;
+mesTitulo.innerText = mesesArray[month - 1];
+console.log(mesesArray[month - 1]);
+
+ mesesSelect.addEventListener('change', e => {
+     console.log('Fetching the month number: ' + e.target.value); 
+     localStorage.setItem('actual_month', e.target.value);
+     mesTitulo.innerText = mesesArray[e.target.value - 1];
  });
 
 
@@ -298,6 +306,9 @@ const getOperaciones =async () => {
     })
 }
 
+const yearSpan = document.querySelector('span.year');
+
+yearSpan.innerText = localStorage.getItem('actual_year');
 
 (async function init() {
     console.log("Inicio y pido los datos");
