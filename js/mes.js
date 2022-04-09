@@ -53,6 +53,8 @@ secondIconMenu.addEventListener('click', hideMenu);
 closeMenuElement.addEventListener('click', hideMenu);
 empresaPage.addEventListener('click', retrocederPage);
 
+
+
 /***********************
  *  AGREGAR OPERACION  *
  *  ********************/
@@ -112,6 +114,8 @@ const validate = async(e) => {
     if(readyToSend === inputs.length) {
         hideForm();
         console.log('Saving Data...');
+
+
         /********************************************************
          *  FUNCION PARA GUARDAR OPERACION EN LA DB             *
          *  Y LUEGO EJECUTAR LA FUNCION DE OBTENER OPERACIONES  *
@@ -287,5 +291,5 @@ const getOperaciones =async () => {
 
 (async function init() {
     console.log("Inicio y pido los datos");
-	await getOperaciones();
+	// await getOperaciones();
 })();

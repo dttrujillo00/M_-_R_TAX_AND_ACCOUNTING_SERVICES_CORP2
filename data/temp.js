@@ -80,3 +80,6 @@ class temp {
         }
     }
 }
+
+
+export default temp;
