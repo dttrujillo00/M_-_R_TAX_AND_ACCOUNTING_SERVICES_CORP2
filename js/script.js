@@ -1,7 +1,3 @@
-import { temp } from "../data/temp.js";
-
-console.log(temp);
-
 
 const contextMenu = document.querySelector(".contextMenu-container");
 const year = document.querySelector("span.year");
@@ -88,7 +84,7 @@ const posicionarTarjetasEmpresas = () => {
     empresa.style.zIndex = index;
     index--;
     empresa.addEventListener("click", (e) => {
-    //   window.ipcRenderer.send("pasar-id-pagina-mes", empresa.id);
+      window.ipcRenderer.send("pasar-id-pagina-mes", empresa.id);
 
       let data = {
         actual_year: currentYear,
