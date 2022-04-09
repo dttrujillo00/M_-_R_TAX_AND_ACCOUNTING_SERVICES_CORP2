@@ -2,15 +2,10 @@
  * Variables Indispensables para las consultas a la DB *
  * *****************************************************/
 
-
-
  let business_id = localStorage.getItem('id_bussines');
  let year  = localStorage.getItem('actual_year');
  let month = localStorage.getItem('actual_month');
  let bussines = localStorage.getItem('actual_business');
-
-
-
 
 
 /**********************
@@ -186,10 +181,11 @@ function handleEdit() {
 
     editarBtn.forEach((btn, index) => {
         btn.addEventListener('click', async(e) => {
+
             console.log('Editar Operacion ' + index)
             
             let rowToEdit = operationList[index];
-            let date = rowToEdit.querySelector('.date').value.toString();
+            let date = rowToEdit.querySelector('.date').value;
             console.log(date);
             let operation = rowToEdit.querySelector('.operation').innerText;
             console.log(operation);
@@ -302,7 +298,23 @@ const renderOperaciones = (Operaciones) => {
 
 
 
-const createHTMLTotalOperation = (operation, total) => {
+const getOperaciones =async () => {
+    await window.ipcRenderer.invoke('obtener_cuentas_por_anno',bussines,month, year).then((result) => {
+        console.log("Se obtuvieron las operaciones del año "+year);
+        console.log(result);
+        renderOperaciones(result);
+        handleEdit();
+        handleDelete();
+    })
+}
+
+
+/****************************************
+ * Tabla del total de las operaciones   *
+ *                                      *
+ * ****************************************/
+
+ const createHTMLTotalOperation = (operation, total) => {
     let element = `
         <tr>
             <td>${operation}</td>
@@ -313,15 +325,39 @@ const createHTMLTotalOperation = (operation, total) => {
     return element;
 }
 
-const getOperaciones =async () => {
+
+
+const renderTotalOperaciones = (Operaciones) => {
+    const emptybodyDataTable  = ``;
+    bodyTotalTable.innerHTML = emptybodyDataTable ;
+    Operaciones.forEach( (operacion,index) => {
+        let mes= operacion.month;
+        let day= operacion.day;
+        if (operacion.month< 10){
+             mes= '0'+operacion.month;
+        }
+        if (operacion.day< 10){
+             day= '0'+operacion.day;
+        }
+        
+        let date = operacion.year+'-'+mes+'-'+day
+        bodyTotalTable.innerHTML += createHTMLOperation(date, operacion.field,operacion.amount, operacion.account_id);
+    });
+}
+
+
+const getTotalOperaciones =async () => {
     await window.ipcRenderer.invoke('obtener_cuentas_por_anno',bussines,month, year).then((result) => {
-        console.log("Se obtuvieron las operaciones del año "+year);
+        console.log("Se obtuvo el total de cada operacion del mes "+month);
         console.log(result);
-        renderOperaciones(result);
-        handleEdit();
-        handleDelete();
+        renderTotalOperaciones(result);
+
     })
 }
+
+
+
+
 
 const yearSpan = document.querySelector('span.year');
 
