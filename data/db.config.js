@@ -10,6 +10,7 @@ const db = new sqlite.Database(path.join(__dirname, './data.db'), (err) => {
 
 db.on('open', () => {
 	console.log('Database is open');
+	db.query("PRAGMA foreign_key = ON")
 	// db.run('CREATE TABLE IF NOT EXISTS product(id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, name TEXT, description TEXT, price REAL)');
 })
 
