@@ -1,6 +1,4 @@
-// import temp from "../data/temp";
 
-// console.log(temp)
 
 const contextMenu = document.querySelector(".contextMenu-container");
 const year = document.querySelector("span.year");
@@ -87,24 +85,10 @@ const posicionarTarjetasEmpresas = () => {
     empresa.style.zIndex = index;
     index--;
     empresa.addEventListener("click", (e) => {
-    //   window.ipcRenderer.send("pasar-id-pagina-mes", empresa.id);
-
-      let data = {
-        actual_year: currentYear,
-        actual_business: empresa.title,
-        id_bussines: empresa.id,
-      }
-
-      console.log(JSON.stringify(data))
-
-      fetch("../data/temp.json",{ 
-          method: "PUT",
-          body:data
-      })
-        .then((response) => response.json())
-        .catch((error) => console.error("Error:", error))
-        .then((response) => console.log("Succes: ", response));
-      
+      localStorage.setItem("actual_year", currentYear);
+      localStorage.setItem("actual_business", empresa.title);
+      localStorage.setItem("id_bussines", empresa.id);
+      window.ipcRenderer.send("pasar-id-pagina-mes", empresa.id);
     });
     empresa.addEventListener("contextmenu", (e) => {
       empresas.forEach((emp) => {
@@ -295,7 +279,7 @@ const footer = document.querySelector(".footer");
 let filaEmpresa;
 
 const crearElementoHTMLEmpresa = (nombre, id) => {
-  element = `
+  let element = `
      <li title="${nombre}" class="empresa" id="${id}">
         <div class="contextMenu-container">
             <ul>

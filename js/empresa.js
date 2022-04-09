@@ -51,6 +51,9 @@ home.addEventListener('click', retrocederHome);
      if(e.target.classList.contains('nomina')){
         window.location.pathname = '/pages/nomina.html';
      } else {
+        let id = e.target.getAttribute('data-id');
+        console.log(id)
+        localStorage.setItem("actual_month", id);
          window.location.pathname = '/pages/mes.html';
      }
 }
@@ -87,9 +90,6 @@ const posicionarTarjetasMeses = () => {
 document.addEventListener('DOMContentLoaded', e => {
     posicionarTarjetasMeses();
     console.log("Estoy en cargando la pagina empresa");
-    window.ipcRenderer.on("enviar-id",(e,id)=>{
-        console.log(id);
-    });
 })
 
 
