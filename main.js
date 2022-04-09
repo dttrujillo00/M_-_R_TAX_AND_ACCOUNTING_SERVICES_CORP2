@@ -53,3 +53,5 @@ ipcMain.on('pasar-id-pagina-mes',(e, id) => {
   console.log("envie el id: "+id)
  
 })
+
+
