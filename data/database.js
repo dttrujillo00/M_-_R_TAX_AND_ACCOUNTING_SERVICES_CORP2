@@ -184,11 +184,12 @@ ipcMain.handle('editar_nombre_empresa', async (event, business) => {
 	await edit(sql);
 })
 
-ipcMain.handle('editar_cuenta', async (event, account) => {
-	
+ipcMain.handle('editar_cuenta', async (event, business_id,id_account,is_positive,date,operation,amount) => {
 
-	const { amount, account_id} = account;
-	const sql ='UPDATE account SET amount = '+amount+' WHERE account_id = '+account_id
+	let id_fecha = await obtener_id_por_fecha(date);
+	let id_field = await obtener_id_por_campo(operation);
+	
+	const sql ='UPDATE account SET amount = '+amount+', is_positive = '+is_positive+', field_id = '+id_field+', business_id = '+business_id+', date_id = '+id_fecha+' WHERE account_id = '+id_account
 	await edit(sql);
 })
 

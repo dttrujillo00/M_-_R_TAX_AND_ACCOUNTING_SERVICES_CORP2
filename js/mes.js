@@ -171,7 +171,7 @@ function handleEdit() {
     const operationList = document.querySelectorAll('.data-table tbody tr')
 
     editarBtn.forEach((btn, index) => {
-        btn.addEventListener('click', () => {
+        btn.addEventListener('click', async(e) => {
             console.log('Editar Operacion ' + index)
             
             let rowToEdit = operationList[index];
@@ -181,6 +181,14 @@ function handleEdit() {
             console.log(operation);
             let amount = rowToEdit.querySelector('.amount').innerText;
             console.log(amount.slice(1));
+
+
+            let is_positive =true;
+            let id = e.target.parentElement.parentElement.parentElement.id
+            const result =await window.ipcRenderer.invoke('editar_cuenta',business_id,id,date,is_positive,operation,amount);
+            console.log('Operacion editada con exito '+result);
+            await getOperaciones();
+
 
             showForm(date, operation, amount.slice(1), true);
         });
