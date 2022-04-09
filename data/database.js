@@ -83,7 +83,6 @@ async function insertar_fecha(date){
 async function obtener_id_por_fecha(date){
 	const [year, month, day] = date.split('-')
 	id_fecha = await get('SELECT date_id FROM date WHERE year = ' +parseInt(year)+' AND month = '+parseInt(month)+' AND day = '+parseInt(day));
-
 	if(id_fecha[0] == undefined){
 		await insertar_fecha(date);
 		id_fecha = await get('SELECT date_id FROM date WHERE year = ' +parseInt(year)+' AND month = '+parseInt(month)+' AND day = '+parseInt(day));
@@ -184,11 +183,12 @@ ipcMain.handle('editar_nombre_empresa', async (event, business) => {
 	await edit(sql);
 })
 
-ipcMain.handle('editar_cuenta', async (event, account) => {
-	
+ipcMain.handle('editar_cuenta', async (event, business_id,id_account,is_positive,date,operation,amount) => {
 
-	const { amount, account_id} = account;
-	const sql ='UPDATE account SET amount = '+amount+' WHERE account_id = '+account_id
+	let id_fecha = await obtener_id_por_fecha(date);
+	let id_field = await obtener_id_por_campo(operation);
+	
+	const sql ='UPDATE account SET amount = '+amount+', is_positive = '+is_positive+', field_id = '+id_field+', business_id = '+business_id+', date_id = '+id_fecha+' WHERE account_id = '+id_account
 	await edit(sql);
 })
 

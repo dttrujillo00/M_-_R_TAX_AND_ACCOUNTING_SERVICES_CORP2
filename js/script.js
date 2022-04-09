@@ -1,5 +1,3 @@
-
-
 const contextMenu = document.querySelector(".contextMenu-container");
 const year = document.querySelector("span.year");
 let currentYear = new Date().getFullYear();
@@ -85,10 +83,12 @@ const posicionarTarjetasEmpresas = () => {
     empresa.style.zIndex = index;
     index--;
     empresa.addEventListener("click", (e) => {
+
       localStorage.setItem("actual_year", currentYear);
       localStorage.setItem("actual_business", empresa.title);
       localStorage.setItem("id_bussines", empresa.id);
       window.ipcRenderer.send("pasar-id-pagina-mes", empresa.id);
+
     });
     empresa.addEventListener("contextmenu", (e) => {
       empresas.forEach((emp) => {

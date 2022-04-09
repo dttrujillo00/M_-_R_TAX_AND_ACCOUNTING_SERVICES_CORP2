@@ -13,7 +13,6 @@
 
 
 
-
 /**********************
  * MANEJADOR DEL MENU *
  *  *******************/
@@ -125,7 +124,22 @@ const validate = async(e) => {
          *  *****************************************************/
 
         if(e.target.classList.contains('edit')) {
+           
             console.log('Editar');
+           
+            let selector  = document.getElementById('type');
+            let is_positive;
+            console.log(selector.options[selector.selectedIndex].value);
+            
+            is_positive = selector.options[selector.selectedIndex].value;
+
+            
+
+            console.log(business_id,date.toString(),is_positive,operation,amount)
+            const result =await window.ipcRenderer.invoke('editar_cuenta',business_id,75,date.toString(),is_positive,operation,amount);
+            console.log('Operacion editada con exito '+result);
+            await getOperaciones();
+
         } else {
             console.log('Agregar');
             let selector  = document.getElementById('type');
@@ -171,16 +185,18 @@ function handleEdit() {
     const operationList = document.querySelectorAll('.data-table tbody tr')
 
     editarBtn.forEach((btn, index) => {
-        btn.addEventListener('click', () => {
+        btn.addEventListener('click', async(e) => {
             console.log('Editar Operacion ' + index)
             
             let rowToEdit = operationList[index];
-            let date = rowToEdit.querySelector('.date').value;
+            let date = rowToEdit.querySelector('.date').value.toString();
             console.log(date);
             let operation = rowToEdit.querySelector('.operation').innerText;
             console.log(operation);
             let amount = rowToEdit.querySelector('.amount').innerText;
             console.log(amount.slice(1));
+            let id_editar = e.target.parentElement.parentElement.parentElement.id
+
 
             showForm(date, operation, amount.slice(1), true);
         });
@@ -224,10 +240,18 @@ function handleDelete() {
 /************************
  *      CAMBIAR MES     *
  *  *********************/
- const meses = document.querySelector('select.meses');
+const mesesSelect = document.querySelector('select.meses');
+const mesTitulo = document.querySelector('.empresa-name-container h1');
+const mesesArray = ['JANUARY', 'FEBRUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE', 'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER'];
 
- meses.addEventListener('change', e => {
-     console.log('Fetching the month number: ' + e.target.value);
+mesesSelect.value = month;
+mesTitulo.innerText = mesesArray[month - 1];
+console.log(mesesArray[month - 1]);
+
+ mesesSelect.addEventListener('change', e => {
+     console.log('Fetching the month number: ' + e.target.value); 
+     localStorage.setItem('actual_month', e.target.value);
+     mesTitulo.innerText = mesesArray[e.target.value - 1];
  });
 
 
@@ -299,6 +323,9 @@ const getOperaciones =async () => {
     })
 }
 
+const yearSpan = document.querySelector('span.year');
+
+yearSpan.innerText = localStorage.getItem('actual_year');
 
 (async function init() {
     console.log("Inicio y pido los datos");
