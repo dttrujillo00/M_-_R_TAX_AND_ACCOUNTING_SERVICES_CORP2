@@ -53,6 +53,8 @@ secondIconMenu.addEventListener('click', hideMenu);
 closeMenuElement.addEventListener('click', hideMenu);
 empresaPage.addEventListener('click', retrocederPage);
 
+
+
 /***********************
  *  AGREGAR OPERACION  *
  *  ********************/
@@ -112,6 +114,8 @@ const validate = async(e) => {
     if(readyToSend === inputs.length) {
         hideForm();
         console.log('Saving Data...');
+
+
         /********************************************************
          *  FUNCION PARA GUARDAR OPERACION EN LA DB             *
          *  Y LUEGO EJECUTAR LA FUNCION DE OBTENER OPERACIONES  *
@@ -158,55 +162,59 @@ saveBtn.addEventListener('click', validate);
 /**********************
  *  EDITAR OPERACION  *
  *  *******************/
-const editarBtn = document.querySelectorAll('.editar-operacion');
-const operationList = document.querySelectorAll('.data-table tbody tr')
+function handleEdit() {
+    
+    const editarBtn = document.querySelectorAll('.editar-operacion');
+    const operationList = document.querySelectorAll('.data-table tbody tr')
 
-editarBtn.forEach((btn, index) => {
-    btn.addEventListener('click', () => {
-        console.log('Editar Operacion ' + index)
-        
-        let rowToEdit = operationList[index];
-        let date = rowToEdit.querySelector('.date').value;
-        console.log(date);
-        let operation = rowToEdit.querySelector('.operation').innerText;
-        console.log(operation);
-        let amount = rowToEdit.querySelector('.amount').innerText;
-        console.log(amount.slice(1));
+    editarBtn.forEach((btn, index) => {
+        btn.addEventListener('click', () => {
+            console.log('Editar Operacion ' + index)
+            
+            let rowToEdit = operationList[index];
+            let date = rowToEdit.querySelector('.date').value;
+            console.log(date);
+            let operation = rowToEdit.querySelector('.operation').innerText;
+            console.log(operation);
+            let amount = rowToEdit.querySelector('.amount').innerText;
+            console.log(amount.slice(1));
 
-        showForm(date, operation, amount.slice(1), true);
+            showForm(date, operation, amount.slice(1), true);
+        });
     });
-});
+}
 
 /************************
  *  ELIMINAR OPERACION  *
  *  *********************/
- const eliminarBtn = document.querySelectorAll('.eliminar-operacion');
- const deleteContainer = document.querySelectorAll('.delete-container');
- const cancelDelete = document.querySelectorAll('.cancel-delete');
- const confirmDelete = document.querySelectorAll('.confirm-delete');
- 
-eliminarBtn.forEach( (btn, index) => {
-    btn.addEventListener('click', () => {
-        console.log('Eliminar Operacion');
-        
-        deleteContainer[index].classList.add('show');
+function handleDelete() {
+    const eliminarBtn = document.querySelectorAll('.eliminar-operacion');
+    const deleteContainer = document.querySelectorAll('.delete-container');
+    const cancelDelete = document.querySelectorAll('.cancel-delete');
+    const confirmDelete = document.querySelectorAll('.confirm-delete');
+    
+    eliminarBtn.forEach( (btn, index) => {
+        btn.addEventListener('click', () => {
+            console.log('Eliminar Operacion');
+            
+            deleteContainer[index].classList.add('show');
+        });
     });
-});
 
-cancelDelete.forEach( (btn, index) => {
-    btn.addEventListener('click', () => {
-        deleteContainer[index].classList.remove('show');
+    cancelDelete.forEach( (btn, index) => {
+        btn.addEventListener('click', () => {
+            deleteContainer[index].classList.remove('show');
+        });
     });
-});
 
-confirmDelete.forEach( (btn, index) => {
-    btn.addEventListener('click', async() => {
-        const result =await window.ipcRenderer.invoke('eliminar_operacion',index);
-        console.log('Operacion eliminada con exito '+result);
-        deleteContainer[index].classList.remove('show');
+    confirmDelete.forEach( (btn, index) => {
+        btn.addEventListener('click', async() => {
+            const result =await window.ipcRenderer.invoke('eliminar_operacion',index);
+            console.log('Operacion eliminada con exito '+result);
+            deleteContainer[index].classList.remove('show');
+        });
     });
-});
-
+}
 
 /************************
  *      CAMBIAR MES     *
@@ -247,7 +255,7 @@ const createHTMLOperation = (date, operation, amount) => {
 
 const renderOperaciones = (Operaciones) => {
     const emptybodyDataTable  = ``;
-    bodyDataTable .innerHTML = emptybodyDataTable ;
+    bodyDataTable.innerHTML = emptybodyDataTable ;
     Operaciones.forEach( (operacion,index) => {
         let mes= operacion.month;
         let day= operacion.day;
@@ -281,11 +289,13 @@ const getOperaciones =async () => {
         console.log("Se obtuvieron las operaciones del año "+year);
         console.log(result);
         renderOperaciones(result);
+        handleEdit();
+        handleDelete();
     })
 }
 
 
 (async function init() {
     console.log("Inicio y pido los datos");
-	await getOperaciones();
+	// await getOperaciones();
 })();
