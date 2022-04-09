@@ -2,15 +2,10 @@
  * Variables Indispensables para las consultas a la DB *
  * *****************************************************/
 
-
-
  let business_id = localStorage.getItem('id_bussines');
  let year  = localStorage.getItem('actual_year');
  let month = localStorage.getItem('actual_month');
  let bussines = localStorage.getItem('actual_business');
-
-
-
 
 
 /**********************
@@ -138,6 +133,7 @@ const validate = async(e) => {
             const result =await window.ipcRenderer.invoke('editar_cuenta',business_id,inputIdAccount.value,is_positive, date.value,operation.value,amount.value);
             console.log('Operacion editada con exito '+result);
             await getOperaciones();
+            await getTotalOperaciones()
 
         } else {
             console.log('Agregar');
@@ -149,6 +145,7 @@ const validate = async(e) => {
             const result =await window.ipcRenderer.invoke('agregar_operacion', date.value,operation.value,amount.value,is_positive,business_id);
             console.log('Operacion agregada con exito '+result);
             await getOperaciones();
+            await getTotalOperaciones()
         }
 
     }
@@ -178,9 +175,12 @@ function handleEdit() {
 
     editarBtn.forEach((btn, index) => {
         btn.addEventListener('click', async(e) => {
+
+            console.log('Editar Operacion ' + index)
             
             let rowToEdit = operationList[index];
-            let date = rowToEdit.querySelector('.date').value.toString();
+            let date = rowToEdit.querySelector('.date').value;
+            console.log(date);
             let operation = rowToEdit.querySelector('.operation').innerText;
             let amount = rowToEdit.querySelector('.amount').innerText;
             let id_editar;
@@ -227,6 +227,7 @@ function handleDelete() {
             console.log('Operacion eliminada con exito '+result);
             deleteContainer[index].classList.remove('show');
             await getOperaciones();
+            await getTotalOperaciones()
         });
     });
 }
@@ -296,17 +297,6 @@ const renderOperaciones = (Operaciones) => {
 
 
 
-const createHTMLTotalOperation = (operation, total) => {
-    let element = `
-        <tr>
-            <td>${operation}</td>
-            <td>$${total}</td>
-        </tr>
-    `;
-
-    return element;
-}
-
 const getOperaciones =async () => {
     await window.ipcRenderer.invoke('obtener_cuentas_por_anno',bussines,month, year).then((result) => {
         console.log("Se obtuvieron las operaciones del año "+year);
@@ -317,6 +307,48 @@ const getOperaciones =async () => {
     })
 }
 
+
+/****************************************
+ * Tabla del total de las operaciones   *
+ *                                      *
+ * ****************************************/
+
+ const createHTMLTotalOperation = (operation, total) => {
+    let element = `
+        <tr>
+            <td>${operation}</td>
+            <td>$${total}</td>
+        </tr>
+    `;
+
+    return element;
+}
+
+
+
+const renderTotalOperaciones = (Operaciones) => {
+    const emptybodyDataTable  = ``;
+    bodyTotalTable.innerHTML = emptybodyDataTable ;
+    Operaciones.forEach( (operacion,index) => {
+        console.log(operacion)
+        bodyTotalTable.innerHTML += createHTMLTotalOperation(operacion.Field, operacion.YDT);
+    });
+}
+
+
+const getTotalOperaciones =async () => {
+    await window.ipcRenderer.invoke('obtener_campos_por_mes',bussines,year, month).then((result) => {
+        console.log("Se obtuvo el total de cada operacion del mes "+month);
+        console.log(result);
+        renderTotalOperaciones(result);
+
+    })
+}
+
+
+
+
+
 const yearSpan = document.querySelector('span.year');
 
 yearSpan.innerText = localStorage.getItem('actual_year');
@@ -324,5 +356,6 @@ yearSpan.innerText = localStorage.getItem('actual_year');
 (async function init() {
     console.log("Inicio y pido los datos");
 	await getOperaciones();
+    await getTotalOperaciones()
 
 })();
