@@ -1,10 +1,13 @@
 /*******************************************************
  * Variables Indispensables para las consultas a la DB *
  * *****************************************************/
- let business_id = 76;
- let year  = 2022;
- let month = "1" ;
- let bussines = "DamasSoft";
+
+
+
+ let business_id = localStorage.getItem('id_bussines');
+ let year  = localStorage.getItem('actual_year');
+ let month = localStorage.getItem('actual_month');
+ let bussines = localStorage.getItem('actual_business');
 
 
 
@@ -207,10 +210,12 @@ function handleDelete() {
     });
 
     confirmDelete.forEach( (btn, index) => {
-        btn.addEventListener('click', async() => {
-            const result =await window.ipcRenderer.invoke('eliminar_operacion',index);
+        btn.addEventListener('click', async(e) => {
+            let id = e.target.parentElement.parentElement.parentElement.id
+            const result =await window.ipcRenderer.invoke('eliminar_operacion',id);
             console.log('Operacion eliminada con exito '+result);
             deleteContainer[index].classList.remove('show');
+            await getOperaciones();
         });
     });
 }
@@ -231,9 +236,9 @@ function handleDelete() {
 const bodyDataTable = document.querySelector('main .data-table tbody');
 const bodyTotalTable = document.querySelector('.total-table table tbody');
 
-const createHTMLOperation = (date, operation, amount) => {
+const createHTMLOperation = (date, operation, amount,id) => {
     let element = `
-        <tr>
+        <tr id="${id}">
             <td>
                 <input type="date" name="fecha" id="" value="${date}" class="date" disabled>
                 <div class="delete-container">
@@ -266,7 +271,7 @@ const renderOperaciones = (Operaciones) => {
         }
         
         let date = operacion.year+'-'+mes+'-'+day
-        bodyDataTable.innerHTML += createHTMLOperation(date, operacion.field,operacion.amount);
+        bodyDataTable.innerHTML += createHTMLOperation(date, operacion.field,operacion.amount, operacion.account_id);
     });
 }
 
@@ -296,5 +301,6 @@ const getOperaciones =async () => {
 
 (async function init() {
     console.log("Inicio y pido los datos");
-	// await getOperaciones();
+	await getOperaciones();
+
 })();
