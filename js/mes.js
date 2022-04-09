@@ -65,15 +65,18 @@ const formAgregarOperacion = document.querySelector('.form-agregar-operacion');
 const cancelBtn = document.querySelector('.submit-group .btn-cancel');
 const saveBtn = document.querySelector('.submit-group .btn-save');
 const inputs = formAgregarOperacion.querySelectorAll('.form-group input');
+const inputIdAccount = document.querySelector('#id_account');
 let readyToSend;
 
-const showForm = (date, operation, amount, edit) => {
+const showForm = (date, operation, amount, edit, id_account) => {
     body.classList.add('opacity');
     formAgregarOperacion.querySelector('form').reset();
     inputs.forEach( input => input.classList.remove('invalid-data'))
     inputs[0].value = date;
     inputs[1].value = operation;
     inputs[2].value = amount;
+    inputIdAccount.value = id_account;
+    console.log(inputIdAccount.value);
 
     if (edit) {
         formAgregarOperacion.querySelector('.btn-save').classList.add('edit');
@@ -92,14 +95,13 @@ const hideForm = () => {
 
 const addOperation = () => {
     hideMenu();
-    showForm('', '', '', false);
+    showForm('', '', '', false, '');
     formAgregarOperacion.querySelector('#date').focus();
     console.log('Funcion Add operation...');
 }
 
 const validate = async(e) => {
-    e.preventDefault()
-    console.log(e.target);
+    e.preventDefault();
 
     readyToSend = 0
     for (let index = inputs.length - 1; index >= 0; index--) {
@@ -123,20 +125,17 @@ const validate = async(e) => {
          *  Y LUEGO EJECUTAR LA FUNCION DE OBTENER OPERACIONES  *
          *  *****************************************************/
 
-        if(e.target.classList.contains('edit')) {
-           
+        if(e.target.classList.contains('edit')) {      
             console.log('Editar');
-           
             let selector  = document.getElementById('type');
             let is_positive;
             console.log(selector.options[selector.selectedIndex].value);
             
             is_positive = selector.options[selector.selectedIndex].value;
 
-            
+            console.log(business_id + ' ' + inputIdAccount.value + ' ' + date.value + ' ' + is_positive + ' ' + operation.value + ' ' + amount.value);
 
-            console.log(business_id,date.toString(),is_positive,operation,amount)
-            const result =await window.ipcRenderer.invoke('editar_cuenta',business_id,75,date.toString(),is_positive,operation,amount);
+            const result =await window.ipcRenderer.invoke('editar_cuenta',business_id,inputIdAccount.value,is_positive, date.value,operation.value,amount.value);
             console.log('Operacion editada con exito '+result);
             await getOperaciones();
 
@@ -145,12 +144,6 @@ const validate = async(e) => {
             let selector  = document.getElementById('type');
             let is_positive;
             console.log(selector.options[selector.selectedIndex].value);
-            
-            // if (selector.options[selector.selectedIndex].value === 'false') {
-            //     is_positive = false;
-            // } else {
-            //     is_positive = true
-            // }
     
             is_positive = selector.options[selector.selectedIndex].value;
             const result =await window.ipcRenderer.invoke('agregar_operacion', date.value,operation.value,amount.value,is_positive,business_id);
@@ -163,7 +156,6 @@ const validate = async(e) => {
 
 inputs.forEach( input => {
     input.addEventListener('input', e => {
-        console.log(e.target.value);
         if(e.target.value !== '') {
             e.target.classList.remove('invalid-data');
         } else {
@@ -186,19 +178,21 @@ function handleEdit() {
 
     editarBtn.forEach((btn, index) => {
         btn.addEventListener('click', async(e) => {
-            console.log('Editar Operacion ' + index)
             
             let rowToEdit = operationList[index];
             let date = rowToEdit.querySelector('.date').value.toString();
-            console.log(date);
             let operation = rowToEdit.querySelector('.operation').innerText;
-            console.log(operation);
             let amount = rowToEdit.querySelector('.amount').innerText;
-            console.log(amount.slice(1));
-            let id_editar = e.target.parentElement.parentElement.parentElement.id
+            let id_editar;
+
+            if(e.target.classList.contains('icon-pencil')) {
+                id_editar = e.target.parentElement.parentElement.id;
+            } else if(e.target.classList.contains('editar-operacion')) {
+                id_editar = e.target.parentElement.id;
+            }
 
 
-            showForm(date, operation, amount.slice(1), true);
+            showForm(date, operation, amount.slice(1), true, id_editar);
         });
     });
 }
