@@ -1,6 +1,7 @@
-// import temp from "../data/temp";
+import { temp } from "../data/temp.js";
 
-// console.log(temp)
+console.log(temp);
+
 
 const contextMenu = document.querySelector(".contextMenu-container");
 const year = document.querySelector("span.year");
@@ -295,7 +296,7 @@ const footer = document.querySelector(".footer");
 let filaEmpresa;
 
 const crearElementoHTMLEmpresa = (nombre, id) => {
-  element = `
+  let element = `
      <li title="${nombre}" class="empresa" id="${id}">
         <div class="contextMenu-container">
             <ul>

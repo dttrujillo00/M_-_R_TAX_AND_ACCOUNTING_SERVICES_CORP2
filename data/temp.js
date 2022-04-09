@@ -1,5 +1,5 @@
 
-class temp {
+export class temp {
 
     static get_temp(){
         const path = require('path');
