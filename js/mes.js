@@ -125,7 +125,22 @@ const validate = async(e) => {
          *  *****************************************************/
 
         if(e.target.classList.contains('edit')) {
+           
             console.log('Editar');
+           
+            let selector  = document.getElementById('type');
+            let is_positive;
+            console.log(selector.options[selector.selectedIndex].value);
+            
+            is_positive = selector.options[selector.selectedIndex].value;
+
+            
+
+            console.log(business_id,date.toString(),is_positive,operation,amount)
+            const result =await window.ipcRenderer.invoke('editar_cuenta',business_id,75,date.toString(),is_positive,operation,amount);
+            console.log('Operacion editada con exito '+result);
+            await getOperaciones();
+
         } else {
             console.log('Agregar');
             let selector  = document.getElementById('type');
@@ -175,19 +190,13 @@ function handleEdit() {
             console.log('Editar Operacion ' + index)
             
             let rowToEdit = operationList[index];
-            let date = rowToEdit.querySelector('.date').value;
+            let date = rowToEdit.querySelector('.date').value.toString();
             console.log(date);
             let operation = rowToEdit.querySelector('.operation').innerText;
             console.log(operation);
             let amount = rowToEdit.querySelector('.amount').innerText;
             console.log(amount.slice(1));
-
-
-            let is_positive =true;
-            let id = e.target.parentElement.parentElement.parentElement.id
-            const result =await window.ipcRenderer.invoke('editar_cuenta',business_id,id,date,is_positive,operation,amount);
-            console.log('Operacion editada con exito '+result);
-            await getOperaciones();
+            let id_editar = e.target.parentElement.parentElement.parentElement.id
 
 
             showForm(date, operation, amount.slice(1), true);

@@ -83,7 +83,6 @@ async function insertar_fecha(date){
 async function obtener_id_por_fecha(date){
 	const [year, month, day] = date.split('-')
 	id_fecha = await get('SELECT date_id FROM date WHERE year = ' +parseInt(year)+' AND month = '+parseInt(month)+' AND day = '+parseInt(day));
-
 	if(id_fecha[0] == undefined){
 		await insertar_fecha(date);
 		id_fecha = await get('SELECT date_id FROM date WHERE year = ' +parseInt(year)+' AND month = '+parseInt(month)+' AND day = '+parseInt(day));
