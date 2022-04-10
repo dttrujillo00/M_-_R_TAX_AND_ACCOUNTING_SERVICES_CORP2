@@ -35,6 +35,19 @@ main .row .col-8 table tbody tr {
     position: relative;
     /* background-color: rgba(0, 255, 0, .1); */
 }
+
+main .row .col-8 table tbody tr td.positivo {
+    color: green;
+    font-weight: bold;
+    font-size: .9rem;
+}
+
+main .row .col-8 table tbody tr td.negativo {
+    color: red;
+    font-weight: bold;
+    font-size: .9rem;
+}
+
 main .row .col-8 table tbody tr td:last-child {
     width: 0;
 }
@@ -118,7 +131,8 @@ main .row .col-4 {
 }
 
 main .row .col-4 table tbody tr td:last-child {
-    font-weight: 600;
+    font-weight: bold;
+    font-size: .9rem;
     text-align: right;
 }
 
@@ -155,6 +169,7 @@ main .row .col-4 table tbody tr td:last-child {
     margin-bottom: 1rem;
     display: flex;
     align-items: center;
+    position: relative;
 }
 
 .form-agregar-operacion form .form-group label {

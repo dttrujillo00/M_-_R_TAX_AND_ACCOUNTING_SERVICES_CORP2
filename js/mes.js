@@ -7,6 +7,8 @@
  let month = localStorage.getItem('actual_month');
  let bussines = localStorage.getItem('actual_business');
 
+ let operationNameArray = [];
+
 
 /**********************
  * MANEJADOR DEL MENU *
@@ -71,13 +73,21 @@ const showForm = (date, operation, amount, edit, id_account) => {
     inputs[1].value = operation;
     inputs[2].value = amount;
     inputIdAccount.value = id_account;
-    console.log(inputIdAccount.value);
 
     if (edit) {
         formAgregarOperacion.querySelector('.btn-save').classList.add('edit');
     } else {
         formAgregarOperacion.querySelector('.btn-save').classList.remove('edit');
     }
+
+    // inputs[1].addEventListener('input', e => {
+    //     operationNameArray.forEach( item => {
+    //         // console.log(item.toLowerCase() + ': ' + e.target.value.toLowerCase());
+    //         if(e.target.value.toLowerCase() === item.toLowerCase().substring(0, e.target.value.length)) {
+                
+    //         }
+    //     })
+    // });
 
     formAgregarOperacion.classList.add('show');
 
@@ -89,8 +99,21 @@ const hideForm = () => {
 }
 
 const addOperation = () => {
+    let day = new Date().getDate();
+    let year = new Date().getFullYear();
+    let month = localStorage.getItem('actual_month');
+
+    if(month <10) {
+        month = '0' + month;
+    }
+
+    if(day <10) {
+        day = '0' + day;
+    }
+
+    console.log(`${year}-${month}-${day}`);
     hideMenu();
-    showForm('', '', '', false, '');
+    showForm(`${year}-${month}-${day}`, '', '', false, '');
     formAgregarOperacion.querySelector('#date').focus();
     console.log('Funcion Add operation...');
 }
@@ -258,7 +281,7 @@ console.log(mesesArray[month - 1]);
 const bodyDataTable = document.querySelector('main .data-table tbody');
 const bodyTotalTable = document.querySelector('.total-table table tbody');
 
-const createHTMLOperation = (date, operation, amount,id) => {
+const createHTMLOperation = (date, operation, amount, id, is_positive) => {
     let element = `
         <tr id="${id}">
             <td>
@@ -270,7 +293,7 @@ const createHTMLOperation = (date, operation, amount,id) => {
                 </div>
             </td>
             <td class="operation">${operation}</td>
-            <td class="amount">$${amount}</td>
+            <td class="amount ${is_positive ? 'positivo' : 'negativo'}">$${amount}</td>
             <td class="editar-operacion"><span class="icon-pencil"></span></td>
             <td class="eliminar-operacion"><span class="icon-trash"></span></td>
         </tr>
@@ -293,7 +316,7 @@ const renderOperaciones = (Operaciones) => {
         }
         
         let date = operacion.year+'-'+mes+'-'+day
-        bodyDataTable.innerHTML += createHTMLOperation(date, operacion.field,operacion.amount, operacion.account_id);
+        bodyDataTable.innerHTML += createHTMLOperation(date, operacion.field,operacion.amount, operacion.account_id, operacion.is_positive);
     });
 }
 
@@ -330,9 +353,11 @@ const getOperaciones =async () => {
 
 const renderTotalOperaciones = (Operaciones) => {
     const emptybodyDataTable  = ``;
-    bodyTotalTable.innerHTML = emptybodyDataTable ;
+    operationNameArray = [];
+    bodyTotalTable.innerHTML = emptybodyDataTable;
     Operaciones.forEach( (operacion,index) => {
-        console.log(operacion)
+        console.log(operacion);
+        operationNameArray.push(operacion.Field);
         bodyTotalTable.innerHTML += createHTMLTotalOperation(operacion.Field, operacion.YDT);
     });
 }
