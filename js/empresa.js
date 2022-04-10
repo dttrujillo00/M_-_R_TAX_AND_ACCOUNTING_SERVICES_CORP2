@@ -1,4 +1,7 @@
-
+let business_id      = localStorage.getItem('id_bussines');
+let storage_year     = localStorage.getItem('actual_year');
+let month            = localStorage.getItem('actual_month');
+let bussines         = localStorage.getItem('actual_business');
 
 
 /**********************
@@ -93,18 +96,45 @@ const year = document.querySelector('span.year');
 year.innerText = localStorage.getItem('actual_year');
 empresaTitulo.innerText = localStorage.getItem('actual_business');
 
-document.addEventListener('DOMContentLoaded', e => {
+document.addEventListener('DOMContentLoaded', async(e) => {
     posicionarTarjetasMeses();
     console.log("Estoy en cargando la pagina empresa");
+    
+
+    await getBalanceFromCurrentMonth();
+    await getBalanceFromLastMonth();
+ 
+    await getGrossProfit ();
+    await getTotalExpenses();
 })
 
 
 
-// const getBalanceFromLastMonth =async () => {
-//     await window.ipcRenderer.invoke('obtener_balance_del_mes_anterior',mes).then((result) => {
-//         console.log("Se obtuvo el balance del mes anterior"+year);
-//         console.log(result);
-//         renderOperaciones(result);
+const getBalanceFromLastMonth =async () => {
+    await window.ipcRenderer.invoke('obtener_balance_del_mes_anterior',bussines).then((result) => {
+        console.log("Se obtuvo el balance del mes anterior");
+        console.log(result);
+    })
+}
 
-//     })
-// }
+const getBalanceFromCurrentMonth =async () => {
+    await window.ipcRenderer.invoke('obtener_balance_del_mes',bussines,month,storage_year).then((result) => {
+        console.log("Se obtuvo el balance del mes actual");
+        console.log(result);
+    })
+}
+
+
+const getGrossProfit =async () => {
+    await window.ipcRenderer.invoke('obtener_ingresos_totales', bussines,storage_year).then((result) => {
+        console.log("Se obtuvo el ingreso neto");
+        console.log(result);
+    })
+}
+
+const getTotalExpenses =async () => {
+    await window.ipcRenderer.invoke('obtener_gastos_totales', bussines,storage_year).then((result) => {
+        console.log("Se obtuvo los gatos totales");
+        console.log(result);
+    })
+}
