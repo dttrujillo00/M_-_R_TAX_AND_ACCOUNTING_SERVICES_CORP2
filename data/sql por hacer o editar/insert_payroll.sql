@@ -1,1 +1,1 @@
-﻿INSERT INTO payroll(amount, is_positive, payment_type_id, business_id) VALUES(?,?,?,?)
+﻿INSERT INTO payroll(amount, payment_type_id, employee_id, date_id) VALUES (?,?,?,?)

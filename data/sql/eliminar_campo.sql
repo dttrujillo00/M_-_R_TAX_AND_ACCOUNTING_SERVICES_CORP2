@@ -1,1 +1,1 @@
-﻿DELETE FROM account WHERE account_id = ?
+﻿DELETE FROM field WHERE field_id = ?

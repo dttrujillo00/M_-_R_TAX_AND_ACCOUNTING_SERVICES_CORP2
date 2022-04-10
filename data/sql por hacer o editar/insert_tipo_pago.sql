@@ -1,1 +1,1 @@
-﻿INSERT INTO payment_type(payment_type) VALUES(?)
+﻿INSERT INTO payment_type(payment_type) VALUES (?)

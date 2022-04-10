@@ -1,0 +1,1 @@
+﻿SELECT payment_type_id FROM payment_type WHERE payment_type = ?
