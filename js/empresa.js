@@ -100,3 +100,11 @@ document.addEventListener('DOMContentLoaded', e => {
 
 
 
+// const getBalanceFromLastMonth =async () => {
+//     await window.ipcRenderer.invoke('obtener_balance_del_mes_anterior',mes).then((result) => {
+//         console.log("Se obtuvo el balance del mes anterior"+year);
+//         console.log(result);
+//         renderOperaciones(result);
+
+//     })
+// }
