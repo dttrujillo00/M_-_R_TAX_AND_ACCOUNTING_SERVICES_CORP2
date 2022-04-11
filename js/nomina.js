@@ -3,14 +3,15 @@ let month = localStorage.getItem('actual_month');
 /**********************
  * MANEJADOR DEL MENU *
  *  *******************/
- const iconMenu = document.querySelector('.icon-menu img');
- const menu = document.querySelector('.menu');
- const secondIconMenu = document.querySelector('.menu > img');
- const body = document.querySelector('body');
- const closeMenuElement = document.querySelector('.hide-menu');
- const empresaPage = document.querySelector('.empresa-page');
+const iconMenu = document.querySelector('.icon-menu img');
+const menu = document.querySelector('.menu');
+const secondIconMenu = document.querySelector('.menu > img');
+const body = document.querySelector('body');
+const closeMenuElement = document.querySelector('.hide-menu');
+const empresaPage = document.querySelector('.empresa-page');
+const home = document.querySelector('.home');
 
- const auxiliarHideMenu = (e) => {
+const auxiliarHideMenu = (e) => {
     if(e.target === body){
         hideMenu();
     }
@@ -37,10 +38,15 @@ const retrocederPage = () => {
     window.location.pathname = 'pages/empresa.html';
 }
 
+const retrocederHome = () => {
+    window.location.pathname = 'pages/index.html';
+}
+
 iconMenu.addEventListener('click',showMenu);
 secondIconMenu.addEventListener('click', hideMenu);
 closeMenuElement.addEventListener('click', hideMenu);
 empresaPage.addEventListener('click', retrocederPage);
+home.addEventListener('click', retrocederHome);
 
 /***********************
  *  AGREGAR OPERACION  *

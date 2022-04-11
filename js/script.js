@@ -90,11 +90,12 @@ const posicionarTarjetasEmpresas = () => {
       window.ipcRenderer.send("pasar-id-pagina-mes", empresa.id);
 
     });
-    empresa.addEventListener("contextmenu", (e) => {
+    empresa.addEventListener("contextmenu", () => {
       empresas.forEach((emp) => {
-        emp.childNodes[1].classList.remove("show");
+        console.log(emp.children);
+        emp.children[0].classList.remove("show");
       });
-      empresa.childNodes[1].classList.add("show");
+      empresa.children[0].classList.add("show");
     });
   });
 
@@ -238,9 +239,9 @@ const agregarTarjeta = () => {
         empresa.addEventListener("click", navegacionEmpresa);
         empresa.addEventListener("contextmenu", () => {
           empresas.forEach((emp) => {
-            emp.childNodes[1].classList.remove("show");
+            emp.children[0].classList.remove("show");
           });
-          empresa.childNodes[1].classList.add("show");
+          empresa.children[0].classList.add("show");
         });
       });
       inputNuevaEmpresa.blur();
