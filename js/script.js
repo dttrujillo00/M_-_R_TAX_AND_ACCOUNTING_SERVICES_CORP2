@@ -332,9 +332,4 @@ const getEmpresas = async () => {
 (async function init() {
   console.log("Inicio y pido los datos");
   await getEmpresas();
-
-  fetch("../data/temp.json")
-        .then((response) => response.json())
-        .catch((error) => console.error("Error:", error))
-        .then((response) => console.log("Succes: ", response));
 })();

@@ -49,5 +49,5 @@
 * [X] Build project
 * [X] Build database
 * [X] Create designs
-* [ ] Create queries to database
-* [ ] Create model of database
+* [X] Create queries to database
+* [X] Create model of database
