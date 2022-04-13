@@ -67,6 +67,7 @@ const posicionarTarjetasMeses = () => {
     
     let index = 80;
     let count = 1;
+    let count2 = 0;
     
     filasMeses.forEach( (fila, index) => {
         fila.style.bottom = `${-35*(index + 1)}px`;
@@ -87,6 +88,36 @@ const posicionarTarjetasMeses = () => {
         } else {
             count = 1;
         }
+
+        mes.addEventListener('mouseover', () => {
+
+            if(index > 6) {
+              count2 = index - 7;
+            } else {
+              count2 = index
+            }
+      
+            console.log(count2);
+            console.log(meses[index])
+            console.log(mes.querySelector('input'))
+            mes.style.transform = `translate(${-10 * count2}%, -10%)`;
+            mes.querySelector('input').style.transform = 'scale(1.150)';
+          });
+
+          mes.addEventListener('mouseleave', () => {
+            if(index > 6) {
+              count2 = index - 7;
+            } else {
+              count2 = index
+            }
+      
+            console.log(count2);
+            console.log(meses[index])
+            mes.style.transform = `translate(${-10 * count2}%)`;
+            mes.querySelector('input').style.transform = 'scale(1)';
+          });
+      
+
     });
 }
 

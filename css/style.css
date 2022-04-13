@@ -13,6 +13,11 @@
 }
 
 @font-face {
+    font-family: 'PoppinsSemiBold';
+    src: url(../fonts/Poppins/Poppins-SemiBold.ttf);
+}
+
+@font-face {
     font-family: 'Raleway';
     src: url(../fonts/Raleway/Raleway-Regular.ttf);
 }
@@ -23,7 +28,8 @@
 }
 
 :root {
-    --bgColor: rgb(236, 226, 214);
+    /* --bgColor: rgb(236, 226, 214); */
+    --bgColor: #ece2d6;
     --verdeColor: rgb(92, 104, 92);
 }
 
@@ -204,7 +210,7 @@ transform: translateX(0);
 }
 
 .menu-content ul li p {
-    font-size: 22px;
+    font-size: 20px;
     font-weight: 500;
 }
 
@@ -332,8 +338,9 @@ footer ul {
 }
 
 footer ul li {
-    text-align: center;
     background-image: linear-gradient( 170deg, rgb(113, 138, 113) 30%, rgb(158, 166, 150) 70%);
+    border-bottom: 1px solid var(--verdeColor);
+    text-align: center;
     color: rgb(207, 193, 173);
     border-radius: 20px 20px 0 0;
     padding-left: 2rem;
@@ -341,13 +348,13 @@ footer ul li {
     padding-top: .5rem;
     border-top: 1px solid var(--verdeColor);
     border-right: 1px solid var(--verdeColor);
-    border-bottom: 1px solid var(--verdeColor);
     text-transform: uppercase;
     height: 70px;
     box-shadow: 1px -1px 5px rgba(0, 0, 0, .3);
     /* min-width: 10%;
     max-width: 10%; */
     position: relative;
+    transition: all .2s;
 }
 
 #nomina {
@@ -358,6 +365,10 @@ footer ul li {
 footer ul li.empresa {
     min-width: 10%;
     max-width: 10%;
+}
+
+footer ul li.empresa:nth-child(2) {
+    transform: translateY(-50px);
 }
 
 footer ul li.mes {
@@ -373,6 +384,8 @@ footer ul li input {
     border: none;
     color: rgb(207, 193, 173);
     text-overflow: ellipsis;
+    transition: all .2s;
+    font-family: 'Poppins';
 }
 
 footer ul li input:focus {
@@ -464,7 +477,7 @@ footer ul li:hover {
 }
 
 .btn-cancelar {
-    color: rgba(255, 0, 0, .4);
+    color: rgb(178, 103,103);
 }
 
 /************************************* 
@@ -509,8 +522,9 @@ main {
 
 table,th, td {
     border-collapse: collapse;
-    padding: .5rem 1rem;
-    font-size: 13px;
+    padding: 5px 10px;
+    font-size: 12px;
+    font-family: 'Poppins';
 }
 
 body.opacity table,
@@ -539,6 +553,10 @@ main table tr {
     border-bottom: 2px solid rgb(157, 155, 143);
 }
 
+main table thead th {
+    font-family: 'PoppinsSemiBold';
+}
+
 main table td, th {
     border-right: 2px solid rgb(157, 155, 143);
     border-left: 2px solid rgb(157, 155, 143);
@@ -562,6 +580,10 @@ main table .revenue, .deposits, .operating-expenses, .gross-profit {
 .revenue, .operating-expenses {
     text-align: center;
     font-weight: bold;
+}
+
+.revenue td, .operating-expenses td {
+    font-family: 'PoppinsSemiBold';
 }
 
 main table .type td:last-child {
@@ -590,15 +612,20 @@ main table tr.nombre td img:hover {
     right: 2rem;
     width: 45px;
     height: 45px;
-    background-color: rgb(25, 172, 25);
+    /* background-color: rgb(25, 172, 25); */
     padding: .5rem;
     border-radius: 50%;
-    outline: 2px solid white;
-    outline-offset: -4px;
-    transform: scale(0);
+    /* outline: 2px solid white; */
+    /* outline-offset: -4px; */
+    /* transform: scale(0); */
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.notification img {
+    transform: scale(.2);
+    display: none;
 }
 
 .notification.show {

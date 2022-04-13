@@ -362,7 +362,7 @@ const renderTotalOperaciones = (Operaciones) => {
     operationNameArray = [];
     bodyTotalTable.innerHTML = emptybodyDataTable;
     Operaciones.forEach( (operacion,index) => {
-        console.log(operacion);
+        // console.log(operacion);
         operationNameArray.push(operacion.Field);
         bodyTotalTable.innerHTML += createHTMLTotalOperation(operacion.Field, operacion.YDT);
     });
