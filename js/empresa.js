@@ -202,7 +202,7 @@ document.addEventListener('DOMContentLoaded', async(e) => {
 
 
 const getBalanceFromLastMonth =async () => {
-    await window.ipcRenderer.invoke('obtener_balance_del_mes_anterior',bussines).then((result) => {
+    await window.ipcRenderer.invoke('obtener_balance_del_mes_anterior',bussines,storage_year).then((result) => {
         console.log("Se obtuvo el balance del mes anterior");
         console.log(result);
         renderBalanceFromLastMonth(result);
