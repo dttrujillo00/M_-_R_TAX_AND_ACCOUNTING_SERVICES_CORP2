@@ -97,9 +97,9 @@ const posicionarTarjetasMeses = () => {
               count2 = index
             }
       
-            console.log(count2);
-            console.log(meses[index])
-            console.log(mes.querySelector('input'))
+            // console.log(count2);
+            // console.log(meses[index])
+            // console.log(mes.querySelector('input'))
             mes.style.transform = `translate(${-10 * count2}%, -10%)`;
             mes.querySelector('input').style.transform = 'scale(1.150)';
           });
@@ -111,8 +111,8 @@ const posicionarTarjetasMeses = () => {
               count2 = index
             }
       
-            console.log(count2);
-            console.log(meses[index])
+            // console.log(count2);
+            // console.log(meses[index])
             mes.style.transform = `translate(${-10 * count2}%)`;
             mes.querySelector('input').style.transform = 'scale(1)';
           });
@@ -133,6 +133,7 @@ let bodyHTML = `
 `;
 
 const renderHTMLRow = (dataRow) => {
+    console.log(dataRow)
     let element = `
         <tr>
             <td>${dataRow.Field}</td>
@@ -170,7 +171,7 @@ const renderRevenue = (totalRevenue) => {
 
     totalRevenue.forEach( revenue => {
         if(revenue.YDT !== 0) {
-            // console.log(revenue.Field + " " + revenue.YDT);
+            console.log(revenue.Field + " " + revenue.YDT);
             bodyHTML += renderHTMLRow(revenue);
         }
     });

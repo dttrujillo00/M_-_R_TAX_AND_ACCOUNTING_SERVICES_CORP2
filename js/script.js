@@ -118,9 +118,9 @@ const posicionarTarjetasEmpresas = () => {
         count2 = index
       }
 
-      console.log(count2);
-      console.log(empresas[index])
-      console.log(empresa.querySelector('input'))
+      // console.log(count2);
+      // console.log(empresas[index])
+      // console.log(empresa.querySelector('input'))
       empresa.style.transform = `translate(${-10 * count2}%, -10%)`;
       empresa.querySelector('input').style.transform = 'scale(1.150)';
     });
@@ -132,8 +132,8 @@ const posicionarTarjetasEmpresas = () => {
         count2 = index
       }
 
-      console.log(count2);
-      console.log(empresas[index])
+      // console.log(count2);
+      // console.log(empresas[index])
       empresa.style.transform = `translate(${-10 * count2}%)`;
       empresa.querySelector('input').style.transform = 'scale(1)';
     });
