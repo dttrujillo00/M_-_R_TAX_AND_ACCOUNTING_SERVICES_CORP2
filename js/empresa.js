@@ -1,3 +1,5 @@
+import { createExcelFile } from './createExcel.js'
+
 let business_id      = localStorage.getItem('id_bussines');
 let storage_year     = localStorage.getItem('actual_year');
 let month            = localStorage.getItem('actual_month');
@@ -210,6 +212,7 @@ const renderNetIncome = (data) => {
     data[0].Field = 'Net Income';
     bodyHTML += renderHTMLRow(data[0]);
     bodyTable.innerHTML = bodyHTML;
+    console.log(bodyTable, 'Mostrando tabla');
 }
 
 const empresaTitulo = document.querySelector('.empresa-name-container h1');
@@ -265,3 +268,40 @@ const getTotalExpenses =async () => {
         renderExpense(result);
     })
 }
+
+/************************
+ *   EXPORT EMPRESA     *
+ *  *********************/
+ const btnExport = document.querySelector('li.exportar');
+
+ btnExport.addEventListener('click', () => {
+
+    const excelTable = document.createElement('table');
+    const thead = `
+    <thead>
+        <tr>
+            <th></th>
+            <th>January</th>
+            <th>February</th>
+            <th>March</th>
+            <th>April</th>
+            <th>May</th>
+            <th>June</th>
+            <th>July</th>
+            <th>August</th>
+            <th>September</th>
+            <th>October</th>
+            <th>November</th>
+            <th>December</th>
+            <th>YTD</th>
+        </tr>
+    </thead>
+    `;
+
+    excelTable.innerHTML = thead;
+    // console.log(bodyTable)
+    excelTable.appendChild(bodyTable);
+    console.log(excelTable);
+
+    createExcelFile(excelTable);
+ })
