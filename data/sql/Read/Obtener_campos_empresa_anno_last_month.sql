@@ -13,3 +13,5 @@ SUM(CASE WHEN (month < 11 AND d.year = ?) OR d.year < ? THEN (CASE a.is_positive
 SUM(CASE WHEN (month < 12 AND d.year = ?) OR d.year < ? THEN (CASE a.is_positive WHEN TRUE THEN amount ELSE -amount END) ELSE 0 END) AS December
 FROM business b INNER JOIN account a ON b.business_id = a.business_id INNER JOIN date d ON a.date_id = d.date_id INNER JOIN field f ON a.field_id = f.field_id 
 WHERE b.business_name = ?
+
+
