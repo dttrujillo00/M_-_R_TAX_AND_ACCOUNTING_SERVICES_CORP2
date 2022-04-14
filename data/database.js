@@ -109,22 +109,22 @@ ipcMain.handle('obtener_balance_del_mes', async (event, name,month,year) => {
 
 ipcMain.handle('obtener_ingresos_totales', async (event,name, year) => { 
 
-	const sql = 'SELECT field AS Field, '																			+ 
-	'SUM(CASE month WHEN 1 THEN (CASE a.is_positive WHEN TRUE THEN amount ELSE 0 END) ELSE 0 END) AS January, ' 	+ 
-	'SUM(CASE month WHEN 2 THEN (CASE a.is_positive WHEN TRUE THEN amount ELSE 0 END) ELSE 0 END) AS February, ' 	+ 
-	'SUM(CASE month WHEN 3 THEN (CASE a.is_positive WHEN TRUE THEN amount ELSE 0 END) ELSE 0 END) AS March, ' 		+ 
-	'SUM(CASE month WHEN 4 THEN (CASE a.is_positive WHEN TRUE THEN amount ELSE 0 END) ELSE 0 END) AS April, ' 		+ 	
-	'SUM(CASE month WHEN 5 THEN (CASE a.is_positive WHEN TRUE THEN amount ELSE 0 END) ELSE 0 END) AS May, ' 		+
-	'SUM(CASE month WHEN 6 THEN (CASE a.is_positive WHEN TRUE THEN amount ELSE 0 END) ELSE 0 END) AS June, ' 		+ 
-	'SUM(CASE month WHEN 7 THEN (CASE a.is_positive WHEN TRUE THEN amount ELSE 0 END) ELSE 0 END) AS July, ' 		+ 
-	'SUM(CASE month WHEN 8 THEN (CASE a.is_positive WHEN TRUE THEN amount ELSE 0 END) ELSE 0 END) AS August, ' 		+ 
-	'SUM(CASE month WHEN 9 THEN (CASE a.is_positive WHEN TRUE THEN amount ELSE 0 END) ELSE 0 END) AS September, ' 	+ 
-	'SUM(CASE month WHEN 10 THEN (CASE a.is_positive WHEN TRUE THEN amount ELSE 0 END) ELSE 0 END) AS October, ' 	+ 
-	'SUM(CASE month WHEN 11 THEN (CASE a.is_positive WHEN TRUE THEN amount ELSE 0 END) ELSE 0 END) AS November, ' 	+ 
-	'SUM(CASE month WHEN 12 THEN (CASE a.is_positive WHEN TRUE THEN amount ELSE 0 END) ELSE 0 END) AS December, '	+
+	const sql = 'SELECT '+
+	'SUM(CASE month WHEN 1 THEN (CASE a.is_positive WHEN TRUE THEN amount ELSE 0 END) ELSE 0 END) AS January,'+ 
+	'SUM(CASE month WHEN 2 THEN (CASE a.is_positive WHEN TRUE THEN amount ELSE 0 END) ELSE 0 END) AS February,'+ 
+	'SUM(CASE month WHEN 3 THEN (CASE a.is_positive WHEN TRUE THEN amount ELSE 0 END) ELSE 0 END) AS March,'+ 
+	'SUM(CASE month WHEN 4 THEN (CASE a.is_positive WHEN TRUE THEN amount ELSE 0 END) ELSE 0 END) AS April,'+ 
+	'SUM(CASE month WHEN 5 THEN (CASE a.is_positive WHEN TRUE THEN amount ELSE 0 END) ELSE 0 END) AS May,'+
+	'SUM(CASE month WHEN 6 THEN (CASE a.is_positive WHEN TRUE THEN amount ELSE 0 END) ELSE 0 END) AS June,'+ 
+	'SUM(CASE month WHEN 7 THEN (CASE a.is_positive WHEN TRUE THEN amount ELSE 0 END) ELSE 0 END) AS July,'+ 
+	'SUM(CASE month WHEN 8 THEN (CASE a.is_positive WHEN TRUE THEN amount ELSE 0 END) ELSE 0 END) AS August,'+ 
+	'SUM(CASE month WHEN 9 THEN (CASE a.is_positive WHEN TRUE THEN amount ELSE 0 END) ELSE 0 END) AS September,'+ 
+	'SUM(CASE month WHEN 10 THEN (CASE a.is_positive WHEN TRUE THEN amount ELSE 0 END) ELSE 0 END) AS October,'+ 
+	'SUM(CASE month WHEN 11 THEN (CASE a.is_positive WHEN TRUE THEN amount ELSE 0 END) ELSE 0 END) AS November,'+ 
+	'SUM(CASE month WHEN 12 THEN (CASE a.is_positive WHEN TRUE THEN amount ELSE 0 END) ELSE 0 END) AS December,'+
 	'SUM( CASE a.is_positive WHEN TRUE THEN amount ELSE 0 END) AS YDT '+
 	'FROM business b INNER JOIN account a ON b.business_id = a.business_id INNER JOIN date d ON a.date_id = d.date_id INNER JOIN field f ON a.field_id = f.field_id '+
-	'WHERE b.business_name = \"'+name+'\" AND d.year = '+year+' GROUP BY field'
+	'WHERE b.business_name = \"'+name+'\" AND d.year = '+year;
 	const result = await get(sql);
 
 	return result;
@@ -132,28 +132,28 @@ ipcMain.handle('obtener_ingresos_totales', async (event,name, year) => {
 
 ipcMain.handle('obtener_gastos_totales', async (event,name, year) => { 
 
-	const sql = 'SELECT field AS Field, '																			+
-   'SUM(CASE month WHEN 1 THEN (CASE a.is_positive WHEN TRUE THEN 0 ELSE amount END) ELSE 0 END) AS January, ' 		+
-   'SUM(CASE month WHEN 2 THEN (CASE a.is_positive WHEN TRUE THEN 0 ELSE amount END) ELSE 0 END) AS February, ' 	+
-   'SUM(CASE month WHEN 3 THEN (CASE a.is_positive WHEN TRUE THEN 0 ELSE amount END) ELSE 0 END) AS March, ' 		+
-   'SUM(CASE month WHEN 4 THEN (CASE a.is_positive WHEN TRUE THEN 0 ELSE amount END) ELSE 0 END) AS April, ' 		+
-   'SUM(CASE month WHEN 5 THEN (CASE a.is_positive WHEN TRUE THEN 0 ELSE amount END) ELSE 0 END) AS May,' 			+
-   'SUM(CASE month WHEN 6 THEN (CASE a.is_positive WHEN TRUE THEN 0 ELSE amount END) ELSE 0 END) AS June, ' 		+
-   'SUM(CASE month WHEN 7 THEN (CASE a.is_positive WHEN TRUE THEN 0 ELSE amount END) ELSE 0 END) AS July, ' 		+
-   'SUM(CASE month WHEN 8 THEN (CASE a.is_positive WHEN TRUE THEN 0 ELSE amount END) ELSE 0 END) AS August, ' 		+
-   'SUM(CASE month WHEN 9 THEN (CASE a.is_positive WHEN TRUE THEN 0 ELSE amount END) ELSE 0 END) AS September, ' 	+
-   'SUM(CASE month WHEN 10 THEN (CASE a.is_positive WHEN TRUE THEN 0 ELSE amount END) ELSE 0 END) AS October, ' 	+
-   'SUM(CASE month WHEN 11 THEN (CASE a.is_positive WHEN TRUE THEN 0 ELSE amount END) ELSE 0 END) AS November, '	+
-   'SUM(CASE month WHEN 12 THEN (CASE a.is_positive WHEN TRUE THEN 0 ELSE amount END) ELSE 0 END) AS December,' 	+
-   'SUM( CASE a.is_positive WHEN TRUE THEN 0 ELSE amount END) AS YDT ' 												+
-   'FROM business b INNER JOIN account a ON b.business_id = a.business_id INNER JOIN date d ON a.date_id = d.date_id INNER JOIN field f ON a.field_id = f.field_id ' +
-   'WHERE b.business_name = \"'+name+'\" AND d.year = '+year+' GROUP BY field'
+	const sql = 'SELECT '+
+	'SUM(CASE month WHEN 1 THEN (CASE a.is_positive WHEN TRUE THEN 0 ELSE amount END) ELSE 0 END) AS January,'	+ 
+	'SUM(CASE month WHEN 2 THEN (CASE a.is_positive WHEN TRUE THEN 0 ELSE amount END) ELSE 0 END) AS February,'	+ 
+	'SUM(CASE month WHEN 3 THEN (CASE a.is_positive WHEN TRUE THEN 0 ELSE amount END) ELSE 0 END) AS March,'	+ 
+	'SUM(CASE month WHEN 4 THEN (CASE a.is_positive WHEN TRUE THEN 0 ELSE amount END) ELSE 0 END) AS April,'	+ 
+	'SUM(CASE month WHEN 5 THEN (CASE a.is_positive WHEN TRUE THEN 0 ELSE amount END) ELSE 0 END) AS May,'		+
+	'SUM(CASE month WHEN 6 THEN (CASE a.is_positive WHEN TRUE THEN 0 ELSE amount END) ELSE 0 END) AS June,'		+ 
+	'SUM(CASE month WHEN 7 THEN (CASE a.is_positive WHEN TRUE THEN 0 ELSE amount END) ELSE 0 END) AS July,'		+ 
+	'SUM(CASE month WHEN 8 THEN (CASE a.is_positive WHEN TRUE THEN 0 ELSE amount END) ELSE 0 END) AS August,'	+ 
+	'SUM(CASE month WHEN 9 THEN (CASE a.is_positive WHEN TRUE THEN 0 ELSE amount END) ELSE 0 END) AS September,'+ 
+	'SUM(CASE month WHEN 10 THEN (CASE a.is_positive WHEN TRUE THEN 0 ELSE amount END) ELSE 0 END) AS October,'	+ 
+	'SUM(CASE month WHEN 11 THEN (CASE a.is_positive WHEN TRUE THEN 0 ELSE amount END) ELSE 0 END) AS November,'+ 
+	'SUM(CASE month WHEN 12 THEN (CASE a.is_positive WHEN TRUE THEN 0 ELSE amount END) ELSE 0 END) AS December,'+
+	'SUM( CASE a.is_positive WHEN TRUE THEN 0 ELSE amount END) AS YDT '											+ 
+	'FROM business b INNER JOIN account a ON b.business_id = a.business_id INNER JOIN date d ON a.date_id = d.date_id INNER JOIN field f ON a.field_id = f.field_id '+
+	'WHERE b.business_name = \"'+name+'\" AND d.year = '+year
 	const result = await get(sql);
 
 	return result;
 })
 
-// #######################################################################################
+// ################################################################################################################
 
 //										PAGINA MES
 
@@ -283,15 +283,94 @@ ipcMain.handle('eliminar_operacion', async (event, id) => {
 // 									PAGINA NOMINA
 
 // -------------------------------------CREATE------------------------------------
-ipcMain.handle('insertar_empleado', async (event, employee) => { 
-	
-	const field_name='employee';
-	const { name, business_id} = employee;
-	const sql ='INSERT INTO employee(employee_name, business_id) '+'VALUES('+name+', '+business_id+')';
 
-	const employeeResult = await create(field_name,sql);
-	return employeeResult;
+ipcMain.handle('insert_payroll', async (event,amount,p_type,name,bussines_id,date) => {
+	
+	id_fecha = await obtener_id_por_fecha(date);
+	p_type_id = await obtener_id_por_tipo_de_pago(p_type);
+	employee_id = await obtener_id_por_employee(name,bussines_id);
+
+	amount,p_type_id,employee_id,date_id
+	const payroll = { 
+		amount: amount, 
+		p_type_id: p_type_id, 
+		employee_id: business_id,
+		date_id: id_fecha,
+	} ;
+
+	payroll =await insert_payroll(payroll);
+	
+	
+	
+	return payroll; 
 })
+
+// HELPERS
+async function insertar_fecha(date){
+
+	const [year, month, day] = date.split('-')
+	const sql ='INSERT INTO date(day, month, year) '+'VALUES('+ parseInt(day) +', '+ parseInt(month) +', '+ parseInt(year)+')';
+
+	
+	const dateResult = await create(sql);
+	return dateResult; 
+}
+
+async function obtener_id_por_fecha(date){
+	const [year, month, day] = date.split('-')
+	id_fecha = await get('SELECT date_id FROM date WHERE year = ' +parseInt(year)+' AND month = '+parseInt(month)+' AND day = '+parseInt(day));
+	if(id_fecha[0] == undefined){
+		await insertar_fecha(date);
+		id_fecha = await get('SELECT date_id FROM date WHERE year = ' +parseInt(year)+' AND month = '+parseInt(month)+' AND day = '+parseInt(day));
+	}
+
+	return 	id_fecha[0].date_id;
+}
+
+async function insert_employee (name,bussines_id){ 
+	
+	const sql ='INSERT INTO employee(employee_name, business_id) '+'VALUES('+name+', '+bussines_id+')';
+
+	const result = await create(sql);
+	return result;
+}
+
+async function obtener_id_por_employee(name, bussines_id){
+
+	employee_id = await get('SELECT employee_id FROM employee WHERE employee_name = \"'+name+'\"');
+
+	if(employee_id[0] == undefined){
+		await insert_employee(name, bussines_id);
+		employee_id = await get('SELECT employee_id FROM employee WHERE employee_name = \"'+name+'\"');
+	}
+	return employee_id[0].employee_id;
+}
+
+async function insert_payment_type (p_type){ 
+	
+	const sql ='INSERT INTO payment_type(payment_type) '+'VALUES(\"'+p_type+'\")';
+
+	const result = await create(sql);
+	return result;
+}
+
+async function obtener_id_por_tipo_de_pago(payment_type){
+
+	p_type_id = await get('SELECT payment_type_id FROM payment_type WHERE payment_type = \"'+payment_type+'\"');
+
+	if(p_type_id[0] == undefined){
+		await insert_payment_type(payment_type);
+		p_type_id = await get('SELECT payment_type_id FROM payment_type WHERE payment_type = \"'+payment_type+'\"');
+}
+	return p_type_id[0].p_type_id;
+}
+
+async function insert_payroll(payroll) {
+	const { amount,p_type_id,employee_id,date_id} = payroll;
+	const sql ='INSERT INTO payroll(amount, payment_type_id, employee_id, date_id) VALUES ('+amount+','+p_type_id+','+employee_id+','+date_id+')';
+	const Result = await create(sql);
+	return Result;
+}
 
 // -------------------------------------UPDATE------------------------------------
 
@@ -309,7 +388,16 @@ ipcMain.handle('eliminar_empleado', async (event, id) => {
 })
 
 
-// ##########################################################################################
+
+
+
+
+
+
+
+
+
+// ###############################################################################################################
 // 								FUNCIONES ESTANDARES PARA HACER CRUD
 
 
