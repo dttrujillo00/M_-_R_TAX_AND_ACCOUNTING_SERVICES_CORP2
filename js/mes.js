@@ -1,3 +1,5 @@
+import { showNotification } from './showNotification.js';
+
 /*******************************************************
  * Variables Indispensables para las consultas a la DB *
  * *****************************************************/
@@ -161,6 +163,7 @@ const validate = async(e) => {
 
             const result =await window.ipcRenderer.invoke('editar_cuenta',business_id,inputIdAccount.value,is_positive, date.value,operation.value,amount.value);
             console.log('Operacion editada con exito '+result);
+            showNotification();
             await getOperaciones();
             await getTotalOperaciones()
 
@@ -173,6 +176,7 @@ const validate = async(e) => {
             is_positive = selector.options[selector.selectedIndex].value;
             const result =await window.ipcRenderer.invoke('agregar_operacion', date.value,operation.value,amount.value,is_positive,business_id);
             console.log('Operacion agregada con exito '+result);
+            showNotification();
             await getOperaciones();
             await getTotalOperaciones()
         }
@@ -254,6 +258,7 @@ function handleDelete() {
             let id = e.target.parentElement.parentElement.parentElement.id
             const result =await window.ipcRenderer.invoke('eliminar_operacion',id);
             console.log('Operacion eliminada con exito '+result);
+            showNotification();
             deleteContainer[index].classList.remove('show');
             await getOperaciones();
             await getTotalOperaciones()
@@ -392,3 +397,13 @@ yearSpan.innerText = localStorage.getItem('actual_year');
     await getTotalOperaciones()
 
 })();
+
+// setTimeout(() => {
+//     document.querySelector('.notification').classList.remove('hide');
+//     document.querySelector('.notification').classList.add('show');
+// }, 4000);
+
+// setTimeout(() => {
+//     document.querySelector('.notification').classList.remove('show');
+//     document.querySelector('.notification').classList.add('hide');
+// }, 7000);
