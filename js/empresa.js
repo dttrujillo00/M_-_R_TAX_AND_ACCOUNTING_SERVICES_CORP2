@@ -299,8 +299,8 @@ const getTotalExpenses =async () => {
     `;
 
     excelTable.innerHTML = thead;
-    // console.log(bodyTable)
-    excelTable.appendChild(bodyTable);
+    let bodyTableClone = bodyTable.cloneNode(true);
+    excelTable.appendChild(bodyTableClone);
     console.log(excelTable);
 
     createExcelFile(excelTable);
