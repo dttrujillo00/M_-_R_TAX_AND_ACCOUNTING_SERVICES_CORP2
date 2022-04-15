@@ -1,3 +1,5 @@
+import { createExcelFile } from './createExcel.js'
+
 let business_id      = localStorage.getItem('id_bussines');
 let storage_year     = localStorage.getItem('actual_year');
 let month            = localStorage.getItem('actual_month');
@@ -67,6 +69,7 @@ const posicionarTarjetasMeses = () => {
     
     let index = 80;
     let count = 1;
+    let count2 = 0;
     
     filasMeses.forEach( (fila, index) => {
         fila.style.bottom = `${-35*(index + 1)}px`;
@@ -87,6 +90,36 @@ const posicionarTarjetasMeses = () => {
         } else {
             count = 1;
         }
+
+        mes.addEventListener('mouseover', () => {
+
+            if(index > 6) {
+              count2 = index - 7;
+            } else {
+              count2 = index
+            }
+      
+            // console.log(count2);
+            // console.log(meses[index])
+            // console.log(mes.querySelector('input'))
+            mes.style.transform = `translate(${-10 * count2}%, -10%)`;
+            mes.querySelector('input').style.transform = 'scale(1.150)';
+          });
+
+          mes.addEventListener('mouseleave', () => {
+            if(index > 6) {
+              count2 = index - 7;
+            } else {
+              count2 = index
+            }
+      
+            // console.log(count2);
+            // console.log(meses[index])
+            mes.style.transform = `translate(${-10 * count2}%)`;
+            mes.querySelector('input').style.transform = 'scale(1)';
+          });
+      
+
     });
 }
 
@@ -102,6 +135,7 @@ let bodyHTML = `
 `;
 
 const renderHTMLRow = (dataRow) => {
+    console.log(dataRow)
     let element = `
         <tr>
             <td>${dataRow.Field}</td>
@@ -139,7 +173,7 @@ const renderRevenue = (totalRevenue) => {
 
     totalRevenue.forEach( revenue => {
         if(revenue.YDT !== 0) {
-            // console.log(revenue.Field + " " + revenue.YDT);
+            console.log(revenue.Field + " " + revenue.YDT);
             bodyHTML += renderHTMLRow(revenue);
         }
     });
@@ -178,6 +212,7 @@ const renderNetIncome = (data) => {
     data[0].Field = 'Net Income';
     bodyHTML += renderHTMLRow(data[0]);
     bodyTable.innerHTML = bodyHTML;
+    console.log(bodyTable, 'Mostrando tabla');
 }
 
 const empresaTitulo = document.querySelector('.empresa-name-container h1');
@@ -202,7 +237,7 @@ document.addEventListener('DOMContentLoaded', async(e) => {
 
 
 const getBalanceFromLastMonth =async () => {
-    await window.ipcRenderer.invoke('obtener_balance_del_mes_anterior',bussines).then((result) => {
+    await window.ipcRenderer.invoke('obtener_balance_del_mes_anterior',bussines,storage_year).then((result) => {
         console.log("Se obtuvo el balance del mes anterior");
         console.log(result);
         renderBalanceFromLastMonth(result);
@@ -219,7 +254,7 @@ const getBalanceFromCurrentMonth =async () => {
 
 
 const getGrossProfit =async () => {
-    await window.ipcRenderer.invoke('obtener_ingresos_totales', bussines,storage_year).then((result) => {
+    await window.ipcRenderer.invoke('obtener_ingresos', bussines,storage_year).then((result) => {
         console.log("Se obtuvo el ingreso neto");
         console.log(result);
         renderRevenue(result);
@@ -227,9 +262,64 @@ const getGrossProfit =async () => {
 }
 
 const getTotalExpenses =async () => {
+    await window.ipcRenderer.invoke('obtener_gastos', bussines,storage_year).then((result) => {
+        // console.log("Se obtuvo los gatos totales");
+        // console.log(result);
+        renderExpense(result);
+    })
+}
+
+
+const getGrossProfitTotales =async () => {
+    await window.ipcRenderer.invoke('obtener_ingresos_totales', bussines,storage_year).then((result) => {
+        console.log("Se obtuvo el ingreso neto");
+        console.log(result);
+        renderRevenue(result);
+    })
+}
+
+const getTotalExpensesTotales =async () => {
     await window.ipcRenderer.invoke('obtener_gastos_totales', bussines,storage_year).then((result) => {
         // console.log("Se obtuvo los gatos totales");
         // console.log(result);
         renderExpense(result);
     })
 }
+
+
+/************************
+ *   EXPORT EMPRESA     *
+ *  *********************/
+ const btnExport = document.querySelector('li.exportar');
+
+ btnExport.addEventListener('click', () => {
+
+    const excelTable = document.createElement('table');
+    const thead = `
+    <thead>
+        <tr>
+            <th></th>
+            <th>January</th>
+            <th>February</th>
+            <th>March</th>
+            <th>April</th>
+            <th>May</th>
+            <th>June</th>
+            <th>July</th>
+            <th>August</th>
+            <th>September</th>
+            <th>October</th>
+            <th>November</th>
+            <th>December</th>
+            <th>YTD</th>
+        </tr>
+    </thead>
+    `;
+
+    excelTable.innerHTML = thead;
+    let bodyTableClone = bodyTable.cloneNode(true);
+    excelTable.appendChild(bodyTableClone);
+    console.log(excelTable);
+
+    createExcelFile(excelTable);
+ })

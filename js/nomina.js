@@ -1,16 +1,18 @@
+import { createExcelFile } from './createExcel.js';
 let month = localStorage.getItem('actual_month');
 
 /**********************
  * MANEJADOR DEL MENU *
  *  *******************/
- const iconMenu = document.querySelector('.icon-menu img');
- const menu = document.querySelector('.menu');
- const secondIconMenu = document.querySelector('.menu > img');
- const body = document.querySelector('body');
- const closeMenuElement = document.querySelector('.hide-menu');
- const empresaPage = document.querySelector('.empresa-page');
+const iconMenu = document.querySelector('.icon-menu img');
+const menu = document.querySelector('.menu');
+const secondIconMenu = document.querySelector('.menu > img');
+const body = document.querySelector('body');
+const closeMenuElement = document.querySelector('.hide-menu');
+const empresaPage = document.querySelector('.empresa-page');
+const home = document.querySelector('.home');
 
- const auxiliarHideMenu = (e) => {
+const auxiliarHideMenu = (e) => {
     if(e.target === body){
         hideMenu();
     }
@@ -37,10 +39,15 @@ const retrocederPage = () => {
     window.location.pathname = 'pages/empresa.html';
 }
 
+const retrocederHome = () => {
+    window.location.pathname = 'pages/index.html';
+}
+
 iconMenu.addEventListener('click',showMenu);
 secondIconMenu.addEventListener('click', hideMenu);
 closeMenuElement.addEventListener('click', hideMenu);
 empresaPage.addEventListener('click', retrocederPage);
+home.addEventListener('click', retrocederHome);
 
 /***********************
  *  AGREGAR OPERACION  *
@@ -195,11 +202,62 @@ meses.addEventListener('change', e => {
 /************************
  *  EXPORT EMPLOYEE     *
  *  *********************/
+// const createExcelFile = (table_elt) => {
+
+//     // Extract Data (create a workbook object from the table)
+//     var workbook = XLSX.utils.table_to_book(table_elt);
+
+//     // Process Data (add a new row)
+//     var ws = workbook.Sheets["Sheet1"];
+//     // XLSX.utils.sheet_add_aoa(ws, [["Exported from M&R app "+new Date().toISOString()]], {origin:-1});
+
+//     // Package and Release Data (`writeFile` tries to write and save an XLSB file)
+//     XLSX.writeFile(workbook, "Reporte.xlsb");
+// }
+
 const btnExport = document.querySelectorAll('.export-icon');
 
 btnExport.forEach( btn => {
     btn.addEventListener('click', e => {
-        console.log('Exporting ' + e.target.id);
+
+        let excelTable = document.createElement('table');
+        let excelBodyTable = document.createElement('body');
+
+        // console.log('Exporting ' , e.target.parentElement.parentElement);
+        let el = e.target.parentElement.parentElement;
+        let i = 1;
+        let continuarLoop = true;
+        let elCopy;
+
+        while (continuarLoop && i < 7) {
+            if (el.nodeName === '#text') {
+                el = el.nextSibling;
+                i++;
+            }
+
+            let nodoNuevoCopia = el.cloneNode(true);
+            console.log(nodoNuevoCopia, 'Copia');
+            excelBodyTable.appendChild(nodoNuevoCopia);
+
+            // if (i > 1  && el.classList.contains('head-tr')) {
+            //     console.log('Termina aqui');
+            //     continuarLoop = false;
+            //     continue;
+            // } else {
+            //     let nodoNuevoCopia = el.cloneNode(true);
+            //     console.log(nodoNuevoCopia, 'Copia');
+            //     excelBodyTable.appendChild(nodoNuevoCopia);
+            //     // console.log('Continua')
+            // }
+
+            console.log(i + '. ' , el);
+            el = el.nextSibling;
+            i++;
+        }
+
+        excelTable.appendChild(excelBodyTable);
+        console.log(excelTable);
+        createExcelFile(excelTable);
     })
 })
 

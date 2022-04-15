@@ -123,6 +123,7 @@ main .row .col-8 table tbody tr td:nth-child(2) {
 
 main .row .col-8 table tbody tr td input {
     appearance: none;
+    transform: translateX(1.3rem);
 }
 
 main .row .col-4 {

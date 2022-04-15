@@ -19,6 +19,7 @@
  const body = document.querySelector('body');
  const closeMenuElement = document.querySelector('.hide-menu');
  const empresaPage = document.querySelector('.empresa-page');
+ const home = document.querySelector('.home');
 
  const auxiliarHideMenu = (e) => {
     if(e.target === body){
@@ -47,10 +48,15 @@ const retrocederPage = () => {
     window.location.pathname = 'pages/empresa.html';
 }
 
+const retrocederHome = () => {
+    window.location.pathname = 'pages/index.html';
+} 
+
 iconMenu.addEventListener('click',showMenu);
 secondIconMenu.addEventListener('click', hideMenu);
 closeMenuElement.addEventListener('click', hideMenu);
 empresaPage.addEventListener('click', retrocederPage);
+home.addEventListener('click', retrocederHome);
 
 
 
@@ -356,7 +362,7 @@ const renderTotalOperaciones = (Operaciones) => {
     operationNameArray = [];
     bodyTotalTable.innerHTML = emptybodyDataTable;
     Operaciones.forEach( (operacion,index) => {
-        console.log(operacion);
+        // console.log(operacion);
         operationNameArray.push(operacion.Field);
         bodyTotalTable.innerHTML += createHTMLTotalOperation(operacion.Field, operacion.YDT);
     });

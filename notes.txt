@@ -1,0 +1,6 @@
+tipografia de la tabla
+Revenue and Expense - Poppins semi-bold
+Resto de operaciones - Poppins regular
+font-size de la tabla: 11px
+font-size icono exportar employee .76rem
+Las tablas y las tarjetas tienen Poppins

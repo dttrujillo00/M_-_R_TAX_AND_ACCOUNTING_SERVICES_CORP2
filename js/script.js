@@ -73,6 +73,7 @@ const posicionarTarjetasEmpresas = () => {
 
   let index = 100;
   let count = 1;
+  let count2 = 0;
 
   filasEmpresas.forEach((fila, index) => {
     fila.style.bottom = `${-35 * (index + 1)}px`;
@@ -90,21 +91,53 @@ const posicionarTarjetasEmpresas = () => {
       window.ipcRenderer.send("pasar-id-pagina-mes", empresa.id);
 
     });
-    empresa.addEventListener("contextmenu", (e) => {
+    empresa.addEventListener("contextmenu", () => {
       empresas.forEach((emp) => {
-        emp.childNodes[1].classList.remove("show");
+        console.log(emp.children);
+        emp.children[0].classList.remove("show");
       });
-      empresa.childNodes[1].classList.add("show");
+      empresa.children[0].classList.add("show");
     });
   });
 
   empresas.forEach((empresa, index) => {
+    
     if (index % 11 !== 0) {
       empresa.style.transform = `translate(${-10 * count}%)`;
       count++;
     } else {
       count = 1;
+      
     }
+
+    empresa.addEventListener('mouseover', () => {
+
+      if(index > 10) {
+        count2 = index - 11;
+      } else {
+        count2 = index
+      }
+
+      // console.log(count2);
+      // console.log(empresas[index])
+      // console.log(empresa.querySelector('input'))
+      empresa.style.transform = `translate(${-10 * count2}%, -10%)`;
+      empresa.querySelector('input').style.transform = 'scale(1.150)';
+    });
+
+    empresa.addEventListener('mouseleave', () => {
+      if(index > 10) {
+        count2 = index - 11;
+      } else {
+        count2 = index
+      }
+
+      // console.log(count2);
+      // console.log(empresas[index])
+      empresa.style.transform = `translate(${-10 * count2}%)`;
+      empresa.querySelector('input').style.transform = 'scale(1)';
+    });
+
   });
 };
 
@@ -238,9 +271,9 @@ const agregarTarjeta = () => {
         empresa.addEventListener("click", navegacionEmpresa);
         empresa.addEventListener("contextmenu", () => {
           empresas.forEach((emp) => {
-            emp.childNodes[1].classList.remove("show");
+            emp.children[0].classList.remove("show");
           });
-          empresa.childNodes[1].classList.add("show");
+          empresa.children[0].classList.add("show");
         });
       });
       inputNuevaEmpresa.blur();
