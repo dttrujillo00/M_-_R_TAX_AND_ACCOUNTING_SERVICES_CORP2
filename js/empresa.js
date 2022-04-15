@@ -254,7 +254,7 @@ const getBalanceFromCurrentMonth =async () => {
 
 
 const getGrossProfit =async () => {
-    await window.ipcRenderer.invoke('obtener_ingresos_totales', bussines,storage_year).then((result) => {
+    await window.ipcRenderer.invoke('obtener_ingresos', bussines,storage_year).then((result) => {
         console.log("Se obtuvo el ingreso neto");
         console.log(result);
         renderRevenue(result);
@@ -262,12 +262,14 @@ const getGrossProfit =async () => {
 }
 
 const getTotalExpenses =async () => {
-    await window.ipcRenderer.invoke('obtener_gastos_totales', bussines,storage_year).then((result) => {
+    await window.ipcRenderer.invoke('obtener_gastos', bussines,storage_year).then((result) => {
         // console.log("Se obtuvo los gatos totales");
         // console.log(result);
         renderExpense(result);
     })
 }
+
+
 
 /************************
  *   EXPORT EMPRESA     *
