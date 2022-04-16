@@ -1,0 +1,1 @@
+﻿UPDATE payroll SET amount = ?, payment_type_id = ?, employee_id = ?, date_id = ? WHERE payroll_id = ?
