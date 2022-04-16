@@ -30,7 +30,23 @@
 :root {
     /* --bgColor: rgb(236, 226, 214); */
     --bgColor: #ece2d6;
+    --bgLightGrey: rgba(155, 153, 151, 0.5);
+    --bgDarkGrey: rgb(165, 162, 150);
     --verdeColor: rgb(92, 104, 92);
+}
+
+.poppinsSemiBold {
+    font-family: 'PoppinsSemiBold' !important;
+}
+
+.bgLightGrey {
+    background-color: var(--bgLightGrey);
+    color: white;
+}
+
+.bgDarkGrey {
+    background-color: var(--bgDarkGrey);
+    color: white;
 }
 
 ::-webkit-scrollbar {
@@ -574,7 +590,7 @@ main table td input {
 }
 
 main table .revenue, .deposits, .operating-expenses, .gross-profit {
-    background-color: rgba(155, 153, 151, 0.5);
+    background-color: var(--bgLightGrey);
 }
 
 .revenue, .operating-expenses {
@@ -612,20 +628,17 @@ main table tr.nombre td img:hover {
     right: 2rem;
     width: 45px;
     height: 45px;
-    /* background-color: rgb(25, 172, 25); */
     padding: .5rem;
     border-radius: 50%;
-    /* outline: 2px solid white; */
-    /* outline-offset: -4px; */
-    /* transform: scale(0); */
     display: flex;
     justify-content: center;
     align-items: center;
+    transform: scale(0);
+    z-index: 220;
 }
 
 .notification img {
     transform: scale(.2);
-    display: none;
 }
 
 .notification.show {
@@ -636,23 +649,13 @@ main table tr.nombre td img:hover {
     animation: hideNotification .2s ease-in forwards;
 }
 
-.notification span.icon-ok-outline::before {
-    color: white;
-    font-size: 1.5rem;
-    transform: scale(0);
-}
-
-.notification.show span.icon-ok-outline::before {
-    animation: showNotification .2s ease-out .2s forwards;
-}
-
 @keyframes showNotification {
     0% {
         transform: scale(0);
     }
 
     90% {
-        transform: scale(1.3);
+        transform: scale(1.5);
     }
 
     100% {
@@ -666,7 +669,7 @@ main table tr.nombre td img:hover {
     }
 
     10% {
-        transform: scale(1.3);
+        transform: scale(1.5);
     }
 
     100% {
