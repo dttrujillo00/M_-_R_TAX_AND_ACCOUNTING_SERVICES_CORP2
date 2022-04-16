@@ -323,3 +323,36 @@ const createHTMLEmployeeDetail = (name, atm, cash, transf) => {
 const yearSpan = document.querySelector('span.year');
 
 yearSpan.innerText = localStorage.getItem('actual_year');
+
+
+
+// -----------------------------CONSULTAS A LA DB------------------------------------------------
+
+async function insert_payroll(amount,p_type,name,bussines_id,date) {
+    await window.ipcRenderer.invoke('insert_payroll', amount,p_type,name,bussines_id,date).then((result) => {
+        console.log("Se inserto un nuevo payroll");
+        console.log(result);
+    })
+}
+
+async function get_payroll(year) {
+    await window.ipcRenderer.invoke('get_payroll', amount,p_type,name,bussines_id,date).then((result) => {
+        console.log("Se obtuvo un nuevo payroll");
+        console.log(result);
+    })
+}
+
+
+async function update_payroll( amount,p_type_id,employee_id,date_id,payroll_id) {
+    await window.ipcRenderer.invoke('update_payroll', amount,p_type_id,employee_id,date_id,payroll_id).then((result) => {
+        console.log("Se inserto un nuevo payroll");
+        console.log(result);
+    })
+}
+
+async function delete_payroll(id) {
+    await window.ipcRenderer.invoke('delete_payroll', id).then((result) => {
+        console.log("Se inserto un nuevo payroll");
+        console.log(result);
+    })
+}

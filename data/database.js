@@ -424,16 +424,16 @@ async function insert_payroll(payroll) {
 
 // -------------------------------------UPDATE------------------------------------
 
-ipcMain.handle('editar_nombre_empleado', async (event, employee) => { 
-	const { name, employee_id} = employee;
-	const sql ='UPDATE employee SET employee_name = '+name+' WHERE employee_id = '+employee_id
+ipcMain.handle('update_payroll', async (event, amount,p_type_id,employee_id,date_id,payroll_id) => { 
+
+	const sql ='UPDATE payroll SET amount = '+amount+', payment_type_id = '+p_type_id+', employee_id = '+employee_id+', date_id = '+date_id+', WHERE payroll_id = '+payroll_id
 	await edit(sql);
 })
 
 // -------------------------------------DELETE------------------------------------
 
-ipcMain.handle('eliminar_empleado', async (event, id) => {
-	const sql='DELETE FROM employee WHERE employee_id = '+id
+ipcMain.handle('delete_payroll', async (event, id) => {
+	const sql='DELETE FROM payroll WHERE payroll_id = '+id
 	return await deleteObj(sql);
 })
 
