@@ -45,6 +45,15 @@ ipcMain.handle('obtener_empresas_por_anno', async (event, year) => {
 	return empresas;
 })
 
+ipcMain.handle('obtener_todos_los_anno', async (event) => { 
+
+	const sql = 'SELECT DISTINCT year FROM business_year'
+	const result = await get(sql);
+
+	return result;
+})
+
+
 // ------------------------------------UPDATES------------------------------------
 
 ipcMain.handle('editar_nombre_empresa', async (event, business) => { 
@@ -368,16 +377,6 @@ async function insertar_fecha(date){
 	return dateResult; 
 }
 
-// async function obtener_id_por_fecha(date){
-// 	const [year, month, day] = date.split('-')
-// 	id_fecha = await get('SELECT date_id FROM date WHERE year = ' +parseInt(year)+' AND month = '+parseInt(month)+' AND day = '+parseInt(day));
-// 	if(id_fecha[0] == undefined){
-// 		await insertar_fecha(date);
-// 		id_fecha = await get('SELECT date_id FROM date WHERE year = ' +parseInt(year)+' AND month = '+parseInt(month)+' AND day = '+parseInt(day));
-// 	}
-
-// 	return 	id_fecha[0].date_id;
-// }
 
 async function insert_employee (name,bussines_id){ 
 	
@@ -429,7 +428,7 @@ async function insert_payroll(payroll) {
 // -------------------------------------READ--------------------------------------
 
 ipcMain.handle('get_payroll', async (event, business_id,year,month) => {
-	const sql="SELECT amount, payment_type, employee_name, year, month, day FROM payroll p LEFT JOIN employee e ON p.employee_id = e.employee_id LEFT JOIN business b ON e.business_id = b.business_id LEFT JOIN payment_type pt ON p.payment_type_id = pt.payment_type_id LEFT JOIN date d ON p.date_id = d.date_id WHERE b.business_id = "+business_id+" AND d.year = "+year+" AND d.month = "+month
+	const sql="SELECT payroll_id,amount, payment_type, employee_name, year, month day FROM payroll p LEFT JOIN employee e ON p.employee_id = e.employee_id LEFT JOIN business b ON e.business_id = b.business_id LEFT JOIN payment_type pt ON p.payment_type_id = pt.payment_type_id LEFT JOIN date d ON p.date_id = d.date_id WHERE b.business_id = "+business_id+" AND d.year = "+year+" AND d.month = "+month
 	return await get(sql);
 })
 
