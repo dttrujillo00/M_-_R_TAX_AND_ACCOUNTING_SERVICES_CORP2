@@ -1,8 +1,12 @@
 import { createExcelFile } from './createExcel.js';
 import { showNotification } from './showNotification.js';
 
+let business_id      = localStorage.getItem('id_bussines');
+let storage_year     = localStorage.getItem('actual_year');
+let month            = localStorage.getItem('actual_month');
+let bussines         = localStorage.getItem('actual_business');
 
-let month = localStorage.getItem('actual_month');
+;
 
 /**********************
  * MANEJADOR DEL MENU *
@@ -95,11 +99,13 @@ const hideForm = () => {
     formAgregarOperacion.classList.remove('show');
 }
 
-const addOperation = () => {
+const addOperation = async() => {
     hideMenu();
     showForm('', '', '', '', false);
     formAgregarOperacion.querySelector('#date').focus();
     console.log('Funcion Add operation...');
+    
+    
 }
 
 const validate = (e) => {
@@ -134,8 +140,17 @@ const validate = (e) => {
          *  Y LUEGO EJECUTAR LA FUNCION DE OBTENER OPERACIONES  *
          *  *****************************************************/
         if (e.target.classList.contains('edit')) {
+
+            let selector  = document.getElementById('type');
+            p_type = selector.options[selector.selectedIndex].value;
+            await update_payroll( amount,date,p_type,name,bussines_id,payroll_id)
+
             console.log('Editar');
         } else {
+            let selector  = document.getElementById('type');
+            p_type = selector.options[selector.selectedIndex].value;
+            await insert_payroll(amount,p_type,name,business_id,date);
+
             console.log('Agregar');
         }
     }
@@ -181,10 +196,20 @@ const confirmDelete = document.querySelectorAll('.confirm-delete');
 eliminarBtn.forEach( (btn, index) => {
     btn.addEventListener('click', () => {
         console.log('Eliminar Operacion')
-
         deleteContainer[index].classList.add('show');
     });
 });
+
+confirmDelete.forEach( (btn, index) => {
+    btn.addEventListener('click', async(e) => {
+        let id = e.target.parentElement.parentElement.parentElement.id
+        await delete_payroll(id)
+        showNotification();
+        deleteContainer[index].classList.remove('show');
+        await getPayroll()
+    });
+});
+
 
 cancelDelete.forEach( (btn, index) => {
     btn.addEventListener('click', () => {
@@ -325,6 +350,56 @@ const createHTMLEmployeeDetail = (name, atm, cash, transf) => {
     return element;
 }
 
+
 const yearSpan = document.querySelector('span.year');
 
 yearSpan.innerText = localStorage.getItem('actual_year');
+
+
+
+
+
+
+
+
+
+
+
+// -----------------------------CONSULTAS A LA DB------------------------------------------------
+
+async function insert_payroll(amount,p_type,name,bussines_id,date) {
+    await window.ipcRenderer.invoke('insert_payroll', amount,p_type,name,bussines_id,date).then((result) => {
+        console.log("Se inserto un nuevo payroll");
+        console.log(result);
+    })
+}
+
+async function get_payroll(business_id,year) {
+    await window.ipcRenderer.invoke('get_payroll',business_id,year).then((result) => {
+        console.log("Se obtuvo los payroll");
+        console.log(result);
+    })
+}
+
+
+async function update_payroll( amount,p_type_id,employee_id,date_id,payroll_id) {
+    await window.ipcRenderer.invoke('update_payroll', amount,p_type_id,employee_id,date_id,payroll_id).then((result) => {
+        console.log("Se edito un  payroll");
+        console.log(result);
+    })
+}
+
+async function delete_payroll(id) {
+    await window.ipcRenderer.invoke('delete_payroll', id).then((result) => {
+        console.log("Se elimino un  payroll");
+        console.log(result);
+    })
+}
+
+
+async function get_payroll_second_table(business_id,year,employee_id) {
+    await window.ipcRenderer.invoke('get_all_p_type_by_payroll', business_id,year,employee_id).then((result) => {
+        console.log("Se obtuvo lo daros de la segunda tabla");
+        console.log(result);
+    })
+}

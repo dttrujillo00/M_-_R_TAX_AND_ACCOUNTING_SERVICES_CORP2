@@ -422,18 +422,37 @@ async function insert_payroll(payroll) {
 	return Result;
 }
 
+// -------------------------------------READ--------------------------------------
+
+ipcMain.handle('get_payroll', async (event, business_id,year) => {
+	const sql='SELECT amount, payment_type, employee_name, year, month, day FROM payroll p LEFT JOIN employee e ON p.employee_id = e.employee_id LEFT JOIN business b ON e.business_id = b.business_id LEFT JOIN payment_type pt ON p.payment_type_id = pt.payment_type_id LEFT JOIN date d ON p.date_id = d.date_id WHERE b.business_id = '+business_id+' AND d.year = '+year
+	return await get(sql);
+})
+
+
+ipcMain.handle('get_all_p_type_by_payroll', async (event, business_id,year,employee_id) => {
+	const sql='SELECT payment_type, SUM(amount) AS amount '+
+	'FROM payroll p LEFT JOIN employee e ON p.employee_id = e.employee_id LEFT JOIN business b ON e.business_id = b.business_id LEFT JOIN payment_type pt ON p.payment_type_id = pt.payment_type_id LEFT JOIN date d ON p.date_id = d.date_id WHERE b.business_id = '+business_id+' AND d.year = '+year+' AND e.employee_id = '+employee_id+' ANDGROUP BY payment_type'
+	return await get(sql);
+})
+
 // -------------------------------------UPDATE------------------------------------
 
-ipcMain.handle('editar_nombre_empleado', async (event, employee) => { 
-	const { name, employee_id} = employee;
-	const sql ='UPDATE employee SET employee_name = '+name+' WHERE employee_id = '+employee_id
+ipcMain.handle('update_payroll', async (event, amount,date,p_type,name,bussines_id,payroll_id) => { 
+	
+		
+	id_fecha = await obtener_id_por_fecha(date);
+	p_type_id = await obtener_id_por_tipo_de_pago(p_type);
+	employee_id = await obtener_id_por_employee(name,bussines_id);
+
+	const sql ='UPDATE payroll SET amount = '+amount+', payment_type_id = '+p_type_id+', employee_id = '+employee_id+', date_id = '+date_id+', WHERE payroll_id = '+payroll_id
 	await edit(sql);
 })
 
 // -------------------------------------DELETE------------------------------------
 
-ipcMain.handle('eliminar_empleado', async (event, id) => {
-	const sql='DELETE FROM employee WHERE employee_id = '+id
+ipcMain.handle('delete_payroll', async (event, id) => {
+	const sql='DELETE FROM payroll WHERE payroll_id = '+id
 	return await deleteObj(sql);
 })
 
