@@ -135,7 +135,7 @@ let bodyHTML = `
 `;
 
 const renderHTMLRow = (dataRow) => {
-    console.log(dataRow)
+    // console.log(dataRow)
     let element = `
         <tr>
             <td>${dataRow.Field}</td>
@@ -263,8 +263,8 @@ const getGrossProfit =async () => {
 
 const getTotalExpenses =async () => {
     await window.ipcRenderer.invoke('obtener_gastos', bussines,storage_year).then((result) => {
-        // console.log("Se obtuvo los gatos totales");
-        // console.log(result);
+        console.log("Se obtuvo los gatos totales");
+        console.log(result);
         renderExpense(result);
     })
 }

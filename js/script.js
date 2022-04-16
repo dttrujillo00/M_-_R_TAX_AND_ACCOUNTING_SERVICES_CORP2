@@ -370,5 +370,4 @@ const getEmpresas = async () => {
 (async function init() {
   console.log("Inicio y pido los datos");
   await getEmpresas();
-  showNotification();
 })();
