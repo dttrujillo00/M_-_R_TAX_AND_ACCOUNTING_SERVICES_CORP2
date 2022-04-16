@@ -108,7 +108,7 @@ const addOperation = async() => {
     
 }
 
-const validate = (e) => {
+const validate = async(e) => {
     e.preventDefault()
 
     readyToSend = 0
