@@ -17,7 +17,7 @@ const body = document.querySelector("body");
 const closeMenuElement = document.querySelector(".hide-menu");
 const liArchivo = document.querySelector(".li-archivo");
 const archivoContent = document.querySelector(".archivo-content");
-const annos = archivoContent.querySelectorAll("li");
+
 
 const auxiliarHideMenu = (e) => {
   if (e.target === body) {
@@ -47,31 +47,48 @@ const showArchivo = () => {
   archivoContent.classList.toggle("active");
 };
 
-annos.forEach((anno) => {
-  anno.addEventListener("click", () => {
-    hideMenu();
-    archivoContent.classList.toggle("active");
+function handleAnos() {
+  const annos = archivoContent.querySelectorAll("li");
+  
+  
+  annos.forEach((anno) => {
+    anno.addEventListener("click", () => {
+      hideMenu();
+      archivoContent.classList.toggle("active");
+  
+      if (!anno.classList.contains('add-new-year')) {
+        currentYear = anno.querySelector("p").innerText;
+        year.innerText = currentYear;
+        getEmpresas();
+      } else {
+        showMenu();
+        liArchivo.click();
+        const newLi = document.createElement('li');
+        let contentLi = `
+        <p><input class="inputForNewYear" type="text" autofocus></p>
+        <img src="../icons/numero-year.png" alt="Year">
+        `;
+  
+        newLi.innerHTML = contentLi;
+        archivoContent.insertBefore(newLi, archivoContent.firstChild);
 
-    if (!anno.classList.contains('add-new-year')) {
-      currentYear = anno.querySelector("p").innerText;
-      year.innerText = currentYear;
-      getEmpresas();
-    } else {
+        let inputToAddYear = document.querySelector('.inputForNewYear');
 
-      let newLi = document.createElement('li');
-      let element = `
-          <p>2023</p>
-          <img src="../icons/numero-year.png" alt="Year">
-      `;
+        inputToAddYear.addEventListener('keydown', e => {
+          if (e.code === 'Enter') {
+            console.log(inputToAddYear.value);
+            currentYear = inputToAddYear.value;
+            year.innerText = currentYear;
+            hideMenu();
+            getEmpresas();
+          }
+        })
 
-      newLi.innerHTML = element;
-
-      archivoContent.children[0].insertBefore = newLi;
-      console.log(archivoContent.children[0])
-      console.log("Adding year")
-    }
+      }
+    });
   });
-});
+}
+
 
 iconMenu.addEventListener("click", showMenu);
 secondIconMenu.addEventListener("click", hideMenu);
@@ -365,7 +382,31 @@ const renderEmpresas = (empresas) => {
   });
 
   console.log(footer);
-};
+}
+
+const cretaeHTMLAno = year => {
+  let element = `
+  <li>
+      <p>${year}</p>
+      <img src="../icons/numero-year.png" alt="Year">
+  </li>
+  `;
+
+  return element;
+}
+
+const renderAnos = (data) => {
+  data.forEach( ({year}) => {
+    archivoContent.innerHTML += cretaeHTMLAno(year);
+  });
+
+  archivoContent.innerHTML += `
+  <li class="add-new-year">
+    <p>Add a year</p>
+    <img src="../icons/agregarElemento.png" alt="add">
+  </li>
+  `;
+}
 
 const getEmpresas = async () => {
   await window.ipcRenderer
@@ -389,6 +430,8 @@ const getAnnos = async () => {
   await window.ipcRenderer
     .invoke("obtener_todos_los_anno")
     .then((result) => {
-      console.log("Se obtuvo los annos " +result);
+      console.log("Se obtuvo los annos " , result);
+      renderAnos(result);
+      handleAnos();
     });
 };

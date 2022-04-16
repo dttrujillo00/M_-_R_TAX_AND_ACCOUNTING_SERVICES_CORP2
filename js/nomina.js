@@ -167,14 +167,16 @@ const validate = async(e) => {
             let p_type = selector.options[selector.selectedIndex].value;
             console.log('Esta es la fecha', newDate, typeof(newDate))
             await update_payroll(newAmount, newDate, p_type, newName, business_id, idToEdit)
-            await get_payroll(business_id, storage_year, month);
+            await get_payroll(business_id, storage_year, localStorage.getItem('actual_month'));
+            showNotification();
             console.log('Editar');
         } else {
             let selector  = document.getElementById('type');
             let p_type = selector.options[selector.selectedIndex].value;
             console.log(inputs[2].value,p_type,inputs[1].value,business_id,inputs[0].value);
             await insert_payroll(inputs[2].value,p_type,inputs[1].value,business_id,inputs[0].value);
-            await get_payroll(business_id, storage_year, month);
+            await get_payroll(business_id, storage_year, localStorage.getItem('actual_month'));
+            showNotification();
             console.log('Agregar');
         }
     }
@@ -242,7 +244,7 @@ function handleDelete() {
             await delete_payroll(id)
             showNotification();
             deleteContainer[index].classList.remove('show');
-            await get_payroll(business_id, storage_year, month)
+            await get_payroll(business_id, storage_year,localStorage.getItem('actual_month'))
         });
     });
     
@@ -417,7 +419,7 @@ const renderEmployee = data => {
         
         if(found === undefined) {
             nameRegister.push(employee_name);
-            await get_payroll_second_table(business_id, year, employee_name, month);
+            await get_payroll_second_table(business_id, year, employee_name, localStorage.getItem('actual_month'));
         }
     })
 
@@ -503,7 +505,7 @@ async function get_payroll_second_table(business_id,year,employee_name, month) {
 
 (async function init() {
     console.log("Inicio y pido los datos");
-	await get_payroll(business_id, storage_year, month)
+	await get_payroll(business_id, storage_year, localStorage.getItem('actual_month'))
     // await get_payroll_second_table()
 
 })();

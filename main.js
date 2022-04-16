@@ -10,6 +10,7 @@ function createWindow () {
     height: 700,
     minWidth: 1024,
     minHeight: 600,
+    // icon: __dirname + '/icons/logo.png',
     webPreferences:{
       nodeIntegration : true,
       preload:__dirname + '/preload.js',

@@ -221,6 +221,17 @@ transform: translateX(0);
     padding: 15px 0;
 }
 
+.inputForNewYear {
+    width: 100%;
+    background-color: transparent;
+    border: none;
+    text-align: right;
+    font-family: 'Raleway';
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--verdeColor);
+}
+
 .menu-content ul li:hover {
     cursor: pointer;
 }
