@@ -428,7 +428,7 @@ async function insert_payroll(payroll) {
 // -------------------------------------READ--------------------------------------
 
 ipcMain.handle('get_payroll', async (event, business_id,year,month) => {
-	const sql="SELECT payroll_id,amount, payment_type, employee_name, year, month day FROM payroll p LEFT JOIN employee e ON p.employee_id = e.employee_id LEFT JOIN business b ON e.business_id = b.business_id LEFT JOIN payment_type pt ON p.payment_type_id = pt.payment_type_id LEFT JOIN date d ON p.date_id = d.date_id WHERE b.business_id = "+business_id+" AND d.year = "+year+" AND d.month = "+month
+	const sql="SELECT payroll_id,amount, payment_type, employee_name, year, month, day FROM payroll p LEFT JOIN employee e ON p.employee_id = e.employee_id LEFT JOIN business b ON e.business_id = b.business_id LEFT JOIN payment_type pt ON p.payment_type_id = pt.payment_type_id LEFT JOIN date d ON p.date_id = d.date_id WHERE b.business_id = "+business_id+" AND d.year = "+year+" AND d.month = "+month
 	return await get(sql);
 })
 
