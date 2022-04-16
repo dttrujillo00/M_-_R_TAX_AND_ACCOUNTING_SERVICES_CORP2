@@ -41,10 +41,11 @@ app.on('window-all-closed', () => {
 })
 
 
-ipcMain.on('pasar-id-pagina-mes',(e, id) => {
+ipcMain.on('navegacion',(e, url) => {
   // win.webContents.send('enviar-id',id)
-  win.loadFile('pages/empresa.html')
-  console.log("La empresa seleccionada tiene id: "+id)
+  // console.log(url)
+  win.loadFile(url)
+  // console.log("La empresa seleccionada tiene id: "+id)
  
 })
 
