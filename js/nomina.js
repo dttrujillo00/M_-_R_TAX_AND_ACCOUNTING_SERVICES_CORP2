@@ -39,11 +39,13 @@ const hideMenu = () => {
 }
 
 const retrocederPage = () => {
-    window.location.pathname = 'pages/empresa.html';
+    // window.location.pathname = 'pages/empresa.html';
+    window.ipcRenderer.send('navegacion', 'pages/empresa.html');
 }
 
 const retrocederHome = () => {
-    window.location.pathname = 'pages/index.html';
+    // window.location.pathname = 'pages/index.html';
+    window.ipcRenderer.send('navegacion', 'pages/index.html');
 }
 
 iconMenu.addEventListener('click',showMenu);
@@ -270,7 +272,7 @@ btnExport.forEach( btn => {
 const bodyEmployeeTable = document.querySelector('.employee-table table tbody');
 const bodyEmployeeDetail = document.querySelector('.employee-details table tbody')
 
-const createHTMLOperation = (date, name, amount, type) => {
+const createHTMLOperation = (date, name, amount, type, id) => {
     let typeConverted;
     if(type === 0){
         typeConverted = 'ATM';
@@ -281,7 +283,7 @@ const createHTMLOperation = (date, name, amount, type) => {
     }
 
     let element = `
-        <tr>
+        <tr id="${id}">
             <td>
                 <input type="date" name="fecha" id="date" value="${date}" class="date" disabled>
                 <div class="delete-container">

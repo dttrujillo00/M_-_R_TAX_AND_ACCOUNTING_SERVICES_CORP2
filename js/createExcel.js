@@ -9,6 +9,7 @@ const createExcelFile = (table_elt) => {
 
     // Package and Release Data (`writeFile` tries to write and save an XLSB file)
     XLSX.writeFile(workbook, "Reporte.xlsb");
+    // alert('Export finished');
 }
 
 export {

@@ -40,7 +40,8 @@ const hideMenu = () => {
 }
 
 const retrocederHome = () => {
-    window.location.pathname = 'pages/index.html';
+    // window.location.pathname = 'pages/index.html';
+    window.ipcRenderer.send("navegacion", 'pages/index.html');
 }
 
 iconMenu.addEventListener('click',showMenu);
@@ -54,12 +55,14 @@ home.addEventListener('click', retrocederHome);
 
  const navegacionEmpresa = (e) => {
      if(e.target.classList.contains('nomina')){
-        window.location.pathname = '/pages/nomina.html';
+        // window.location.pathname = '/pages/nomina.html';
+        window.ipcRenderer.send('navegacion', 'pages/nomina.html');
      } else {
         let id = e.target.getAttribute('data-id');
         // console.log(id)
         localStorage.setItem("actual_month", id);
-         window.location.pathname = '/pages/mes.html';
+        //  window.location.pathname = '/pages/mes.html';
+        window.ipcRenderer.send('navegacion', 'pages/mes.html');
      }
 }
 

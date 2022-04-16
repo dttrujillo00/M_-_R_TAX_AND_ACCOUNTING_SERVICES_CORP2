@@ -5,6 +5,7 @@ const year = document.querySelector("span.year");
 let currentYear = new Date().getFullYear();
 year.innerText = currentYear;
 let listaEmpresas = [];
+let editingBoolean = false
 
 /**********************
  * MANEJADOR DEL MENU *
@@ -65,10 +66,6 @@ liArchivo.addEventListener("click", showArchivo);
  * MANEJADOR DEL POSICIONAMIENTO DE LAS TARJETAS DE EMPRESA *
  *  *********************************************************/
 
-const navegacionEmpresa = (event) => {
-  window.location.pathname = "/pages/empresa.html";
-};
-
 const posicionarTarjetasEmpresas = () => {
   const empresas = document.querySelectorAll(".empresa");
   const filasEmpresas = document.querySelectorAll(".fila-empresas");
@@ -87,10 +84,13 @@ const posicionarTarjetasEmpresas = () => {
     index--;
     empresa.addEventListener("click", (e) => {
 
-      localStorage.setItem("actual_year", currentYear);
-      localStorage.setItem("actual_business", empresa.title);
-      localStorage.setItem("id_bussines", empresa.id);
-      window.ipcRenderer.send("pasar-id-pagina-mes", empresa.id);
+      if(!editingBoolean) {
+        localStorage.setItem("actual_year", currentYear);
+        localStorage.setItem("actual_business", empresa.title);
+        localStorage.setItem("id_bussines", empresa.id);
+        window.ipcRenderer.send("navegacion", 'pages/empresa.html');
+      }
+
 
     });
     empresa.addEventListener("contextmenu", () => {
@@ -201,15 +201,14 @@ const manejadorModificarEmpresas = () => {
 
   botonesEditar.forEach((btn) => {
     btn.addEventListener("click", (e) => {
+      editingBoolean = true;
       e.target.parentElement.parentElement.classList.remove("show");
       e.stopPropagation();
 
       let thisInput =
         e.target.parentElement.parentElement.nextSibling.nextSibling
           .childNodes[1];
-      let thisEmpresa = e.target.parentElement.parentElement.parentElement;
 
-      thisEmpresa.removeEventListener("click", navegacionEmpresa);
       thisInput.removeAttribute("disabled");
       thisInput.focus();
 
@@ -224,8 +223,9 @@ const manejadorModificarEmpresas = () => {
           };
 
           await window.ipcRenderer.invoke("editar_nombre_empresa", toEdit);
+          thisInput.setAttribute("disabled", 'true');
+          editingBoolean = false;
           showNotification();
-          thisEmpresa.addEventListener("click", navegacionEmpresa);
         }
       });
     });
@@ -265,14 +265,9 @@ const agregarTarjeta = () => {
   inputNuevaEmpresa.removeAttribute("disabled");
   inputNuevaEmpresa.focus();
 
-  empresas.forEach((empresa) => {
-    empresa.removeEventListener("click", navegacionEmpresa);
-  });
-
   inputNuevaEmpresa.addEventListener("keydown", async (e) => {
     if (e.code === "Enter") {
       empresas.forEach((empresa) => {
-        empresa.addEventListener("click", navegacionEmpresa);
         empresa.addEventListener("contextmenu", () => {
           empresas.forEach((emp) => {
             emp.children[0].classList.remove("show");

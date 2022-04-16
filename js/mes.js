@@ -47,11 +47,13 @@ const hideMenu = () => {
 }
 
 const retrocederPage = () => {
-    window.location.pathname = 'pages/empresa.html';
+    // window.location.pathname = 'pages/empresa.html';
+    window.ipcRenderer.send('navegacion', 'pages/empresa.html');
 }
 
 const retrocederHome = () => {
-    window.location.pathname = 'pages/index.html';
+    // window.location.pathname = 'pages/index.html';
+    window.ipcRenderer.send('navegacion', 'pages/index.html');
 } 
 
 iconMenu.addEventListener('click',showMenu);
