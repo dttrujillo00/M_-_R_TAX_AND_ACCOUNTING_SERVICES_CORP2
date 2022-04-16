@@ -30,7 +30,23 @@
 :root {
     /* --bgColor: rgb(236, 226, 214); */
     --bgColor: #ece2d6;
+    --bgLightGrey: rgba(155, 153, 151, 0.5);
+    --bgDarkGrey: rgb(165, 162, 150);
     --verdeColor: rgb(92, 104, 92);
+}
+
+.poppinsSemiBold {
+    font-family: 'PoppinsSemiBold' !important;
+}
+
+.bgLightGrey {
+    background-color: var(--bgLightGrey);
+    color: white;
+}
+
+.bgDarkGrey {
+    background-color: var(--bgDarkGrey);
+    color: white;
 }
 
 ::-webkit-scrollbar {
@@ -574,7 +590,7 @@ main table td input {
 }
 
 main table .revenue, .deposits, .operating-expenses, .gross-profit {
-    background-color: rgba(155, 153, 151, 0.5);
+    background-color: var(--bgLightGrey);
 }
 
 .revenue, .operating-expenses {
