@@ -270,6 +270,22 @@ const getTotalExpenses =async () => {
 }
 
 
+const getGrossProfitTotales =async () => {
+    await window.ipcRenderer.invoke('obtener_ingresos_totales', bussines,storage_year).then((result) => {
+        console.log("Se obtuvo el ingreso neto");
+        console.log(result);
+        renderRevenue(result);
+    })
+}
+
+const getTotalExpensesTotales =async () => {
+    await window.ipcRenderer.invoke('obtener_gastos_totales', bussines,storage_year).then((result) => {
+        // console.log("Se obtuvo los gatos totales");
+        // console.log(result);
+        renderExpense(result);
+    })
+}
+
 
 /************************
  *   EXPORT EMPRESA     *
