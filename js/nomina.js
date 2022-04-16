@@ -159,6 +159,7 @@ const validate = async(e) => {
             let newName = inputs[1].value;
             let newAmount = inputs[2].value;
             let idToEdit = inputIdAccount.value;
+            console.log(idToEdit)
 
             // amount,date,p_type,name, business_id,payroll_id
 
@@ -260,9 +261,10 @@ const meses = document.querySelector('select.meses');
 
 meses.value = month
 
-meses.addEventListener('change', e => {
+meses.addEventListener('change', async(e) => {
     console.log('Fetching the month number: ' + e.target.value);
     localStorage.setItem('actual_month', e.target.value);
+    await get_payroll(business_id, storage_year, localStorage.getItem('actual_month', e.target.value))
 });
 
 /************************
@@ -386,6 +388,7 @@ const createHTMLEmployeeDetail = (result, employee_name) => {
 }
 
 const renderPayroll = (payrolls) => {
+    console.log(payrolls)
     const emptybodyDataTable = ``;
     bodyEmployeeTable.innerHTML = emptybodyDataTable;
 

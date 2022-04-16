@@ -51,9 +51,25 @@ annos.forEach((anno) => {
   anno.addEventListener("click", () => {
     hideMenu();
     archivoContent.classList.toggle("active");
-    currentYear = anno.querySelector("p").innerText;
-    year.innerText = currentYear;
-    getEmpresas();
+
+    if (!anno.classList.contains('add-new-year')) {
+      currentYear = anno.querySelector("p").innerText;
+      year.innerText = currentYear;
+      getEmpresas();
+    } else {
+
+      let newLi = document.createElement('li');
+      let element = `
+          <p>2023</p>
+          <img src="../icons/numero-year.png" alt="Year">
+      `;
+
+      newLi.innerHTML = element;
+
+      archivoContent.children[0].insertBefore = newLi;
+      console.log(archivoContent.children[0])
+      console.log("Adding year")
+    }
   });
 });
 
