@@ -424,15 +424,17 @@ async function insert_payroll(payroll) {
 
 // -------------------------------------READ--------------------------------------
 
-ipcMain.handle('get_payroll', async (event, business_id,year) => {
-	const sql='SELECT amount, payment_type, employee_name, year, month, day FROM payroll p LEFT JOIN employee e ON p.employee_id = e.employee_id LEFT JOIN business b ON e.business_id = b.business_id LEFT JOIN payment_type pt ON p.payment_type_id = pt.payment_type_id LEFT JOIN date d ON p.date_id = d.date_id WHERE b.business_id = '+business_id+' AND d.year = '+year
+ipcMain.handle('get_payroll', async (event, business_id,year,month) => {
+	const sql="SELECT amount, payment_type, employee_name, year, month, day FROM payroll p LEFT JOIN employee e ON p.employee_id = e.employee_id LEFT JOIN business b ON e.business_id = b.business_id LEFT JOIN payment_type pt ON p.payment_type_id = pt.payment_type_id LEFT JOIN date d ON p.date_id = d.date_id WHERE b.business_id = "+business_id+" AND d.year = "+year+" AND d.month = "+month
 	return await get(sql);
 })
 
 
-ipcMain.handle('get_all_p_type_by_payroll', async (event, business_id,year,employee_id) => {
-	const sql='SELECT payment_type, SUM(amount) AS amount '+
-	'FROM payroll p LEFT JOIN employee e ON p.employee_id = e.employee_id LEFT JOIN business b ON e.business_id = b.business_id LEFT JOIN payment_type pt ON p.payment_type_id = pt.payment_type_id LEFT JOIN date d ON p.date_id = d.date_id WHERE b.business_id = '+business_id+' AND d.year = '+year+' AND e.employee_id = '+employee_id+' ANDGROUP BY payment_type'
+ipcMain.handle('get_all_p_type_by_payroll', async (event, business_id,year,name,month) => {
+	employee_id = await obtener_id_por_employee(name,bussines_id);
+	const sql="SELECT payment_type, SUM(amount) AS amount "+
+	"FROM payroll p LEFT JOIN employee e ON p.employee_id = e.employee_id LEFT JOIN business b ON e.business_id = b.business_id LEFT JOIN payment_type pt ON p.payment_type_id = pt.payment_type_id LEFT JOIN date d ON p.date_id = d.date_id "+
+	"WHERE b.business_id = "+business_id+" AND d.year = "+year+" AND d.month = "+month+" AND e.employee_id = "+employee_id+" GROUP BY payment_type"
 	return await get(sql);
 })
 
