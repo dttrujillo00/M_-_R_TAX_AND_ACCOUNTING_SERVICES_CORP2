@@ -336,16 +336,16 @@ ipcMain.handle('eliminar_operacion', async (event, id) => {
 
 ipcMain.handle('insert_payroll', async (event,amount,p_type,name,bussines_id,date) => {
 	
-	id_fecha = await obtener_id_por_fecha(date);
+	date_id = await obtener_id_por_fecha(date);
 	p_type_id = await obtener_id_por_tipo_de_pago(p_type);
 	employee_id = await obtener_id_por_employee(name,bussines_id);
 
-	amount,p_type_id,employee_id,date_id
+	
 	const payroll = { 
 		amount: amount, 
 		p_type_id: p_type_id, 
 		employee_id: business_id,
-		date_id: id_fecha,
+		date_id: date_id,
 	} ;
 
 	payroll =await insert_payroll(payroll);
