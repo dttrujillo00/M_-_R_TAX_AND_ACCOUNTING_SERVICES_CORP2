@@ -251,6 +251,7 @@ async function insertar_fecha(date){
 }
 
 async function obtener_id_por_fecha(date){
+	console.log('Date !!!!!!!!!!', date)
 	const [year, month, day] = date.split('-')
 	id_fecha = await get('SELECT date_id FROM date WHERE year = ' +parseInt(year)+' AND month = '+parseInt(month)+' AND day = '+parseInt(day));
 	if(id_fecha[0] == undefined){
@@ -347,17 +348,26 @@ ipcMain.handle('insert_payroll', async (event,amount,p_type,name,bussines_id,dat
 	
 	date_id = await obtener_id_por_fecha(date);
 	p_type_id = await obtener_id_por_tipo_de_pago(p_type);
+	console.log('ESTE ES EL PYTPE ', p_type_id)
 	employee_id = await obtener_id_por_employee(name,bussines_id);
 
+<<<<<<< HEAD
 	
 	const payroll = { 
 		amount: amount, 
 		p_type_id: p_type_id, 
 		employee_id: business_id,
+=======
+
+	const payroll = { 
+		amount: amount, 
+		p_type_id: p_type_id, 
+		employee_id: employee_id,
+>>>>>>> bd0730128423d7f09c2997b2490e9723aad1536b
 		date_id: date_id,
 	} ;
 
-	payroll =await insert_payroll(payroll);
+	await insert_payroll(payroll);
 	
 	
 	
@@ -375,20 +385,20 @@ async function insertar_fecha(date){
 	return dateResult; 
 }
 
-async function obtener_id_por_fecha(date){
-	const [year, month, day] = date.split('-')
-	id_fecha = await get('SELECT date_id FROM date WHERE year = ' +parseInt(year)+' AND month = '+parseInt(month)+' AND day = '+parseInt(day));
-	if(id_fecha[0] == undefined){
-		await insertar_fecha(date);
-		id_fecha = await get('SELECT date_id FROM date WHERE year = ' +parseInt(year)+' AND month = '+parseInt(month)+' AND day = '+parseInt(day));
-	}
+// async function obtener_id_por_fecha(date){
+// 	const [year, month, day] = date.split('-')
+// 	id_fecha = await get('SELECT date_id FROM date WHERE year = ' +parseInt(year)+' AND month = '+parseInt(month)+' AND day = '+parseInt(day));
+// 	if(id_fecha[0] == undefined){
+// 		await insertar_fecha(date);
+// 		id_fecha = await get('SELECT date_id FROM date WHERE year = ' +parseInt(year)+' AND month = '+parseInt(month)+' AND day = '+parseInt(day));
+// 	}
 
-	return 	id_fecha[0].date_id;
-}
+// 	return 	id_fecha[0].date_id;
+// }
 
 async function insert_employee (name,bussines_id){ 
 	
-	const sql ='INSERT INTO employee(employee_name, business_id) '+'VALUES('+name+', '+bussines_id+')';
+	const sql ='INSERT INTO employee(employee_name, business_id) '+'VALUES(\"'+name+'\", '+bussines_id+')';
 
 	const result = await create(sql);
 	return result;
@@ -416,16 +426,18 @@ async function insert_payment_type (p_type){
 async function obtener_id_por_tipo_de_pago(payment_type){
 
 	p_type_id = await get('SELECT payment_type_id FROM payment_type WHERE payment_type = \"'+payment_type+'\"');
-
+console.log('este es el q devuelvela consulta ',p_type_id)
 	if(p_type_id[0] == undefined){
 		await insert_payment_type(payment_type);
 		p_type_id = await get('SELECT payment_type_id FROM payment_type WHERE payment_type = \"'+payment_type+'\"');
 }
-	return p_type_id[0].p_type_id;
+console.log('este es el q retorna consulta ',p_type_id[0].p_type_id)
+	return p_type_id[0].payment_type_id;
 }
 
 async function insert_payroll(payroll) {
 	const { amount,p_type_id,employee_id,date_id} = payroll;
+	console.log(payroll)
 	const sql ='INSERT INTO payroll(amount, payment_type_id, employee_id, date_id) VALUES ('+amount+','+p_type_id+','+employee_id+','+date_id+')';
 	const Result = await create(sql);
 	return Result;
@@ -433,15 +445,17 @@ async function insert_payroll(payroll) {
 
 // -------------------------------------READ--------------------------------------
 
-ipcMain.handle('get_payroll', async (event, business_id,year) => {
-	const sql='SELECT amount, payment_type, employee_name, year, month, day FROM payroll p LEFT JOIN employee e ON p.employee_id = e.employee_id LEFT JOIN business b ON e.business_id = b.business_id LEFT JOIN payment_type pt ON p.payment_type_id = pt.payment_type_id LEFT JOIN date d ON p.date_id = d.date_id WHERE b.business_id = '+business_id+' AND d.year = '+year
+ipcMain.handle('get_payroll', async (event, business_id,year,month) => {
+	const sql="SELECT amount, payment_type, employee_name, year, month, day FROM payroll p LEFT JOIN employee e ON p.employee_id = e.employee_id LEFT JOIN business b ON e.business_id = b.business_id LEFT JOIN payment_type pt ON p.payment_type_id = pt.payment_type_id LEFT JOIN date d ON p.date_id = d.date_id WHERE b.business_id = "+business_id+" AND d.year = "+year+" AND d.month = "+month
 	return await get(sql);
 })
 
 
-ipcMain.handle('get_all_p_type_by_payroll', async (event, business_id,year,employee_id) => {
-	const sql='SELECT payment_type, SUM(amount) AS amount '+
-	'FROM payroll p LEFT JOIN employee e ON p.employee_id = e.employee_id LEFT JOIN business b ON e.business_id = b.business_id LEFT JOIN payment_type pt ON p.payment_type_id = pt.payment_type_id LEFT JOIN date d ON p.date_id = d.date_id WHERE b.business_id = '+business_id+' AND d.year = '+year+' AND e.employee_id = '+employee_id+' ANDGROUP BY payment_type'
+ipcMain.handle('get_all_p_type_by_payroll', async (event, business_id,year,name,month) => {
+	employee_id = await obtener_id_por_employee(name,bussines_id);
+	const sql="SELECT payment_type, SUM(amount) AS amount "+
+	"FROM payroll p LEFT JOIN employee e ON p.employee_id = e.employee_id LEFT JOIN business b ON e.business_id = b.business_id LEFT JOIN payment_type pt ON p.payment_type_id = pt.payment_type_id LEFT JOIN date d ON p.date_id = d.date_id "+
+	"WHERE b.business_id = "+business_id+" AND d.year = "+year+" AND d.month = "+month+" AND e.employee_id = "+employee_id+" GROUP BY payment_type"
 	return await get(sql);
 })
 
@@ -450,11 +464,11 @@ ipcMain.handle('get_all_p_type_by_payroll', async (event, business_id,year,emplo
 ipcMain.handle('update_payroll', async (event, amount,date,p_type,name,bussines_id,payroll_id) => { 
 	
 		
-	id_fecha = await obtener_id_por_fecha(date);
+	date_id = await obtener_id_por_fecha(date);
 	p_type_id = await obtener_id_por_tipo_de_pago(p_type);
 	employee_id = await obtener_id_por_employee(name,bussines_id);
 
-	const sql ='UPDATE payroll SET amount = '+amount+', payment_type_id = '+p_type_id+', employee_id = '+employee_id+', date_id = '+date_id+', WHERE payroll_id = '+payroll_id
+	const sql ='UPDATE payroll SET amount = '+amount+', payment_type_id = '+p_type_id+', employee_id = '+employee_id+', date_id = '+date_id+' WHERE payroll_id = '+payroll_id
 	await edit(sql);
 })
 
