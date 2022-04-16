@@ -90,15 +90,6 @@ const showForm = (date, operation, amount, edit, id_account) => {
         formAgregarOperacion.querySelector('.btn-save').classList.remove('edit');
     }
 
-    // inputs[1].addEventListener('input', e => {
-    //     operationNameArray.forEach( item => {
-    //         // console.log(item.toLowerCase() + ': ' + e.target.value.toLowerCase());
-    //         if(e.target.value.toLowerCase() === item.toLowerCase().substring(0, e.target.value.length)) {
-                
-    //         }
-    //     })
-    // });
-
     formAgregarOperacion.classList.add('show');
 
 }
@@ -317,7 +308,7 @@ const createHTMLOperation = (date, operation, amount, id, is_positive) => {
 
 const renderOperaciones = (Operaciones) => {
     const emptybodyDataTable  = ``;
-    bodyDataTable.innerHTML = emptybodyDataTable ;
+    bodyDataTable.innerHTML = emptybodyDataTable;
     Operaciones.forEach( (operacion,index) => {
         let mes= operacion.month;
         let day= operacion.day;
@@ -328,7 +319,7 @@ const renderOperaciones = (Operaciones) => {
              day= '0'+operacion.day;
         }
         
-        let date = operacion.year+'-'+mes+'-'+day
+        let date = operacion.year+'-'+mes+'-'+day;
         bodyDataTable.innerHTML += createHTMLOperation(date, operacion.field,operacion.amount, operacion.account_id, operacion.is_positive);
     });
 }
@@ -399,13 +390,3 @@ yearSpan.innerText = localStorage.getItem('actual_year');
     await getTotalOperaciones()
 
 })();
-
-// setTimeout(() => {
-//     document.querySelector('.notification').classList.remove('hide');
-//     document.querySelector('.notification').classList.add('show');
-// }, 4000);
-
-// setTimeout(() => {
-//     document.querySelector('.notification').classList.remove('show');
-//     document.querySelector('.notification').classList.add('hide');
-// }, 7000);
