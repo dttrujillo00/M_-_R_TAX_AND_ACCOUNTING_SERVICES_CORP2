@@ -6,7 +6,7 @@ let storage_year     = localStorage.getItem('actual_year');
 let month            = localStorage.getItem('actual_month');
 let bussines         = localStorage.getItem('actual_business');
 
-;
+let nominas;
 
 /**********************
  * MANEJADOR DEL MENU *
@@ -67,15 +67,18 @@ home.addEventListener('click', retrocederHome);
  const saveBtn = document.querySelector('.submit-group .btn-save');
  const inputs = formAgregarOperacion.querySelectorAll('.form-group input');
  const select = formAgregarOperacion.querySelector('.form-group select');
+ const inputIdAccount = document.querySelector('#id_account');
  let readyToSend;
 
- const showForm = (date, name, amount, type, edit) => {
+ const showForm = (date, name, amount, type, edit, id_editar) => {
     body.classList.add('opacity');
     formAgregarOperacion.querySelector('form').reset();
     inputs.forEach( input => input.classList.remove('invalid-data'))
     inputs[0].value = date;
     inputs[1].value = name;
     inputs[2].value = amount;
+    inputIdAccount.value = id_editar;
+
 
     if(type === 'ATM'){
         select.value = 0;
@@ -100,12 +103,24 @@ const hideForm = () => {
 }
 
 const addOperation = async() => {
+
+    let day = new Date().getDate();
+    let year = new Date().getFullYear();
+    let month = localStorage.getItem('actual_month');
+
+    if(month <10) {
+        month = '0' + month;
+    }
+
+    if(day <10) {
+        day = '0' + day;
+    }
+
+
     hideMenu();
-    showForm('', '', '', '', false);
+    showForm(`${year}-${month}-${day}`, '', '', '', false);
     formAgregarOperacion.querySelector('#date').focus();
-    console.log('Funcion Add operation...');
-    
-    
+    console.log('Funcion Add operation...');  
 }
 
 const validate = async(e) => {
@@ -140,17 +155,25 @@ const validate = async(e) => {
          *  Y LUEGO EJECUTAR LA FUNCION DE OBTENER OPERACIONES  *
          *  *****************************************************/
         if (e.target.classList.contains('edit')) {
+            let newDate = inputs[0].value;
+            let newName = inputs[1].value;
+            let newAmount = inputs[2].value;
+            let idToEdit = inputIdAccount.value;
+
+            // amount,date,p_type,name, business_id,payroll_id
 
             let selector  = document.getElementById('type');
-            p_type = selector.options[selector.selectedIndex].value;
-            await update_payroll( amount,date,p_type,name,bussines_id,payroll_id)
-
+            let p_type = selector.options[selector.selectedIndex].value;
+            console.log('Esta es la fecha', newDate, typeof(newDate))
+            await update_payroll(newAmount, newDate, p_type, newName, business_id, idToEdit)
+            await get_payroll(business_id, storage_year);
             console.log('Editar');
         } else {
             let selector  = document.getElementById('type');
-            p_type = selector.options[selector.selectedIndex].value;
-            await insert_payroll(amount,p_type,name,business_id,date);
-
+            let p_type = selector.options[selector.selectedIndex].value;
+            console.log(inputs[2].value,p_type,inputs[1].value,business_id,inputs[0].value);
+            await insert_payroll(inputs[2].value,p_type,inputs[1].value,business_id,inputs[0].value);
+            await get_payroll(business_id, storage_year);
             console.log('Agregar');
         }
     }
@@ -163,59 +186,72 @@ saveBtn.addEventListener('click', validate);
 /**********************
  *  EDITAR OPERACION  *
  *  *******************/
-const editarBtn = document.querySelectorAll('.editar-operacion');
-const operationList = document.querySelectorAll('.employee-table tbody tr');
+function handleEdit() {
+    const editarBtn = document.querySelectorAll('.editar-operacion');
+    const operationList = document.querySelectorAll('.employee-table tbody tr');
+    
+    editarBtn.forEach((btn, index) => {
+        btn.addEventListener('click', (e) => {
+            console.log('Editar Operacion ' + index)
+            
+            const rowToEdit = operationList[index];
+            console.log(rowToEdit);
+            const date = rowToEdit.querySelector('.date').value;
+            console.log(date);
+            const name = rowToEdit.querySelector('.employee-name').innerText;
+            console.log(name);
+            const amount = rowToEdit.querySelector('.amount').innerText;
+            console.log(amount.slice(1));
+            const type = rowToEdit.querySelector('.type').innerText;
+            console.log(type);
 
-editarBtn.forEach((btn, index) => {
-    btn.addEventListener('click', () => {
-        console.log('Editar Operacion ' + index)
-        
-        let rowToEdit = operationList[index];
-        console.log(rowToEdit);
-        let date = rowToEdit.querySelector('.date').value;
-        console.log(date);
-        let name = rowToEdit.querySelector('.employee-name').innerText;
-        console.log(name);
-        let amount = rowToEdit.querySelector('.amount').innerText;
-        console.log(amount.slice(1));
-        let type = rowToEdit.querySelector('.type').innerText;
-        console.log(type);
+            let id_editar;
 
-        showForm(date, name, amount.slice(1), type, true);
+            if(e.target.classList.contains('icon-pencil')) {
+                id_editar = e.target.parentElement.parentElement.id;
+            } else if(e.target.classList.contains('editar-operacion')) {
+                id_editar = e.target.parentElement.id;
+            }
+
+    
+            showForm(date, name, amount.slice(1), type, true, id_editar);
+        });
     });
-});
+}
 
 /************************
  *  ELIMINAR OPERACION  *
  *  *********************/
-const eliminarBtn = document.querySelectorAll('.eliminar-operacion');
-const deleteContainer = document.querySelectorAll('.delete-container');
-const cancelDelete = document.querySelectorAll('.cancel-delete');
-const confirmDelete = document.querySelectorAll('.confirm-delete');
-
-eliminarBtn.forEach( (btn, index) => {
-    btn.addEventListener('click', () => {
-        console.log('Eliminar Operacion')
-        deleteContainer[index].classList.add('show');
+function handleDelete() {
+    const eliminarBtn = document.querySelectorAll('.eliminar-operacion');
+    const deleteContainer = document.querySelectorAll('.delete-container');
+    const cancelDelete = document.querySelectorAll('.cancel-delete');
+    const confirmDelete = document.querySelectorAll('.confirm-delete');
+    
+    eliminarBtn.forEach( (btn, index) => {
+        btn.addEventListener('click', () => {
+            console.log('Eliminar Operacion')
+            deleteContainer[index].classList.add('show');
+        });
     });
-});
-
-confirmDelete.forEach( (btn, index) => {
-    btn.addEventListener('click', async(e) => {
-        let id = e.target.parentElement.parentElement.parentElement.id
-        await delete_payroll(id)
-        showNotification();
-        deleteContainer[index].classList.remove('show');
-        await getPayroll()
+    
+    confirmDelete.forEach( (btn, index) => {
+        btn.addEventListener('click', async(e) => {
+            let id = e.target.parentElement.parentElement.parentElement.id
+            await delete_payroll(id)
+            showNotification();
+            deleteContainer[index].classList.remove('show');
+            await get_payroll(business_id, storage_year)
+        });
     });
-});
-
-
-cancelDelete.forEach( (btn, index) => {
-    btn.addEventListener('click', () => {
-        deleteContainer[index].classList.remove('show');
+    
+    
+    cancelDelete.forEach( (btn, index) => {
+        btn.addEventListener('click', () => {
+            deleteContainer[index].classList.remove('show');
+        });
     });
-});
+}
 
 /************************
  *      CAMBIAR MES     *
@@ -232,18 +268,6 @@ meses.addEventListener('change', e => {
 /************************
  *  EXPORT EMPLOYEE     *
  *  *********************/
-// const createExcelFile = (table_elt) => {
-
-//     // Extract Data (create a workbook object from the table)
-//     var workbook = XLSX.utils.table_to_book(table_elt);
-
-//     // Process Data (add a new row)
-//     var ws = workbook.Sheets["Sheet1"];
-//     // XLSX.utils.sheet_add_aoa(ws, [["Exported from M&R app "+new Date().toISOString()]], {origin:-1});
-
-//     // Package and Release Data (`writeFile` tries to write and save an XLSB file)
-//     XLSX.writeFile(workbook, "Reporte.xlsb");
-// }
 
 const btnExport = document.querySelectorAll('.export-icon');
 
@@ -299,9 +323,9 @@ const bodyEmployeeDetail = document.querySelector('.employee-details table tbody
 
 const createHTMLOperation = (date, name, amount, type, id) => {
     let typeConverted;
-    if(type === 0){
+    if(type === '0'){
         typeConverted = 'ATM';
-    } else if(type === 1) {
+    } else if(type === '1') {
         typeConverted = 'CASH';
     } else {
         typeConverted = 'TRANSF'
@@ -350,6 +374,45 @@ const createHTMLEmployeeDetail = (name, atm, cash, transf) => {
     return element;
 }
 
+const renderPayroll = (payrolls) => {
+    const emptybodyDataTable = ``;
+    bodyEmployeeTable.innerHTML = emptybodyDataTable;
+
+    payrolls.forEach( payroll => {
+        let mes= payroll.month;
+        let day= payroll.day;
+        if (payroll.month< 10){
+             mes= '0'+payroll.month;
+        }
+        if (payroll.day< 10){
+             day= '0'+payroll.day;
+        }
+        
+        let date = payroll.year+'-'+mes+'-'+day;
+        bodyEmployeeTable.innerHTML += createHTMLOperation(date, payroll.employee_name, payroll.amount, payroll.payment_type, payroll.payroll_id)
+    });
+}
+
+const renderEmployee = data => {
+    data.forEach( async({business_id, year, employee_name}) => {
+        await get_payroll_second_table(business_id, year, employee_name);
+    })
+}
+
+const handleSecondTable = (data) => {
+
+    let arrayToSecondTable = data.map(({employee_name}) => {
+        return ({
+            business_id,
+            year: storage_year,
+            employee_name
+        })
+    });
+
+    console.log(arrayToSecondTable);
+    renderEmployee(arrayToSecondTable);
+}
+
 
 const yearSpan = document.querySelector('span.year');
 
@@ -378,12 +441,16 @@ async function get_payroll(business_id,year) {
     await window.ipcRenderer.invoke('get_payroll',business_id,year).then((result) => {
         console.log("Se obtuvo los payroll");
         console.log(result);
+        renderPayroll(result);
+        handleDelete();
+        handleEdit();
+        handleSecondTable([...result]);
     })
 }
 
 
-async function update_payroll( amount,p_type_id,employee_id,date_id,payroll_id) {
-    await window.ipcRenderer.invoke('update_payroll', amount,p_type_id,employee_id,date_id,payroll_id).then((result) => {
+async function update_payroll( amount,date,p_type,name,bussines_id,payroll_id) {
+    await window.ipcRenderer.invoke('update_payroll', amount,date,p_type,name,business_id,payroll_id).then((result) => {
         console.log("Se edito un  payroll");
         console.log(result);
     })
@@ -397,9 +464,16 @@ async function delete_payroll(id) {
 }
 
 
-async function get_payroll_second_table(business_id,year,employee_id) {
-    await window.ipcRenderer.invoke('get_all_p_type_by_payroll', business_id,year,employee_id).then((result) => {
+async function get_payroll_second_table(business_id,year,employee_name) {
+    await window.ipcRenderer.invoke('get_all_p_type_by_payroll', business_id,year,employee_name).then((result) => {
         console.log("Se obtuvo lo daros de la segunda tabla");
         console.log(result);
     })
 }
+
+(async function init() {
+    console.log("Inicio y pido los datos");
+	await get_payroll(business_id, storage_year)
+    // await get_payroll_second_table()
+
+})();
