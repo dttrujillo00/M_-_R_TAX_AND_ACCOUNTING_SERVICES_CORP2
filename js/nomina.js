@@ -166,14 +166,14 @@ const validate = async(e) => {
             let p_type = selector.options[selector.selectedIndex].value;
             console.log('Esta es la fecha', newDate, typeof(newDate))
             await update_payroll(newAmount, newDate, p_type, newName, business_id, idToEdit)
-            await get_payroll(business_id, storage_year);
+            await get_payroll(business_id, storage_year, month);
             console.log('Editar');
         } else {
             let selector  = document.getElementById('type');
             let p_type = selector.options[selector.selectedIndex].value;
             console.log(inputs[2].value,p_type,inputs[1].value,business_id,inputs[0].value);
             await insert_payroll(inputs[2].value,p_type,inputs[1].value,business_id,inputs[0].value);
-            await get_payroll(business_id, storage_year);
+            await get_payroll(business_id, storage_year, month);
             console.log('Agregar');
         }
     }
@@ -241,7 +241,7 @@ function handleDelete() {
             await delete_payroll(id)
             showNotification();
             deleteContainer[index].classList.remove('show');
-            await get_payroll(business_id, storage_year)
+            await get_payroll(business_id, storage_year, month)
         });
     });
     
@@ -269,51 +269,47 @@ meses.addEventListener('change', e => {
  *  EXPORT EMPLOYEE     *
  *  *********************/
 
-const btnExport = document.querySelectorAll('.export-icon');
-
-btnExport.forEach( btn => {
-    btn.addEventListener('click', e => {
-
-        let excelTable = document.createElement('table');
-        let excelBodyTable = document.createElement('body');
-
-        // console.log('Exporting ' , e.target.parentElement.parentElement);
-        let el = e.target.parentElement.parentElement;
-        let i = 1;
-        let continuarLoop = true;
-        let elCopy;
-
-        while (continuarLoop && i < 7) {
-            if (el.nodeName === '#text') {
+function handelExport() {
+    // console.log(document.evaluate('/html/body/main/div/div[2]/table/tbody/tr[1]/td/span', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue)
+    // const tabla = document.evaluate('/html/body/main/div/div[2]', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue
+    const btnExport = document.querySelectorAll('img.export-icon');
+    console.log(btnExport);
+    // console.log(document.querySelector('.employee-details table tbody'));
+    
+    btnExport.forEach( btn => {
+        btn.addEventListener('click', e => {
+    
+            let excelTable = document.createElement('table');
+            let excelBodyTable = document.createElement('body');
+    
+            // console.log('Exporting ' , e.target.parentElement.parentElement);
+            let el = e.target.parentElement.parentElement;
+            let i = 1;
+            let continuarLoop = true;
+            let elCopy;
+    
+            while (continuarLoop && i < 7) {
+                if (el.nodeName === '#text') {
+                    el = el.nextSibling;
+                    i++;
+                }
+    
+                let nodoNuevoCopia = el.cloneNode(true);
+                console.log(nodoNuevoCopia, 'Copia');
+                excelBodyTable.appendChild(nodoNuevoCopia);
+    
+                console.log(i + '. ' , el);
                 el = el.nextSibling;
                 i++;
             }
-
-            let nodoNuevoCopia = el.cloneNode(true);
-            console.log(nodoNuevoCopia, 'Copia');
-            excelBodyTable.appendChild(nodoNuevoCopia);
-
-            // if (i > 1  && el.classList.contains('head-tr')) {
-            //     console.log('Termina aqui');
-            //     continuarLoop = false;
-            //     continue;
-            // } else {
-            //     let nodoNuevoCopia = el.cloneNode(true);
-            //     console.log(nodoNuevoCopia, 'Copia');
-            //     excelBodyTable.appendChild(nodoNuevoCopia);
-            //     // console.log('Continua')
-            // }
-
-            console.log(i + '. ' , el);
-            el = el.nextSibling;
-            i++;
-        }
-
-        excelTable.appendChild(excelBodyTable);
-        console.log(excelTable);
-        createExcelFile(excelTable);
+    
+            excelTable.appendChild(excelBodyTable);
+            console.log(excelTable);
+            createExcelFile(excelTable);
+        })
     })
-})
+}
+
 
 /*************************
  *  OBTENER OPERACIONES  *
@@ -352,10 +348,25 @@ const createHTMLOperation = (date, name, amount, type, id) => {
     return element;
 }
 
-const createHTMLEmployeeDetail = (name, atm, cash, transf) => {
+const createHTMLEmployeeDetail = (result, employee_name) => {
+
+    let atm = 0
+    let cash = 0
+    let transf = 0;
+
+    result.forEach( ({payment_type, amount}) => {
+        if(payment_type === '0') {
+            atm = amount;
+        } else if(payment_type === '1') {
+            cash = amount;
+        } else {
+            transf = amount;
+        }
+    })
+    
     let element = `
-    <tr>
-        <td colspan="2" style="text-align: center;">${name}<img src="../icons/export.png" title="Export" alt="Export-icon" class="export-icon"></td>
+    <tr class="head-tr">
+        <td colspan="2" style="text-align: center;">${employee_name}<img src="../icons/export.png" title="Export" alt="Export-icon" class="export-icon"></td>
     </tr>
     <tr>
         <td>Total ATM</td>
@@ -394,9 +405,24 @@ const renderPayroll = (payrolls) => {
 }
 
 const renderEmployee = data => {
+    const emptybodyDataTable = ``;
+    let nameRegister = [];
+
+    bodyEmployeeDetail.innerHTML = emptybodyDataTable;
     data.forEach( async({business_id, year, employee_name}) => {
-        await get_payroll_second_table(business_id, year, employee_name);
+        const found = nameRegister.find( element => element === employee_name);
+        
+        if(found === undefined) {
+            nameRegister.push(employee_name);
+            await get_payroll_second_table(business_id, year, employee_name, month);
+        }
     })
+
+    setTimeout(() => {
+        handelExport();
+        
+    }, 500);
+
 }
 
 const handleSecondTable = (data) => {
@@ -409,7 +435,7 @@ const handleSecondTable = (data) => {
         })
     });
 
-    console.log(arrayToSecondTable);
+    // console.log(arrayToSecondTable);
     renderEmployee(arrayToSecondTable);
 }
 
@@ -437,10 +463,10 @@ async function insert_payroll(amount,p_type,name,bussines_id,date) {
     })
 }
 
-async function get_payroll(business_id,year) {
-    await window.ipcRenderer.invoke('get_payroll',business_id,year).then((result) => {
+async function get_payroll(business_id,year, month) {
+    await window.ipcRenderer.invoke('get_payroll',business_id,year, month).then((result) => {
         console.log("Se obtuvo los payroll");
-        console.log(result);
+        // console.log(result);
         renderPayroll(result);
         handleDelete();
         handleEdit();
@@ -464,16 +490,17 @@ async function delete_payroll(id) {
 }
 
 
-async function get_payroll_second_table(business_id,year,employee_name) {
-    await window.ipcRenderer.invoke('get_all_p_type_by_payroll', business_id,year,employee_name).then((result) => {
-        console.log("Se obtuvo lo daros de la segunda tabla");
-        console.log(result);
+async function get_payroll_second_table(business_id,year,employee_name, month) {
+    await window.ipcRenderer.invoke('get_all_p_type_by_payroll', business_id,year,employee_name, month).then((result) => {
+        // console.log("Se obtuvo lo daros de la segunda tabla");
+        // console.log(result);
+        bodyEmployeeDetail.innerHTML += createHTMLEmployeeDetail(result, employee_name);
     })
 }
 
 (async function init() {
     console.log("Inicio y pido los datos");
-	await get_payroll(business_id, storage_year)
+	await get_payroll(business_id, storage_year, month)
     // await get_payroll_second_table()
 
 })();
