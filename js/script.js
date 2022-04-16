@@ -355,7 +355,7 @@ const getEmpresas = async () => {
   await window.ipcRenderer
     .invoke("obtener_empresas_por_anno", currentYear)
     .then((result) => {
-      console.log("Se obtuvieron las empresas del año " + currentYear);
+      console.log("Se obtuvo las empresas del año " + currentYear);
       renderEmpresas(result);
       posicionarTarjetasEmpresas();
       manejadorModificarEmpresas();
@@ -366,3 +366,12 @@ const getEmpresas = async () => {
   console.log("Inicio y pido los datos");
   await getEmpresas();
 })();
+
+
+const getAnnos = async () => {
+  await window.ipcRenderer
+    .invoke("obtener_todos_los_anno")
+    .then((result) => {
+      console.log("Se obtuvo los annos " +result);
+    });
+};

@@ -45,6 +45,15 @@ ipcMain.handle('obtener_empresas_por_anno', async (event, year) => {
 	return empresas;
 })
 
+ipcMain.handle('obtener_todos_los_anno', async (event) => { 
+
+	const sql = 'SELECT DISTINCT year FROM business_year'
+	const result = await get(sql);
+
+	return result;
+})
+
+
 // ------------------------------------UPDATES------------------------------------
 
 ipcMain.handle('editar_nombre_empresa', async (event, business) => { 
