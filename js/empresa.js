@@ -57,7 +57,7 @@ home.addEventListener('click', retrocederHome);
         window.location.pathname = '/pages/nomina.html';
      } else {
         let id = e.target.getAttribute('data-id');
-        console.log(id)
+        // console.log(id)
         localStorage.setItem("actual_month", id);
          window.location.pathname = '/pages/mes.html';
      }
@@ -134,11 +134,11 @@ let bodyHTML = `
     </tr>
 `;
 
-const renderHTMLRow = (dataRow) => {
-    console.log(dataRow)
+const renderHTMLRow = (dataRow, bold) => {
+    // console.log(dataRow)
     let element = `
         <tr>
-            <td>${dataRow.Field}</td>
+            <td class="${bold ? 'poppinsSemiBold' : ''}">${dataRow.Field}</td>
             <td>${dataRow.January === 0 || dataRow.January === null ? '' : dataRow.January}</td>
             <td>${dataRow.February === 0 || dataRow.February === null ? '' : dataRow.February}</td>
             <td>${dataRow.March === 0 || dataRow.March === null ? '' : dataRow.March}</td>
@@ -151,38 +151,23 @@ const renderHTMLRow = (dataRow) => {
             <td>${dataRow.October === 0 || dataRow.October === null ? '' : dataRow.October}</td>
             <td>${dataRow.November === 0 || dataRow.November === null ? '' : dataRow.November}</td>
             <td>${dataRow.December === 0 || dataRow.December === null ? '' : dataRow.December}</td>
-            <td>${dataRow.YDT === 0 || dataRow.YDT === null ? '' : dataRow.YDT}</td>
+            <td class="${bold ? 'bgLightGrey' : 'bgDarkGrey'}">${dataRow.YDT === 0 || dataRow.YDT === null ? '' : dataRow.YDT}</td>
         </tr>
     `;
 
     return element;
 } 
 
-const renderBalanceFromLastMonth = (data) => {
-    data[0].Field = 'Balance from Last Month';
-    bodyHTML += renderHTMLRow(data[0]);
-    bodyTable.innerHTML = bodyHTML;
-}
-
 const renderRevenue = (totalRevenue) => {
     // console.log('Render revenue function');
     // console.log(totalRevenue);
-    let totalRevenues = {
-        Field: 'Gross Profit'
-    };
 
     totalRevenue.forEach( revenue => {
         if(revenue.YDT !== 0) {
-            console.log(revenue.Field + " " + revenue.YDT);
+            // console.log(revenue.Field + " " + revenue.YDT);
             bodyHTML += renderHTMLRow(revenue);
         }
     });
-
-    bodyHTML += `
-        <tr class="white-line">
-            <td colspan="14"></td>
-        </tr>
-    `;
     
     bodyTable.innerHTML = bodyHTML;
 }
@@ -192,6 +177,9 @@ const renderExpense = (totalExpense) => {
     // console.log(totalExpense);
 
     bodyHTML += `
+        <tr class="white-line">
+            <td colspan="14"></td>
+        </tr>
         <tr class="operating-expenses">
             <td>Operating Expenses</td>
             <td colspan="13"></td>
@@ -208,11 +196,10 @@ const renderExpense = (totalExpense) => {
     bodyTable.innerHTML = bodyHTML;
 }
 
-const renderNetIncome = (data) => {
-    data[0].Field = 'Net Income';
-    bodyHTML += renderHTMLRow(data[0]);
+const renderTemplate = ( data, title, bold) => {
+    data[0].Field = title;
+    bodyHTML += renderHTMLRow(data[0], bold);
     bodyTable.innerHTML = bodyHTML;
-    console.log(bodyTable, 'Mostrando tabla');
 }
 
 const empresaTitulo = document.querySelector('.empresa-name-container h1');
@@ -224,12 +211,15 @@ empresaTitulo.setAttribute('title', localStorage.getItem('actual_business'))
 
 document.addEventListener('DOMContentLoaded', async(e) => {
     posicionarTarjetasMeses();
-    console.log("Estoy en cargando la pagina empresa");
+    console.log("Estoy cargando la pagina empresa");
     
     await getBalanceFromLastMonth();
     await getGrossProfit ();
+    await getGrossProfitTotales();
     await getTotalExpenses();
+    await getTotalExpensesTotales();
     await getBalanceFromCurrentMonth();
+    
  
 
 })
@@ -238,25 +228,25 @@ document.addEventListener('DOMContentLoaded', async(e) => {
 
 const getBalanceFromLastMonth =async () => {
     await window.ipcRenderer.invoke('obtener_balance_del_mes_anterior',bussines,storage_year).then((result) => {
-        console.log("Se obtuvo el balance del mes anterior");
-        console.log(result);
-        renderBalanceFromLastMonth(result);
+        // console.log("Se obtuvo el balance del mes anterior");
+        // console.log(result);
+        renderTemplate(result, 'Balance from Last Month');
     })
 }
 
 const getBalanceFromCurrentMonth =async () => {
     await window.ipcRenderer.invoke('obtener_balance_del_mes',bussines,month,storage_year).then((result) => {
-        console.log("Se obtuvo el balance del mes actual");
-        console.log(result);
-        renderNetIncome(result);
+        // console.log("Se obtuvo el balance del mes actual");
+        // console.log(result);
+        renderTemplate(result, 'Net Income', true);
     })
 }
 
 
 const getGrossProfit =async () => {
     await window.ipcRenderer.invoke('obtener_ingresos', bussines,storage_year).then((result) => {
-        console.log("Se obtuvo el ingreso neto");
-        console.log(result);
+        // console.log("Se obtuvo el ingreso neto");
+        // console.log(result);
         renderRevenue(result);
     })
 }
@@ -272,17 +262,17 @@ const getTotalExpenses =async () => {
 
 const getGrossProfitTotales =async () => {
     await window.ipcRenderer.invoke('obtener_ingresos_totales', bussines,storage_year).then((result) => {
-        console.log("Se obtuvo el ingreso neto");
-        console.log(result);
-        renderRevenue(result);
+        // console.log("Se obtuvo el ingreso neto 2");
+        // console.log(result);
+        renderTemplate(result, 'Gross Profit', true);
     })
 }
 
 const getTotalExpensesTotales =async () => {
     await window.ipcRenderer.invoke('obtener_gastos_totales', bussines,storage_year).then((result) => {
-        // console.log("Se obtuvo los gatos totales");
+        // console.log("Se obtuvo los gatos totales 2");
         // console.log(result);
-        renderExpense(result);
+        renderTemplate(result, 'Total Operating Expense', true);
     })
 }
 
@@ -319,7 +309,7 @@ const getTotalExpensesTotales =async () => {
     excelTable.innerHTML = thead;
     let bodyTableClone = bodyTable.cloneNode(true);
     excelTable.appendChild(bodyTableClone);
-    console.log(excelTable);
+    // console.log(excelTable);
 
     createExcelFile(excelTable);
  })

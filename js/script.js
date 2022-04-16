@@ -1,3 +1,5 @@
+import { showNotification } from './showNotification.js'
+
 const contextMenu = document.querySelector(".contextMenu-container");
 const year = document.querySelector("span.year");
 let currentYear = new Date().getFullYear();
@@ -169,6 +171,7 @@ const eliminarEmpresa = (e) => {
 
   btnAceptar.addEventListener("click", async () => {
     await window.ipcRenderer.invoke("eliminar_empresa", parseInt(id));
+    showNotification();
     console.log("se elimino correctamente");
     hideModal();
     getEmpresas();
@@ -221,6 +224,7 @@ const manejadorModificarEmpresas = () => {
           };
 
           await window.ipcRenderer.invoke("editar_nombre_empresa", toEdit);
+          showNotification();
           thisEmpresa.addEventListener("click", navegacionEmpresa);
         }
       });
@@ -298,6 +302,7 @@ const agregarTarjeta = () => {
           business
         );
         await getEmpresas();
+        showNotification();
       }
     }
   });
