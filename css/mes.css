@@ -1,0 +1,257 @@
+/* Archivo exportado a style.css */
+
+main.mes,
+main.employee {
+    max-height: 83vh;
+    overflow-y: hidden;
+    margin-top: 1rem;
+}
+
+main .row {
+    display: flex;
+}
+
+main .row div {
+    overflow-y: scroll !important;
+    max-height: 83vh;
+}
+
+main .row .col-8 {
+    flex: 0 0 calc(66.66% - 1rem);
+    max-width: 66.66%;
+}
+
+main .row .col-8 table thead tr th:nth-child(2) {
+    width: 83.33%;
+    text-align: left;
+}
+
+main .row .col-8 table thead tr th:first-child,
+main .row .col-8 table thead tr th:last-child {
+    width: 8.33%;
+}
+
+main .row .col-8 table tbody tr {
+    position: relative;
+    /* background-color: rgba(0, 255, 0, .1); */
+}
+
+main .row .col-8 table tbody tr td.positivo {
+    color: green;
+    font-weight: bold;
+    font-size: .9rem;
+}
+
+main .row .col-8 table tbody tr td.negativo {
+    color: red;
+    font-weight: bold;
+    font-size: .9rem;
+}
+
+main .row .col-8 table tbody tr td:last-child {
+    width: 0;
+}
+
+main .row .col-8 table tbody tr .delete-container {
+    position: absolute;
+    z-index: 200;
+    top: -2px;
+    left: 0;
+    width: 0;
+    height: calc(100% + 4px);
+    padding: 0 2rem;
+    opacity: 0;
+    background-color: rgb(249, 67, 64);
+    overflow: hidden !important;
+    display: flex;
+    color: white;
+    align-items: center;
+    justify-content: space-between;
+    transition: .3s all ease-in;
+}
+
+main .row .col-8 table tbody tr .delete-container.show {
+    width: 100%;
+    opacity: 1;
+}
+
+main .row .col-8 table tbody tr .delete-container p {
+    font-family: 'Poppins';
+    flex: 0 0 75%;
+    font-size: 1rem;
+    opacity: 1;
+    transition-delay: .5s;
+    transition: .3s all;
+    text-align: center;
+}
+
+main .row .col-8 table tbody tr .delete-container button {
+    color: white;
+    flex: 0 0 calc(10.5% - 2%);
+    font-size: 1rem;
+    border: 1px solid white;
+    padding: .2rem .1rem;
+    border-radius: 5px;
+    opacity: 1;
+    transition-delay: .5s;
+    transition: .3s all;
+}
+
+main .row .col-8 table tbody tr .delete-container.show p,
+main .row .col-8 table tbody tr .delete-container.show button {
+    opacity: 1;
+}
+
+main .row .col-8 table tbody tr .delete-container button:hover {
+    cursor: pointer;
+}
+
+main .row .col-8 table tbody tr td.editar-operacion:hover,
+main .row .col-8 table tbody tr td.eliminar-operacion:hover {
+    cursor: pointer;
+}
+
+main .row .col-8 table tbody tr td span {
+    font-size: 1.3rem;
+    color: var(--verdeColor);
+}
+
+main .row .col-8 table tbody tr td:nth-child(2) {
+    text-align: left;
+    font-weight: 300;
+}
+
+main .row .col-8 table tbody tr td input {
+    appearance: none;
+    transform: translateX(1.3rem);
+}
+
+main .row .col-4 {
+    flex: 0 0 calc(33.33% - 1rem);
+    max-width: 66.66%;
+}
+
+main .row .col-4 table tbody tr td:last-child {
+    font-weight: bold;
+    font-size: .9rem;
+    text-align: right;
+}
+
+/**************************
+ * FORM AGREGAR OPERACION *
+***************************/
+
+.form-agregar-operacion {
+    position: absolute;
+    z-index: 200;
+    transform: translate(-50%, -50%) scale(0);
+    top: 50%;
+    left: 50%;
+    box-shadow: 0 0 7px black;
+    padding: 4rem 2rem;
+    border-radius: 10px;
+    background-color: var(--bgColor);
+    transition: .2s all;
+}
+
+.form-agregar-operacion.show {
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.form-agregar-operacion form {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+}
+
+.form-agregar-operacion form .form-group {
+    width: 100%;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.form-agregar-operacion form .form-group label {
+    margin-right: .5rem;
+    font-weight: bold;
+}
+
+.form-agregar-operacion form .form-group input {
+    width: 100%;
+    padding: .2rem .5rem;
+    border: none;
+    background-color: transparent;
+    box-shadow: 0 0 3px black;
+    border-radius: 5px;
+    font-size: .8rem;
+    transition: .3s all;
+    font-family: 'Poppins';
+}
+
+.form-agregar-operacion form .form-group select {
+    width: 100%;
+    padding-left: .3rem;
+    border: none;
+    background-color: transparent;
+    box-shadow: 0 0 3px black;
+    border-radius: 5px;
+    transition: .3s all;
+    font-family: 'Poppins';
+}
+
+.form-agregar-operacion form .form-group input.invalid-data,
+.form-agregar-operacion form .form-group input.invalid-data:focus,
+.form-agregar-operacion form .form-group select.invalid-data,
+.form-agregar-operacion form .form-group select.invalid-data:focus {
+    box-shadow: 0 0 7px red;
+}
+
+.form-agregar-operacion form .form-group input:focus,
+.form-agregar-operacion form .form-group select:focus {
+    box-shadow: 0 0 6px black;
+}
+
+.form-agregar-operacion form .form-group select:focus {
+    outline: none;
+}
+
+.form-agregar-operacion form .submit-group {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    margin-top: 1rem;
+}
+
+.form-agregar-operacion form .submit-group input {
+    padding: .2rem 1.2rem;
+    font-family: 'Poppins';
+}
+
+.buttons-group {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.add-operation {
+    box-shadow: 2px 2px 5px var(--verdeColor);
+    padding: .5rem .9rem;
+    border-radius: 5px;
+    font-size: 1rem;
+    background-color: rgba(90, 84, 74, .3);
+    font-family: 'Raleway';
+    font-weight: bold;
+    color: rgba(0, 0, 0, .8);
+    transition: .2s all;
+}
+
+.add-operation:hover {
+    cursor: pointer;
+    box-shadow: 2px 2px 10px var(--verdeColor);
+}
+
+.add-operation:active {
+    box-shadow: none;
+}

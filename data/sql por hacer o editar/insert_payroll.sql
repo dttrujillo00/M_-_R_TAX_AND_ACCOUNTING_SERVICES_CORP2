@@ -1,0 +1,2 @@
+﻿INSERT INTO payroll(amount, payment_type_id, employee_id, date_id) VALUES (?,?,?,?)
+'INSERT INTO payroll(amount, payment_type_id, employee_id, date_id) VALUES ('+amount+','+p_type+','+employee_id+','+date_id+')'

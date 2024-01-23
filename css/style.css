@@ -1,0 +1,689 @@
+@import url(./mes.css);
+@import url(./nomina.css);
+
+*, *:before, *:after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+@font-face {
+    font-family: 'Poppins';
+    src: url(../fonts/Poppins/Poppins-Regular.ttf);
+}
+
+@font-face {
+    font-family: 'PoppinsSemiBold';
+    src: url(../fonts/Poppins/Poppins-SemiBold.ttf);
+}
+
+@font-face {
+    font-family: 'Raleway';
+    src: url(../fonts/Raleway/Raleway-Regular.ttf);
+}
+
+@font-face {
+    font-family: 'elephant';
+    src: url(../fonts/ElephantRegular/Elephant-Regular.ttf);
+}
+
+:root {
+    /* --bgColor: rgb(236, 226, 214); */
+    --bgColor: #ece2d6;
+    --bgLightGrey: rgba(155, 153, 151, 0.5);
+    --bgDarkGrey: rgb(165, 162, 150);
+    --verdeColor: rgb(92, 104, 92);
+}
+
+.poppinsSemiBold {
+    font-family: 'PoppinsSemiBold' !important;
+}
+
+.bgLightGrey {
+    background-color: var(--bgLightGrey);
+    color: white;
+}
+
+.bgDarkGrey {
+    background-color: var(--bgDarkGrey);
+    color: white;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+}
+
+body{
+    font-family: 'Raleway', sans-serif;
+    background-color: var(--bgColor);
+    min-height: 100vh;
+    position: relative;
+    overflow: hidden;
+}
+
+body .logo {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    z-index: -1;
+}
+
+body.background-opacity .logo {
+    opacity: .3;
+}
+
+body.opacity .logo {
+    filter: blur(1px);
+}
+
+body::before {
+    content: '';
+    transition: all .3s;
+}
+
+body.opacity::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    /* background-color: rgba(190, 184, 184, 0.25); */
+    background-color: rgba(255, 255, 255, .3);
+    z-index: 190;
+}
+
+body::after {
+    content: "M&R TAX AND ACCOUNTING SERVICES, CORP.";
+    position: absolute;
+    font-family: 'elephant', sans-serif;
+    color: rgb(157, 155, 143);
+    -webkit-text-stroke: 1px rgb(80, 79, 76);
+    right: 50%;
+    top: 60%;
+    transform: translate(50%,50%);
+    display: block;
+    width: 100%;
+    text-align: center;
+    font-size: 40px;
+    z-index: -1;
+}
+
+body.background-opacity::after {
+    opacity: .3;
+}
+
+body.opacity::after {
+    filter: blur(1px);
+}
+
+ul {
+    list-style: none;
+}
+
+button {
+    background-color: transparent;
+    border: none;
+}
+
+input:focus {
+    outline: 0;
+}
+
+.site-header {
+    width: 100vw;
+    padding: 0 1.5rem;
+    position: relative;
+    display: flex;
+    align-content: center;
+    justify-content: space-between;
+}
+
+.site-header .icon-menu {
+    margin-right: 25px;
+    margin-top: 20px;
+    z-index: 200;
+}
+
+.site-header .icon-menu:hover {
+    cursor: pointer;
+}
+
+.site-header .year {
+    font-size: 2.2rem;
+    color: var(--verdeColor);
+}
+
+.site-header .check {
+    visibility: hidden;
+}
+
+.site-header .check:hover {
+    cursor: pointer;
+}
+
+/*********************** 
+*         MENU        *
+***********************/
+.menu.active {
+transform: translateX(0);
+
+}
+
+.menu {
+    transform: translateX(-100%);
+    transition: all .3s;
+    padding: 90px 10px;
+    width: 250px;
+    height: 100vh;
+    /* background-color: rgba(0, 0, 0, .2); */
+    background-color: rgba(90, 84, 74, .3);
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    z-index: 190;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    color: var(--verdeColor);
+}
+
+.menu > img {
+    position: absolute;
+    top: 20px;
+    left: 1.5rem;
+    display: none;
+}
+
+.menu > img.active {
+    display: inline-block;
+}
+
+.menu > img:hover {
+    cursor: pointer;
+}
+
+.menu-content ul li {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    border-bottom: 2px solid rgb(128, 138, 128);
+    padding: 15px 0;
+}
+
+.inputForNewYear {
+    width: 100%;
+    background-color: transparent;
+    border: none;
+    text-align: right;
+    font-family: 'Raleway';
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--verdeColor);
+}
+
+.menu-content ul li:hover {
+    cursor: pointer;
+}
+
+.menu-content ul li p {
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.menu-content ul li img {
+    margin-left: 15px;
+    transition: all .2s;
+}
+
+.li-archivo {
+    position: relative;
+}
+
+.archivo-content {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 700px;
+    padding: 0 10px;
+    left: calc(100% + 10px);
+    background-color: rgba(0, 0, 0, .150);
+    border-left: .5px solid gray;
+    transition: all .2s;
+    transform: scale(0);
+    transform-origin: top left;
+    overflow-y: scroll;
+}
+
+.archivo-content.active {
+    transform: scale(1);
+}
+
+.archivo-content.active ~ img {
+    transform: rotateY(180deg);
+}
+
+.archivo-content li {
+    height: 58px;
+}
+
+.menu-footer {
+    text-align: center;
+    border-top: 2px solid rgb(128, 138, 128);
+    padding-top: 15px;
+}
+
+.menu-footer p {
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+
+/************************
+*    CONTEXT MENU       *
+*************************/
+.contextMenu-container {
+    position: absolute;
+    top: -10%;
+    left: 0;
+    transition: 0.3s all ease-out;
+    width: 100%;
+    opacity: 0;
+    visibility: hidden;
+}
+
+.contextMenu-container ul {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 70%;
+    margin: 0 auto;
+}
+
+.contextMenu-container ul li {
+    color: var(--verdeColor);
+    background-image: linear-gradient(to bottom, #fff 0, #fff 100%);
+    padding: .3rem;
+    border-radius: 50%;
+    box-shadow: 1px 1px 5px gray;
+    border: none !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 35px;
+    transform: scale(.8);
+    transition: .2s all;
+}
+
+.contextMenu-container.show ul li:nth-child(2) {
+    transform: translateY(-20px) scale(.8);
+    transition-delay: .1s;
+}
+
+.contextMenu-container.show {
+    visibility: visible;
+    top: -60%;
+    opacity: 1;
+}
+
+.contextMenu-container ul li:hover {
+    cursor: pointer;
+}
+
+/*********************** 
+*       FOOTER        *
+***********************/
+body.opacity footer {
+    filter: blur(2px);
+}
+
+footer {
+    z-index: 100;
+    height: 15%;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column-reverse;
+    background-color: var(--bgColor);
+    /* overflow: hidden; */
+}
+
+footer ul {
+    width: 100%;
+    display: flex;
+    position: relative;
+}
+
+footer ul li {
+    background-image: linear-gradient( 170deg, rgb(113, 138, 113) 30%, rgb(158, 166, 150) 70%);
+    border-bottom: 1px solid var(--verdeColor);
+    text-align: center;
+    color: rgb(207, 193, 173);
+    border-radius: 20px 20px 0 0;
+    padding-left: 2rem;
+    padding-right: 1rem;
+    padding-top: .5rem;
+    border-top: 1px solid var(--verdeColor);
+    border-right: 1px solid var(--verdeColor);
+    text-transform: uppercase;
+    height: 70px;
+    box-shadow: 1px -1px 5px rgba(0, 0, 0, .3);
+    /* min-width: 10%;
+    max-width: 10%; */
+    position: relative;
+    transition: all .2s;
+}
+
+#nomina {
+    /* background-image: rgb(116, 127, 116) !important; */
+    background-image: linear-gradient(to bottom, rgb(116, 127, 116), rgb(116, 127, 116));
+}
+
+footer ul li.empresa {
+    min-width: 10%;
+    max-width: 10%;
+}
+
+footer ul li.empresa:nth-child(2) {
+    transform: translateY(-50px);
+}
+
+footer ul li.mes {
+    min-width: 15.6%;
+    max-width: 15.6%;
+}
+
+footer ul li input {
+    max-width: 100%;
+    font-size: 18px;
+    font-family: 'Raleway';
+    background-color: transparent;
+    border: none;
+    color: rgb(207, 193, 173);
+    text-overflow: ellipsis;
+    transition: all .2s;
+    font-family: 'Poppins';
+}
+
+footer ul li input:focus {
+    outline: 0;
+}
+
+footer ul li input:hover {
+    cursor: pointer;
+}
+
+footer ul li img {
+    position: absolute;
+    top: -10px;
+    left: 20px;
+    z-index: 110;
+    visibility: hidden;
+}
+
+footer ul li:hover {
+    cursor: pointer;
+} 
+
+/********************** 
+*       MODAL         *
+***********************/
+
+.modal {
+    width: 500px;
+    position: absolute;
+    z-index: 200;
+    top: -100%;
+    right: 49.5%;
+    transform: translate(50%);
+    transition: all .2s;
+    padding: 1rem;
+    padding-bottom: 0;
+    /* background-color: rgba(0, 0, 0, .250); */
+    background-color: rgb(168, 164, 154);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal.active{
+    top: 0;
+}
+
+.modal h3 {
+    color: var(--verdeColor);
+    font-size: 1.3rem;
+    letter-spacing: 1px;
+    position: relative;
+}
+
+.modal h3:before {
+    content: url(../icons/alert.png);
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: -4rem;
+}
+
+.modal h2 {
+    color: rgba(255, 255, 255, .7);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin: .7rem auto;
+}
+
+.modal .botones {
+    display: flex;
+    justify-content: space-between;
+    width: 85%;
+}
+
+.modal .botones button {
+    background-color: rgba(80, 27, 27, 0.1);
+    padding: .5rem 1rem;
+    font-size: 22px;
+}
+
+.modal .botones button:hover {
+    cursor: pointer;
+}
+
+.btn-aceptar {
+    color: var(--verdeColor);
+}
+
+.btn-cancelar {
+    color: rgb(178, 103,103);
+}
+
+/************************************* 
+*       PAGINA DE LA EMPRESA         *
+**************************************/
+body.opacity .empresa-name-container {
+    filter: blur(1px);
+}
+
+.empresa-name-container {
+    background-color: rgb(180, 176, 164);
+    padding: 1.2rem .8rem;
+    width: 512px;
+}
+
+.empresa-name-container.translateX {
+    transform: translateX(-10%);
+}
+
+.empresa-name-container:hover {
+    cursor: pointer;
+}
+
+.empresa-name-container h1 {
+    color: rgba(255, 255, 255, .5);
+    font-weight: 400;
+    font-size: 2.3rem;
+    text-align: center;
+
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+main {
+    min-width: 100vw;
+    position: relative;
+    overflow-y: scroll;
+    max-height: 70vh;
+    z-index: 100;
+}
+
+table,th, td {
+    border-collapse: collapse;
+    padding: 5px 10px;
+    font-size: 12px;
+    font-family: 'Poppins';
+}
+
+body.opacity table,
+body.opacity th,
+body.opacity td {
+    filter: blur(2px);
+}
+
+td:not(:first-child) {
+    text-align: center;
+    letter-spacing: 1px;
+}
+
+main table {
+    width: 95%;
+    margin: 0 auto;
+    max-height: 100%;
+    z-index: 100;
+    position: relative;
+    border: 2px solid rgb(157, 155, 143);
+    border-bottom: none;
+}
+
+main table tr {
+    border-top: 2px solid rgb(157, 155, 143);
+    border-bottom: 2px solid rgb(157, 155, 143);
+}
+
+main table thead th {
+    font-family: 'PoppinsSemiBold';
+}
+
+main table td, th {
+    border-right: 2px solid rgb(157, 155, 143);
+    border-left: 2px solid rgb(157, 155, 143);
+}
+
+main table td input {
+    border: none;
+    background-color: transparent;
+    text-align: center;
+    font-weight: bold;
+}
+
+.white-line {
+    height: 33px;
+}
+
+main table .revenue, .deposits, .operating-expenses, .gross-profit {
+    background-color: var(--bgLightGrey);
+}
+
+.revenue, .operating-expenses {
+    text-align: center;
+    font-weight: bold;
+}
+
+.revenue td, .operating-expenses td {
+    font-family: 'PoppinsSemiBold';
+}
+
+main table .type td:last-child {
+    position: relative;
+}
+
+main table tr.nombre {
+    position: relative;
+}
+
+main table tr.nombre td img {
+    position: absolute;
+    z-index: 110;
+    left: -.5rem;
+    top: -.5rem;
+    visibility: hidden;
+}
+
+main table tr.nombre td img:hover {
+    cursor: pointer;
+}
+
+.notification {
+    position: absolute;
+    bottom: 2rem;
+    right: 2rem;
+    width: 45px;
+    height: 45px;
+    padding: .5rem;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: scale(0);
+    z-index: 220;
+}
+
+.notification img {
+    transform: scale(.2);
+}
+
+.notification.show {
+    animation: showNotification .2s ease-out forwards;
+}
+
+.notification.hide {
+    animation: hideNotification .2s ease-in forwards;
+}
+
+@keyframes showNotification {
+    0% {
+        transform: scale(0);
+    }
+
+    90% {
+        transform: scale(1.5);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes hideNotification {
+    0%{
+        transform: scale(1);
+    }
+
+    10% {
+        transform: scale(1.5);
+    }
+
+    100% {
+        transform: scale(0);
+    }
+}

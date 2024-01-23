@@ -1,0 +1,35 @@
+NOTAS:
+- Debemos trabajar con las fechas porque la vista principal debe mostrar las
+    empresas del año seleccionado y por supuesto los datos dentro de cada
+    empresa deben ser los de ese año.
+
+/***** Pagina Principal *****/
+-> Traer las empresas.
+    De las empresas traer nombre e id.
+    La consulta tiene que ser filtrada por año, o sea solo traer las empreas
+        trabajadas en ese año, se elige el año en la opcion archivo del menu.
+-> Editar empresas.
+    Solo se edita el nombre de la empresa, se enviara el nuevo nombre y el id
+    de las empresas que seran editadas.
+-> Eliminar empresa
+    Se enviara el id
+-> Agregar nueva empresa
+    Se enviara el nombre
+
+/***** Pagina general de la empresa *****/
+-> En la pagina general de la empresa se muestran los campos que han sido creados
+    en la pagina de los meses e ir mostrando los totales de los campos en el mes
+    correspondiente.
+
+/***** Pagina de nomina *****/
+-> Traer los empleados ya guardados.
+    Traer nombre, y los pagos recibidos y el tipo de pago
+-> Editar la informacion de los empleados.
+    Al editar se podra editar el nombre del empleado y tambien los datos relacionados con cada empleado
+-> Eliminar empleados
+
+/***** Pagina del mes *****/
+->Hacer un CRUD con los campos.
+    Al eliminar un campo se han de eliminar todos los datos relacionados a ese campo en ese año.
+    Al editar un campo se podra editar tanto el nombre como los datos relacionados al mismo.
+    Los totales de cada campo seran los valores que llenan la tabla de la pagina de la empresa

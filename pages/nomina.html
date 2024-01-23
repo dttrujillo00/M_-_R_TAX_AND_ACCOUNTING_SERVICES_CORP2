@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/fontello.css">
+    <title>M&R Tax and Accounting Service, Corp</title>
+</head>
+<body class="background-opacity">
+    <img src="../icons/logo.png" alt="Logo" class="logo">
+    <div class="form-agregar-operacion">
+        <form>
+            <div class="form-group">
+                <label for="date">Date:</label>
+                <input type="date" name="date" id="date">
+            </div>
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" name="name" id="name">
+            </div>
+            <div class="form-group">
+                <label for="amount">Amount:</label>
+                <input type="number" name="amount" id="amount" min="0">
+            </div>
+            <div class="form-group">
+                <label for="type">Type:</label>
+                <select name="type" id="type">
+                    <option value="0">ATM</option>
+                    <option value="1">CASH</option>
+                    <option value="2">TRANSF</option>
+                </select>
+            </div>
+
+            <div class="submit-group">
+                <input type="submit" value="Save" class="btn-save">
+                <input type="button" value="Cancel" class="btn-cancel">
+            </div>
+            <input type="hidden" name="id_account" id="id_account">
+        </form>
+    </div>
+    <div class="notification">
+        <!-- <span class="icon-ok-outline"></span> -->
+        <img src="../icons/m&r-17.png" alt="">
+    </div>
+    <header class="site-header">
+        <div class="menu-and-year">
+            <button class="icon-menu"><img src="../icons/menu.png" alt="menu"></button>
+            <span class="year">2021</span>
+        </div>
+
+        <div class="empresa-name-container">
+            <h1>PAYROLL</h1>
+        </div>
+        <div class="buttons-group">
+            <button class="add-operation">Add operation</button>
+            <select name="meses" class="meses">
+                <option value="1">January</option>
+                <option value="2">February</option>
+                <option value="3">March</option>
+                <option value="4">April</option>
+                <option value="5">May</option>
+                <option value="6">June</option>
+                <option value="7">July</option>
+                <option value="8">August</option>
+                <option value="9">September</option>
+                <option value="10">October</option>
+                <option value="11">November</option>
+                <option value="12">December</option>
+            </select>
+        </div>
+    </header>
+
+    <div class="menu">
+        <img src="../icons/menu.png" alt="">
+        <div class="menu-content">
+            <ul>
+                <li class="home">
+                    <p>Home Page</p>
+                    <img src="../icons/retroceder.png" alt="">
+                </li>
+                <li class="empresa-page">
+                    <p>Enterprise Page</p>
+                    <img src="../icons/retroceder.png" alt="">
+                </li>
+                <li class="hide-menu">
+                    <p>Exit</p>
+                    <img src="../icons/cruz.png" alt="">
+                </li>
+            </ul>
+        </div>
+        <!-- <div class="menu-footer">
+            <p>Info General de la Empresa</p>
+            <p>Detalles</p>
+            <p>Teléfono</p>
+            <p>Correo</p>
+            <p>Dirección</p>
+        </div> -->
+    </div>
+
+    <main class="employee">
+        <div class="row">
+            <div class="col-8 employee-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Name</th>
+                            <th>Amount</th>
+                            <th>Type</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- <tr>
+                            <td>
+                                <input type="date" name="fecha" id="date" value="2022-03-26" class="date" disabled>
+                                <div class="delete-container">
+                                    <p>You want to delete this record?</p>
+                                    <button class="confirm-delete">Delete</button>
+                                    <button class="cancel-delete">Cancel</button>
+                                </div>
+                            </td>
+                            <td class="employee-name" title="See details">Monkey D. Luffy</td>
+                            <td class="amount">$500</td>
+                            <td class="type">ATM</td>
+                            <td class="editar-operacion"><span class="icon-pencil"></span></td>
+                            <td class="eliminar-operacion"><span class="icon-trash"></span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="date" name="fecha" id="date" value="2022-03-26" class="date" disabled>
+                                <div class="delete-container">
+                                    <p>You want to delete this record?</p>
+                                    <button class="confirm-delete">Delete</button>
+                                    <button class="cancel-delete">Cancel</button>
+                                </div>
+                            </td>
+                            <td class="employee-name" title="See details">Monkey D. Luffy</td>
+                            <td class="amount">$500</td>
+                            <td class="type">CASH</td>
+                            <td class="editar-operacion"><span class="icon-pencil"></span></td>
+                            <td class="eliminar-operacion"><span class="icon-trash"></span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="date" name="fecha" id="date" value="2022-03-26" class="date" disabled>
+                                <div class="delete-container">
+                                    <p>You want to delete this record?</p>
+                                    <button class="confirm-delete">Delete</button>
+                                    <button class="cancel-delete">Cancel</button>
+                                </div>
+                            </td>
+                            <td class="employee-name" title="See details">Monkey D. Luffy</td>
+                            <td class="amount">$500</td>
+                            <td class="type">ATM</td>
+                            <td class="editar-operacion"><span class="icon-pencil"></span></td>
+                            <td class="eliminar-operacion"><span class="icon-trash"></span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="date" name="fecha" id="date" value="2022-03-26" class="date" disabled>
+                                <div class="delete-container">
+                                    <p>You want to delete this record?</p>
+                                    <button class="confirm-delete">Delete</button>
+                                    <button class="cancel-delete">Cancel</button>
+                                </div>
+                            </td>
+                            <td class="employee-name" title="See details">Roronoa Zoro</td>
+                            <td class="amount">$450</td>
+                            <td class="type">ATM</td>
+                            <td class="editar-operacion"><span class="icon-pencil"></span></td>
+                            <td class="eliminar-operacion"><span class="icon-trash"></span></td>
+                        </tr> -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-4 employee-details">
+                <table>
+                    <tbody>
+                            
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+
+    <script src="../js/xlsx.full.min.js"></script>
+    <script type="module" src="../js/nomina.js"></script>
+</body>
+</html>

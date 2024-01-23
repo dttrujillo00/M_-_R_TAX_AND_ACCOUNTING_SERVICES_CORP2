@@ -1,0 +1,1 @@
+﻿SELECT account_id, amount, is_positive, f.field_id, field, b.business_id, business_name, year, month, day FROM account a LEFT JOIN date d ON a.date_id = d.date_id LEFT JOIN business b ON a.business_id = b.business_id LEFT JOIN field f ON a.field_id = f.field_id WHERE b.business_name = ? AND d.year = ? AND d.month = ?

@@ -1,11 +1,15 @@
 {
-  "name": "tax_and_acounting_services_corp2",
+  "name": "Tax and Acounting Services Corp",
   "version": "1.0.0",
-  "description": "Desktop app para manejar la contabilidad de pequenas empresas",
+  "description": "Gestor de contabilidad",
   "main": "main.js",
   "scripts": {
+    "mio": "electron .",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "electron ./"
+    "start": "electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make",
+    "release": "build"
   },
   "repository": {
     "type": "git",
@@ -22,6 +26,43 @@
   },
   "homepage": "https://github.com/dttrujillo00/M_-_R_TAX_AND_ACCOUNTING_SERVICES_CORP2#readme",
   "devDependencies": {
-    "electron": "^16.0.4"
+    "@electron-forge/cli": "^6.0.0-beta.61",
+    "@electron-forge/maker-deb": "^6.0.0-beta.61",
+    "@electron-forge/maker-rpm": "^6.0.0-beta.61",
+    "@electron-forge/maker-squirrel": "^6.0.0-beta.61",
+    "@electron-forge/maker-zip": "^6.0.0-beta.61",
+    "electron": "^17.0.0"
+  },
+  "dependencies": {
+    "electron-rebuild": "^3.2.7",
+    "electron-squirrel-startup": "^1.0.0",
+    "sqlite3": "^5.0.2"
+  },
+  "config": {
+    "forge": {
+      "packagerConfig": {},
+      "makers": [
+        {
+          "name": "@electron-forge/maker-squirrel",
+          "config": {
+            "name": "tax_and_acounting_services_corp2"
+          }
+        },
+        {
+          "name": "@electron-forge/maker-zip",
+          "platforms": [
+            "darwin"
+          ]
+        },
+        {
+          "name": "@electron-forge/maker-deb",
+          "config": {}
+        },
+        {
+          "name": "@electron-forge/maker-rpm",
+          "config": {}
+        }
+      ]
+    }
   }
 }

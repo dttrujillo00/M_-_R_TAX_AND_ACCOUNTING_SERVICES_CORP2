@@ -1,0 +1,1 @@
+﻿DELETE FROM payroll WHERE payroll_id = ?
